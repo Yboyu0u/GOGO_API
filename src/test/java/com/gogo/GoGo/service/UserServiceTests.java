@@ -3,6 +3,7 @@ package com.gogo.GoGo.service;
 import com.gogo.GoGo.controller.dto.UserDto;
 import com.gogo.GoGo.domain.User;
 import com.gogo.GoGo.domain.dto.Birthday;
+import com.gogo.GoGo.exception.AlreadyExistedEmailException;
 import com.gogo.GoGo.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,12 +15,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTests {
@@ -48,6 +51,22 @@ public class UserServiceTests {
         verify(userRepository).save(argThat(new IsUserWillBeUpdated()));
     }
 
+    @Test
+    void createUserWithExistedEmail(){
+
+        when(userRepository.findById(1L))
+                .thenReturn(Optional.of(User.builder().email("fbduddn97@example.com").build()));
+
+        assertThrows(AlreadyExistedEmailException.class, () -> userService.createUser(new UserDto()));
+
+
+    }
+
+
+
+
+
+
     private static class IsUserWillBeUpdated implements ArgumentMatcher<User>{
 
         UserDto userDto = UserDto.builder()
@@ -72,6 +91,18 @@ public class UserServiceTests {
         private boolean equals(Object actual, Object expected){
             return expected.equals(actual);
         }
+    }
+
+    private UserDto mockUserDto(){
+        return  UserDto.builder()
+                .email("fbduddn97@example.com")
+                .password("1234")
+                .nickname("gogo")
+                .name("UUU")
+                .gender("male")
+                .birthday(LocalDate.now())
+                .phoneNumber("010-9283-6657")
+                .build();
     }
 
 }

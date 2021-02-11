@@ -73,10 +73,6 @@ public class UserControllerTests {
         .content(MediaType.APPLICATION_JSON_VALUE)
         .content(toJsonString(userDto)))
                 .andExpect(status().isCreated());
-
-
-
-
     }
 
     private String toJsonString(UserDto userDto) throws JsonProcessingException {

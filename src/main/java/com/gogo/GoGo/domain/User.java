@@ -45,9 +45,9 @@ public class User {
         if(userDto.getEmail() != null){
             this.setEmail(userDto.getEmail());
         }
-        if(userDto.getPassword() != null){
-            this.setPassword(userDto.getPassword());
-        }
+//        if(userDto.getPassword() != null){
+//            this.setPassword(userDto.getPassword());
+//        }
         if(userDto.getNickname() != null){
             this.setNickname(userDto.getNickname());
         }

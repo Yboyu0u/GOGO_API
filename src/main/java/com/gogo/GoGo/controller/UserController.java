@@ -8,10 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+
 @RequestMapping(value = "/api/user")
 @RestController
 @Slf4j
-public class UserController {
+public class UserController{
     @Autowired
     private UserService userService;
 
@@ -24,8 +25,7 @@ public class UserController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void create(@RequestBody UserDto userDto){
+    public void createUser(@RequestBody UserDto userDto){
         userService.createUser(userDto);
     }
-
 }
