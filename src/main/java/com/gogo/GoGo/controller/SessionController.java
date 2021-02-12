@@ -1,13 +1,17 @@
 package com.gogo.GoGo.controller;
 
 import com.gogo.GoGo.controller.dto.SessionRequestDto;
+import com.gogo.GoGo.controller.dto.SessionResponseDto;
 import com.gogo.GoGo.domain.User;
 import com.gogo.GoGo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 
 
 //로그인
@@ -19,11 +23,20 @@ public class SessionController {
     private UserService userService;
 
     @PostMapping
-    public void loginUser(@RequestBody SessionRequestDto dto){
+    @ResponseStatus(HttpStatus.CREATED)
+    //로그인을 하면 인증 확인용으로 accesstoken을 부여 받는다.
+    public ResponseEntity<SessionResponseDto>login(@RequestBody SessionRequestDto dto) throws URISyntaxException {
         String email = dto.getEmail();
         String password = dto.getPassword();
 
         User user = userService.authenticate(email,password);
+
+        SessionResponseDto sessionResponseDto =
+                SessionResponseDto.builder().accessToken("ACCESSTOKEN").build();
+
+        String url ="/api/session";
+        return ResponseEntity.created(new URI(url))
+                .body(sessionResponseDto);
     }
 
 }

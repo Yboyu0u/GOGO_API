@@ -12,6 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -33,6 +34,9 @@ public class UserServiceTests {
     @Mock
     private UserRepository userRepository;
 
+    @Mock
+    private PasswordEncoder passwordEncoder;
+
 
     @Test
     void createUser(){
@@ -46,6 +50,7 @@ public class UserServiceTests {
                 .phoneNumber("010-9283-6657")
                 .build();
 
+
         userService.createUser(userDto);
 
         verify(userRepository).save(argThat(new IsUserWillBeUpdated()));
@@ -54,24 +59,20 @@ public class UserServiceTests {
     @Test
     void createUserWithExistedEmail(){
 
-        when(userRepository.findById(1L))
+        when(userRepository.findByEmail("fbduddn97@example.com"))
                 .thenReturn(Optional.of(User.builder().email("fbduddn97@example.com").build()));
 
-        assertThrows(AlreadyExistedEmailException.class, () -> userService.createUser(new UserDto()));
+        assertThrows(AlreadyExistedEmailException.class, () -> userService.createUser(mockUserDto()));
 
 
     }
-
-
-
-
 
 
     private static class IsUserWillBeUpdated implements ArgumentMatcher<User>{
 
         UserDto userDto = UserDto.builder()
                 .email("fbduddn97@example.com")
-                .password("1234")
+//                .password("1234")
                 .nickname("gogo")
                 .name("UUU")
                 .gender("male")
@@ -81,7 +82,7 @@ public class UserServiceTests {
         @Override
         public boolean matches(User user) {
             return equals(user.getEmail(),"fbduddn97@example.com")
-                    && equals(user.getPassword(),"1234")
+//                    && equals(user.getPassword(),"1234")
                     && equals(user.getNickname(),"gogo")
                     && equals(user.getName(),"UUU")
                     && equals(user.getGender(),"male")

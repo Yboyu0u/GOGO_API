@@ -21,19 +21,19 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotEmpty
+    //@NotEmpty
     private String email;
 
-    @NotEmpty
+    //@NotEmpty
     private String password;
 
-    @NotEmpty
+    //@NotEmpty
     private String nickname;
 
-    @NotEmpty
+   // @NotEmpty
     private String name;
 
-    @NotEmpty
+  //  @NotEmpty
     private String gender;
 
     @Embedded
