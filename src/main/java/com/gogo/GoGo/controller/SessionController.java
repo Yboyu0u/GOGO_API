@@ -24,15 +24,17 @@ public class SessionController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    //로그인을 하면 인증 확인용으로 accesstoken을 부여 받는다.
+    //로그인을 하면 인증 확인 용으로 accesstoken을 부여 받는다.
     public ResponseEntity<SessionResponseDto>login(@RequestBody SessionRequestDto dto) throws URISyntaxException {
         String email = dto.getEmail();
         String password = dto.getPassword();
 
         User user = userService.authenticate(email,password);
 
+        String accessToken = "ACCESSTOKEN";
+
         SessionResponseDto sessionResponseDto =
-                SessionResponseDto.builder().accessToken("ACCESSTOKEN").build();
+                SessionResponseDto.builder().accessToken(accessToken).build();
 
         String url ="/api/session";
         return ResponseEntity.created(new URI(url))

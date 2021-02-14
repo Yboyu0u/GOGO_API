@@ -42,6 +42,7 @@ public class UserService {
         }
 
         String encodedPassword = passwordEncoder.encode(userDto.getPassword());
+
         log.info("password: {}",encodedPassword);
 
         User user = new User();

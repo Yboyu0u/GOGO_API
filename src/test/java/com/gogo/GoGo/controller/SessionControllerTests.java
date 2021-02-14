@@ -3,6 +3,7 @@ package com.gogo.GoGo.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gogo.GoGo.controller.dto.SessionRequestDto;
+import com.gogo.GoGo.domain.User;
 import com.gogo.GoGo.exception.NotExistedEmailException;
 import com.gogo.GoGo.exception.PasswordWrongException;
 import com.gogo.GoGo.repository.UserRepository;
@@ -64,9 +65,17 @@ public class SessionControllerTests {
     //로그인이 성공했을 때
     void loginWithValidAttributes() throws Exception {
         SessionRequestDto dto = SessionRequestDto.builder()
-                .email("example@example.com")
+                .email("example1@example.com")
                 .password("1234")
                 .build();
+
+        User mockUser = User.builder()
+                .email(dto.getEmail())
+                .password(dto.getPassword())
+                .build();
+
+        given(userService.authenticate(dto.getEmail(),dto.getPassword()))
+                .willReturn(mockUser);
 
         mockMvc.perform(post("/api/session")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -74,7 +83,7 @@ public class SessionControllerTests {
                 .andExpect(status().isCreated())
                 .andExpect(content().string("{\"accessToken\":\"ACCESSTOKEN\"}"));
 
-        //verify(userService).authenticate(eq("fbduddn97@example.com"),eq("1234"));
+        verify(userService).authenticate(eq("example1@example.com"),eq("1234"));
     }
 
     @Test

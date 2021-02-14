@@ -1,5 +1,5 @@
 insert into user(`id`,`email`,`password`,`nickname`,`name`,`gender`,`year_of_birthday`,`month_of_birthday`,`day_of_birthday`,`phone_number`)
-values (1,'example1@example.com','1234','yboy1','martin','male',1997,6,27,'010-1234-5678');
+values (1,'example1@example.com','$2a$10$mfsxIUvP93cEEhdVYbauoOzr9CGXpRgNU/EVI9Z699uFvF9Svbkbu','yboy1','martin','male',1997,6,27,'010-1234-5678');
 insert into user(`id`,`email`,`password`,`nickname`,`name`,`gender`,`year_of_birthday`,`month_of_birthday`,`day_of_birthday`,`phone_number`)
 values (2,'example2@example.com','1234','yboy2','jake','male',1997,6,20,'010-1234-5678');
 insert into user(`id`,`email`,`password`,`nickname`,`name`,`gender`,`year_of_birthday`,`month_of_birthday`,`day_of_birthday`,`phone_number`)
