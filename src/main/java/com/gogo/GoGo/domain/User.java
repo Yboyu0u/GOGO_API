@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -15,6 +17,7 @@ import javax.validation.constraints.NotEmpty;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Where(clause = "deleted = false")
 public class User {
 
     @Id
@@ -41,6 +44,9 @@ public class User {
 
     private String phoneNumber;
 
+    @ColumnDefault("0") // 이 값이 true가 되면 삭제가 되었다 간주하고 repository에서 삭제됨
+    private boolean deleted;
+
     public void set(UserDto userDto){
         if(userDto.getEmail() != null){
             this.setEmail(userDto.getEmail());
@@ -64,7 +70,5 @@ public class User {
             this.setPhoneNumber(userDto.getPhoneNumber());
         }
     }
-
-
 
 }

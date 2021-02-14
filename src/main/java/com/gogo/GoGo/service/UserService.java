@@ -27,7 +27,8 @@ public class UserService {
     //회원 조회
     @Transactional
     public User getUser(Long id) {
-        User user = userRepository.findById(id).orElse(null);
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("계정이 존재하지 않습니다"));
         return user;
     }
 
@@ -60,5 +61,14 @@ public class UserService {
         }
 
         return user;
+    }
+
+    public void deleteUser(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("아이디가 존재하지 않습니다"));
+
+        user.setDeleted(true);
+
+        userRepository.save(user);
     }
 }

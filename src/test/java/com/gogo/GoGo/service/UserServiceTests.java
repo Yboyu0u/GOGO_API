@@ -116,6 +116,16 @@ public class UserServiceTests {
         assertThrows(PasswordWrongException.class, () -> userService.authenticate(email,password));
     }
 
+    @Test
+    public void deleteUser(){
+        given(userRepository.findById(1L))
+                .willReturn(Optional.of(User.builder().name("Yboy").build()));
+
+        userService.deleteUser(1L);
+
+        User deleteUser = userRepository.findById(1L).orElse(null);
+    }
+
 
     private static class IsUserWillBeUpdated implements ArgumentMatcher<User>{
 

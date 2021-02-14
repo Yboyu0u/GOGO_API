@@ -1,4 +1,4 @@
-package filters;
+package com.gogo.GoGo.filters;
 
 import com.gogo.GoGo.domain.utils.JwtUtil;
 import io.jsonwebtoken.Claims;

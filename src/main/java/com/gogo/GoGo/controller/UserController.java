@@ -16,16 +16,23 @@ public class UserController{
     @Autowired
     private UserService userService;
 
-
+    //회원 정보 조회
     @GetMapping("/{id}")
     public User getUser(@PathVariable Long id){
         return userService.getUser(id);
     }
 
-
+    //회원가입
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void createUser(@RequestBody UserDto userDto){
         userService.createUser(userDto);
+    }
+
+    //회원탈퇴
+    @DeleteMapping("/{id}")
+    public void deleteUser(@PathVariable Long id){
+        userService.deleteUser(id);
+
     }
 }
