@@ -42,7 +42,8 @@ public class UserService {
         }
 
         String encodedPassword = passwordEncoder.encode(userDto.getPassword());
-      //  log.info("password: {}",encodedPassword);
+        log.info("password: {}",encodedPassword);
+
         User user = new User();
         user.set(userDto);
         user.setPassword(encodedPassword);
@@ -52,11 +53,10 @@ public class UserService {
 
     //로그인
     public User authenticate(String email, String password) {
-        //TODO: EmailNotExistedException do
         User user = userRepository.findByEmail(email)
                 .orElseThrow(NotExistedEmailException::new);
 
-        if(passwordEncoder.matches(password,user.getPassword())){
+        if(!passwordEncoder.matches(password,user.getPassword())){
             throw new PasswordWrongException();
         }
 

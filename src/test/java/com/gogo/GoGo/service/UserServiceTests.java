@@ -1,9 +1,12 @@
 package com.gogo.GoGo.service;
 
+import com.gogo.GoGo.controller.dto.SessionRequestDto;
 import com.gogo.GoGo.controller.dto.UserDto;
 import com.gogo.GoGo.domain.User;
 import com.gogo.GoGo.domain.dto.Birthday;
 import com.gogo.GoGo.exception.AlreadyExistedEmailException;
+import com.gogo.GoGo.exception.NotExistedEmailException;
+import com.gogo.GoGo.exception.PasswordWrongException;
 import com.gogo.GoGo.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,6 +25,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -63,8 +67,53 @@ public class UserServiceTests {
                 .thenReturn(Optional.of(User.builder().email("fbduddn97@example.com").build()));
 
         assertThrows(AlreadyExistedEmailException.class, () -> userService.createUser(mockUserDto()));
+    }
+
+    @Test
+    public void authenticatedWithValidAttributes(){
+        String email = "fbduddn97@example.com";
+        String password = "1234";
+
+        User mockUser = User.builder()
+                .email(email)
+                .password(password)
+                .build();
 
 
+        given(userRepository.findByEmail(email))
+                .willReturn(Optional.of(mockUser));
+
+        given(passwordEncoder.matches(any(),any())).willReturn(true);
+
+        User user = userService.authenticate(email,password);
+
+        assertThat(user.getEmail()).isEqualTo(email);
+    }
+
+    @Test
+    public void authenticatedWithNotExistedEmail(){
+        String email = "X@example.com";
+        String password = "1234";
+
+
+        given(userRepository.findByEmail(email))
+                .willReturn(Optional.empty());
+
+        assertThrows(NotExistedEmailException.class, () -> userService.authenticate(email,password));
+    }
+
+    @Test
+    public void authenticateWithWrongPassword(){
+        String email = "fbduddn97@example.com";
+        String password = "X";
+
+
+        given(userRepository.findByEmail(email))
+                .willReturn(Optional.of(User.builder().email("fbduddn97@example.com").password("1234").build()));
+
+        given(passwordEncoder.matches(any(),any())).willReturn(false);
+
+        assertThrows(PasswordWrongException.class, () -> userService.authenticate(email,password));
     }
 
 
