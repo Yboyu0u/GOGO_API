@@ -3,6 +3,7 @@ package com.gogo.GoGo.controller;
 import com.gogo.GoGo.controller.dto.SessionRequestDto;
 import com.gogo.GoGo.controller.dto.SessionResponseDto;
 import com.gogo.GoGo.domain.User;
+import com.gogo.GoGo.domain.utils.JwtUtil;
 import com.gogo.GoGo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,6 +23,9 @@ public class SessionController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private JwtUtil jwtUtil;
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     //로그인을 하면 인증 확인 용으로 accesstoken을 부여 받는다.
@@ -31,7 +35,7 @@ public class SessionController {
 
         User user = userService.authenticate(email,password);
 
-        String accessToken = "ACCESSTOKEN";
+        String accessToken = "";
 
         SessionResponseDto sessionResponseDto =
                 SessionResponseDto.builder().accessToken(accessToken).build();

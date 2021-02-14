@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gogo.GoGo.controller.dto.SessionRequestDto;
 import com.gogo.GoGo.domain.User;
+import com.gogo.GoGo.domain.utils.JwtUtil;
 import com.gogo.GoGo.exception.NotExistedEmailException;
 import com.gogo.GoGo.exception.PasswordWrongException;
 import com.gogo.GoGo.repository.UserRepository;
@@ -20,6 +21,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
+import static org.hamcrest.core.StringContains.containsString;
+import static org.mockito.ArgumentMatchers.contains;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
@@ -39,6 +42,9 @@ public class SessionControllerTests {
 
 
     private MockMvc mockMvc;
+
+    @Autowired
+    private JwtUtil jwtUtil;
 
     @Autowired
     private UserService userService;
@@ -81,7 +87,7 @@ public class SessionControllerTests {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(toJsonString(dto)))
                 .andExpect(status().isCreated())
-                .andExpect(content().string("{\"accessToken\":\"ACCESSTOKEN\"}"));
+                .andExpect(content().string(containsString("{\"accessToken\":\"\"}")));
 
         verify(userService).authenticate(eq("example1@example.com"),eq("1234"));
     }
