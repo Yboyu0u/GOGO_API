@@ -12,8 +12,10 @@ import com.gogo.GoGo.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
@@ -40,13 +42,12 @@ public class SessionControllerTests {
     @Autowired
     private UserController userController;
 
-
     private MockMvc mockMvc;
 
-    @Autowired
+    @MockBean
     private JwtUtil jwtUtil;
 
-    @Autowired
+    @MockBean
     private UserService userService;
 
     @Autowired
@@ -76,18 +77,25 @@ public class SessionControllerTests {
                 .build();
 
         User mockUser = User.builder()
+                .id(100L)
                 .email(dto.getEmail())
+                .name("martin")
                 .password(dto.getPassword())
                 .build();
 
         given(userService.authenticate(dto.getEmail(),dto.getPassword()))
                 .willReturn(mockUser);
 
+        given(jwtUtil.createToken(100L,"martin"))
+                .willReturn("header.payload.signature");
+
+
         mockMvc.perform(post("/api/session")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(toJsonString(dto)))
                 .andExpect(status().isCreated())
-                .andExpect(content().string(containsString("{\"accessToken\":\"\"}")));
+                .andExpect(content().string(
+                        containsString("{\"accessToken\":\"header.payload.signature\"}")));
 
         verify(userService).authenticate(eq("example1@example.com"),eq("1234"));
     }

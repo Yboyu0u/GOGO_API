@@ -5,6 +5,7 @@ import com.gogo.GoGo.controller.dto.SessionResponseDto;
 import com.gogo.GoGo.domain.User;
 import com.gogo.GoGo.domain.utils.JwtUtil;
 import com.gogo.GoGo.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ import java.net.URL;
 //로그인
 @RequestMapping(value = "api/session")
 @RestController
+@Slf4j
 public class SessionController {
 
     @Autowired
@@ -35,7 +37,7 @@ public class SessionController {
 
         User user = userService.authenticate(email,password);
 
-        String accessToken = "";
+        String accessToken = jwtUtil.createToken(user.getId(),user.getName());
 
         SessionResponseDto sessionResponseDto =
                 SessionResponseDto.builder().accessToken(accessToken).build();
