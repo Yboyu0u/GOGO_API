@@ -95,7 +95,7 @@ public class SessionControllerTests {
                 .content(toJsonString(dto)))
                 .andExpect(status().isCreated())
                 .andExpect(content().string(
-                        containsString("{\"accessToken\":\"header.payload.signature\"}")));
+                        containsString("{\"jwt\":\"header.payload.signature\"}")));
 
         verify(userService).authenticate(eq("example1@example.com"),eq("1234"));
     }

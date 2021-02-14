@@ -8,5 +8,5 @@ import lombok.Data;
 // 순수하게 data로만 쓰이는 class
 public class SessionResponseDto {
 
-    private String accessToken;
+    private String jwt;
 }

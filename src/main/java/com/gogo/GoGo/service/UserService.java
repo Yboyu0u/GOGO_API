@@ -33,7 +33,7 @@ public class UserService {
 
     //회원가입
     @Transactional
-    public void createUser(UserDto userDto){
+    public User createUser(UserDto userDto){
         //TODO: 받은 이메일 정보가 이미 있는 계정이면 error처리
         Optional<User> existedUser = userRepository.findByEmail(userDto.getEmail());
         //이미 이메일이 있다면 error 처리
@@ -43,12 +43,10 @@ public class UserService {
 
         String encodedPassword = passwordEncoder.encode(userDto.getPassword());
 
-        log.info("password: {}",encodedPassword);
-
         User user = new User();
         user.set(userDto);
         user.setPassword(encodedPassword);
-        userRepository.save(user);
+        return userRepository.save(user);
     }
 
 
