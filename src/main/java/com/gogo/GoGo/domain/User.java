@@ -1,5 +1,6 @@
 package com.gogo.GoGo.domain;
 
+import com.gogo.GoGo.controller.dto.ModUserDto;
 import com.gogo.GoGo.controller.dto.UserDto;
 import com.gogo.GoGo.domain.dto.Birthday;
 import lombok.AllArgsConstructor;
@@ -44,16 +45,18 @@ public class User {
 
     private String phoneNumber;
 
+    private String introduce;
+
     @ColumnDefault("0") // 이 값이 true가 되면 삭제가 되었다 간주하고 repository에서 삭제됨
     private boolean deleted;
+
+    //TODO: 여행 취향
+    //TODO: 프로필 이미지
 
     public void set(UserDto userDto){
         if(userDto.getEmail() != null){
             this.setEmail(userDto.getEmail());
         }
-//        if(userDto.getPassword() != null){
-//            this.setPassword(userDto.getPassword());
-//        }
         if(userDto.getNickname() != null){
             this.setNickname(userDto.getNickname());
         }
@@ -68,6 +71,15 @@ public class User {
         }
         if(userDto.getPhoneNumber() != null){
             this.setPhoneNumber(userDto.getPhoneNumber());
+        }
+    }
+
+    public void modSet(ModUserDto userDto){
+        if(userDto.getNickname() != null){
+            this.setNickname(userDto.getNickname());
+        }
+        if(userDto.getIntroduce() != null){
+            this.setIntroduce(userDto.getIntroduce());
         }
     }
 

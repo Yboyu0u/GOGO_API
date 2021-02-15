@@ -1,5 +1,6 @@
 package com.gogo.GoGo.controller;
 
+import com.gogo.GoGo.controller.dto.ModUserDto;
 import com.gogo.GoGo.controller.dto.UserDto;
 import com.gogo.GoGo.domain.User;
 import com.gogo.GoGo.service.UserService;
@@ -27,6 +28,12 @@ public class UserController{
     @ResponseStatus(HttpStatus.CREATED)
     public void createUser(@RequestBody UserDto userDto){
         userService.createUser(userDto);
+    }
+
+    //회원 정보 수정
+    @PatchMapping("/{id}")
+    public void modifyUser(@PathVariable Long id, @RequestBody ModUserDto userDto){
+        userService.modifyPerson(id,userDto);
     }
 
     //회원탈퇴

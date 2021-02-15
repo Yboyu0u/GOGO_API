@@ -1,5 +1,6 @@
 package com.gogo.GoGo.service;
 
+import com.gogo.GoGo.controller.dto.ModUserDto;
 import com.gogo.GoGo.controller.dto.UserDto;
 import com.gogo.GoGo.domain.User;
 import com.gogo.GoGo.exception.AlreadyExistedEmailException;
@@ -65,10 +66,19 @@ public class UserService {
 
     public void deleteUser(Long id) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("아이디가 존재하지 않습니다"));
+                .orElseThrow(RuntimeException::new);
 
         user.setDeleted(true);
 
         userRepository.save(user);
+    }
+
+    public User modifyPerson(Long id, ModUserDto userDto) {
+        User user = userRepository.findById(id)
+                .orElseThrow(RuntimeException::new);
+
+        user.modSet(userDto);
+
+        return userRepository.save(user);
     }
 }

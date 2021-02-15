@@ -30,4 +30,5 @@ public class UserDto {
     private LocalDate birthday;
 
     private String phoneNumber;
+
 }

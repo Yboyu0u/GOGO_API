@@ -1,5 +1,6 @@
 package com.gogo.GoGo.service;
 
+import com.gogo.GoGo.controller.dto.ModUserDto;
 import com.gogo.GoGo.controller.dto.SessionRequestDto;
 import com.gogo.GoGo.controller.dto.UserDto;
 import com.gogo.GoGo.domain.User;
@@ -26,8 +27,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTests {
@@ -57,7 +57,7 @@ public class UserServiceTests {
 
         userService.createUser(userDto);
 
-        verify(userRepository).save(argThat(new IsUserWillBeUpdated()));
+        verify(userRepository).save(argThat(new IsUserWillBeInserted()));
     }
 
     @Test
@@ -126,8 +126,24 @@ public class UserServiceTests {
         User deleteUser = userRepository.findById(1L).orElse(null);
     }
 
+    @Test
+    public void modifyUser(){
+        ModUserDto userDto = ModUserDto.builder()
+                .nickname("gogo")
+                .introduce("여행러버입니당")
+                .build();
 
-    private static class IsUserWillBeUpdated implements ArgumentMatcher<User>{
+
+        given(userRepository.findById(1L))
+                .willReturn(Optional.of(User.builder().name("Yboy").build()));
+
+        userService.modifyPerson(1L,userDto);
+
+        verify(userRepository,times(1)).save(argThat(new IsUserWillBeUpdated()));
+    }
+
+
+    private static class IsUserWillBeInserted implements ArgumentMatcher<User>{
 
         UserDto userDto = UserDto.builder()
                 .email("fbduddn97@example.com")
@@ -147,6 +163,21 @@ public class UserServiceTests {
                     && equals(user.getGender(),"male")
                     && equals(user.getBirthday(), Birthday.of(LocalDate.now()))
                     && equals(user.getPhoneNumber(),"010-9283-6657");
+        }
+        private boolean equals(Object actual, Object expected){
+            return expected.equals(actual);
+        }
+    }
+
+    private static class IsUserWillBeUpdated implements ArgumentMatcher<User>{
+        ModUserDto userDto = ModUserDto.builder()
+                .nickname("gogo")
+                .introduce("여행러버입니당")
+                .build();
+        @Override
+        public boolean matches(User user) {
+            return equals(user.getNickname(), "gogo")
+                    && equals(user.getIntroduce(), "여행러버입니당");
         }
         private boolean equals(Object actual, Object expected){
             return expected.equals(actual);
