@@ -2,6 +2,8 @@ package com.gogo.GoGo.controller;
 
 import com.gogo.GoGo.controller.dto.FindEmailRequestDto;
 import com.gogo.GoGo.controller.dto.FindEmailResponseDto;
+import com.gogo.GoGo.controller.dto.FindPasswordRequestDto;
+import com.gogo.GoGo.controller.dto.FindPasswordResponseDto;
 import com.gogo.GoGo.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,16 +32,23 @@ public class FindController {
                 .email(email)
                 .build();
 
-        String url ="/api/findemail";
+        String url ="/api/find/email";
         return ResponseEntity.created(new URI(url))
                 .body(responseDto);
     }
 
-    //password 찾기
     @PostMapping("/password")
-    public void findPassword(){
+    public ResponseEntity<FindPasswordResponseDto> findPassword(@RequestBody FindPasswordRequestDto dto) throws URISyntaxException {
+        String password = userService.findPassword(dto.getEmail(),dto.getName());
+
+        FindPasswordResponseDto responseDto = FindPasswordResponseDto.builder()
+                .password(password)
+                .build();
+
+        String url = "/api/find/password";
+        return ResponseEntity.created(new URI(url))
+                .body(responseDto);
 
     }
-
     //TODO: findPassword
 }

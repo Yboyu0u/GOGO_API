@@ -1,12 +1,12 @@
-spring:
-  mail:
-    host: smtp.gmail.com
-    port: 587
-    username: fbduddn97@gmail.com
-    password: "*#ryu444081"
-    properties:
-    mail.smtp,auth: true
-    mail.smtp.starttls.enable: true
+#spring:
+#  mail:
+#    host: smtp.gmail.com
+#    port: 587
+#    username: fbduddn97@gmail.com
+#    password: "*#ryu444081"
+#    properties:
+#    mail.smtp,auth: true
+#    mail.smtp.starttls.enable: true
 
 
 

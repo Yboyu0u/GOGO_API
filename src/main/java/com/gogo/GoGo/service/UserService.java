@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -76,12 +77,25 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    // email 찾기
+    //email 찾기
     public String findEmail(String name, String phoneNumber){
         User user = userRepository.findByNameAndPhoneNumber(name,phoneNumber)
                 .orElseThrow(InCorrectInformationException::new);
 
         return user.getEmail();
+    }
+
+    //password 찾기
+    public String findPassword(String email,String name) {
+        User user = userRepository.findByEmailAndName(email,name)
+                .orElseThrow(NotExistedEmailException::new);
+
+        String tempPw = UUID.randomUUID().toString().replace("-","");
+        tempPw = tempPw.substring(0,10);
+        String encodedTempPw = passwordEncoder.encode(tempPw);
+        user.setPassword(encodedTempPw);
+
+        return tempPw;
     }
 
     //로그인
@@ -105,5 +119,4 @@ public class UserService {
 
         userRepository.save(user);
     }
-
 }
