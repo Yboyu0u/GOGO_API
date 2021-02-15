@@ -3,9 +3,7 @@ package com.gogo.GoGo.service;
 import com.gogo.GoGo.controller.dto.ModUserDto;
 import com.gogo.GoGo.controller.dto.UserDto;
 import com.gogo.GoGo.domain.User;
-import com.gogo.GoGo.exception.AlreadyExistedEmailException;
-import com.gogo.GoGo.exception.NotExistedEmailException;
-import com.gogo.GoGo.exception.PasswordWrongException;
+import com.gogo.GoGo.exception.*;
 import com.gogo.GoGo.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +24,6 @@ public class UserService {
     private PasswordEncoder passwordEncoder;
 
     //회원 조회
-    @Transactional
     public User getUser(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("계정이 존재하지 않습니다"));
@@ -34,9 +31,7 @@ public class UserService {
     }
 
     //회원가입
-    @Transactional
     public User createUser(UserDto userDto){
-        //TODO: 받은 이메일 정보가 이미 있는 계정이면 error처리
         Optional<User> existedUser = userRepository.findByEmail(userDto.getEmail());
         //이미 이메일이 있다면 error 처리
         if(existedUser.isPresent()){
@@ -51,6 +46,43 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    //이메일 중복 확인
+    public void checkEmail(String email){
+        Optional<User> user = userRepository.findByEmail(email);
+
+        if(user.isPresent()){
+            throw new AlreadyExistedEmailException();
+        }
+
+    }
+
+    // 닉네임 중복 확인
+    public void checkNickname(String nickname) {
+        Optional<User> user = userRepository.findByNickname(nickname);
+
+        if(user.isPresent()){
+            throw new AlreadyExistedNicknameException();
+        }
+
+    }
+
+    //프로필 수정
+    public User modifyPerson(Long id, ModUserDto userDto) {
+        User user = userRepository.findById(id)
+                .orElseThrow(RuntimeException::new);
+
+        user.modSet(userDto);
+
+        return userRepository.save(user);
+    }
+
+    // email 찾기
+    public String findEmail(String name, String phoneNumber){
+        User user = userRepository.findByNameAndPhoneNumber(name,phoneNumber)
+                .orElseThrow(InCorrectInformationException::new);
+
+        return user.getEmail();
+    }
 
     //로그인
     public User authenticate(String email, String password) {
@@ -64,6 +96,7 @@ public class UserService {
         return user;
     }
 
+    //회원탈퇴
     public void deleteUser(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(RuntimeException::new);
@@ -73,12 +106,4 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public User modifyPerson(Long id, ModUserDto userDto) {
-        User user = userRepository.findById(id)
-                .orElseThrow(RuntimeException::new);
-
-        user.modSet(userDto);
-
-        return userRepository.save(user);
-    }
 }

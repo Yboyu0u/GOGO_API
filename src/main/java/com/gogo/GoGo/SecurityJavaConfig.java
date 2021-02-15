@@ -1,7 +1,6 @@
 package com.gogo.GoGo;
 
 import com.gogo.GoGo.domain.utils.JwtUtil;
-import com.gogo.GoGo.filters.JwtAuthentificationFilter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

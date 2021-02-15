@@ -30,7 +30,7 @@ public class UserController{
         userService.createUser(userDto);
     }
 
-    //회원 정보 수정
+    //프로필 수정
     @PatchMapping("/{id}")
     public void modifyUser(@PathVariable Long id, @RequestBody ModUserDto userDto){
         userService.modifyPerson(id,userDto);
@@ -40,6 +40,5 @@ public class UserController{
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable Long id){
         userService.deleteUser(id);
-
     }
 }
