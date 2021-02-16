@@ -1,5 +1,6 @@
 package com.gogo.GoGo.controller;
 
+import com.gogo.GoGo.controller.dto.ImgDto;
 import com.gogo.GoGo.controller.dto.ModUserDto;
 import com.gogo.GoGo.controller.dto.UserDto;
 import com.gogo.GoGo.domain.User;
@@ -34,6 +35,12 @@ public class UserController{
     @PatchMapping("/{id}")
     public void modifyUser(@PathVariable Long id, @RequestBody ModUserDto userDto){
         userService.modifyPerson(id,userDto);
+    }
+
+    //프로필 사진 업로드
+    @PutMapping("/{id}")
+    public void uploadImg(@PathVariable Long id, @RequestBody ImgDto dto){
+        userService.uploadImg(id,dto.getImg());
     }
 
     //회원탈퇴

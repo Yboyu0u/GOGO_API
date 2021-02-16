@@ -6,11 +6,15 @@ import com.gogo.GoGo.domain.User;
 import com.gogo.GoGo.exception.*;
 import com.gogo.GoGo.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -75,6 +79,24 @@ public class UserService {
         user.modSet(userDto);
 
         return userRepository.save(user);
+    }
+
+    // 프로필 사진 업로드
+    public void uploadImg(Long id, MultipartFile img) {
+        String upload_path = "/Users/youngwooyoo/desktop/GoGo /src/main/resources/static/images/profile/";
+        User user = userRepository.findById(id).orElseThrow(RuntimeException::new);
+        try {
+            if(user.getProfileImg() != null){
+                File oImg = new File(upload_path + user.getProfileImg());
+                oImg.delete();
+            }
+            img.transferTo(new File(upload_path+img.getOriginalFilename()));
+
+        } catch (IllegalStateException | IOException e) {
+            e.printStackTrace();
+        }
+        user.setProfileImg(img.getOriginalFilename());
+
     }
 
     //email 찾기

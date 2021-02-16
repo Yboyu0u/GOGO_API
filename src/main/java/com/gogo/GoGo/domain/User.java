@@ -1,5 +1,6 @@
 package com.gogo.GoGo.domain;
 
+import com.gogo.GoGo.controller.dto.ImgDto;
 import com.gogo.GoGo.controller.dto.ModUserDto;
 import com.gogo.GoGo.controller.dto.UserDto;
 import com.gogo.GoGo.domain.dto.Birthday;
@@ -11,7 +12,6 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Data
@@ -47,6 +47,8 @@ public class User {
 
     private String introduce;
 
+    private String profileImg;
+
     @ColumnDefault("0") // 이 값이 true가 되면 삭제가 되었다 간주하고 repository에서 삭제됨
     private boolean deleted;
 
@@ -80,6 +82,12 @@ public class User {
         }
         if(userDto.getIntroduce() != null){
             this.setIntroduce(userDto.getIntroduce());
+        }
+
+    }
+    public void imgSet(ImgDto imgDto){
+        if(imgDto.getImg() != null){
+            this.setProfileImg(imgDto.getImg().getOriginalFilename());
         }
     }
 

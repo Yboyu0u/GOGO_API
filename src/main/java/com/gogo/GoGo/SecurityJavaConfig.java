@@ -34,6 +34,9 @@ public class SecurityJavaConfig extends WebSecurityConfigurerAdapter {
                 .addFilter(filter)
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+//                .and()
+//                .logout()
+//                    .logoutSuccessUrl("/api/session");
     }
 
     @Bean
