@@ -12,7 +12,7 @@ public class DataSoureConfig {
     public DataSource dataSource(){
         String username = "gogoboy";
         String password = "gogo1234";
-        String url = "jdbc:mysql://gogodb.cplrxb3kh41a.ap-northeast-2.rds.amazonaws.com:3306/gogodb?characterEncoding=utf8";
+        String url = "jdbc:mysql://gogodb.cplrxb3kh41a.ap-northeast-2.rds.amazonaws.com:3306/gogoDb?characterEncoding=utf8";
         String driverClass = "com.mysql.jdbc.Driver";
 
         DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();

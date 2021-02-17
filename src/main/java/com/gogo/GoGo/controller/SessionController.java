@@ -32,10 +32,10 @@ public class SessionController {
     @ResponseStatus(HttpStatus.CREATED)
     //로그인을 하면 인증 확인 용으로 accesstoken을 부여 받는다.
     public ResponseEntity<SessionResponseDto>login(@RequestBody SessionRequestDto dto) throws URISyntaxException {
-        String email = dto.getEmail();
+        String userId = dto.getUserId();
         String password = dto.getPassword();
 
-        User user = userService.authenticate(email,password);
+        User user = userService.authenticate(userId,password);
 
         String jwt = jwtUtil.createToken(user.getId(),user.getName());
 

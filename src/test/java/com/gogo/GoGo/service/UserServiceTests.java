@@ -1,12 +1,11 @@
 package com.gogo.GoGo.service;
 
 import com.gogo.GoGo.controller.dto.ModUserDto;
-import com.gogo.GoGo.controller.dto.SessionRequestDto;
 import com.gogo.GoGo.controller.dto.UserDto;
 import com.gogo.GoGo.domain.User;
 import com.gogo.GoGo.domain.dto.Birthday;
-import com.gogo.GoGo.exception.AlreadyExistedEmailException;
-import com.gogo.GoGo.exception.NotExistedEmailException;
+import com.gogo.GoGo.exception.AlreadyExistedUserIdException;
+import com.gogo.GoGo.exception.NotExistedUserIdException;
 import com.gogo.GoGo.exception.PasswordWrongException;
 import com.gogo.GoGo.repository.UserRepository;
 import org.junit.jupiter.api.Test;
@@ -15,11 +14,9 @@ import org.mockito.ArgumentMatcher;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -45,6 +42,7 @@ public class UserServiceTests {
     @Test
     void createUser(){
         UserDto userDto = UserDto.builder()
+                .userId("fbduddn97")
                 .email("fbduddn97@example.com")
                 .password("1234")
                 .nickname("gogo")
@@ -61,59 +59,59 @@ public class UserServiceTests {
     }
 
     @Test
-    void createUserWithExistedEmail(){
+    void createUserWithExistedUserId(){
 
-        when(userRepository.findByEmail("fbduddn97@example.com"))
-                .thenReturn(Optional.of(User.builder().email("fbduddn97@example.com").build()));
+        when(userRepository.findByUserId("fbduddn97"))
+                .thenReturn(Optional.of(User.builder().userId("fbduddn97").build()));
 
-        assertThrows(AlreadyExistedEmailException.class, () -> userService.createUser(mockUserDto()));
+        assertThrows(AlreadyExistedUserIdException.class, () -> userService.createUser(mockUserDto()));
     }
 
     @Test
     public void authenticatedWithValidAttributes(){
-        String email = "fbduddn97@example.com";
+        String userId = "fbduddn97";
         String password = "1234";
 
         User mockUser = User.builder()
-                .email(email)
+                .userId(userId)
                 .password(password)
                 .build();
 
 
-        given(userRepository.findByEmail(email))
+        given(userRepository.findByUserId(userId))
                 .willReturn(Optional.of(mockUser));
 
         given(passwordEncoder.matches(any(),any())).willReturn(true);
 
-        User user = userService.authenticate(email,password);
+        User user = userService.authenticate(userId,password);
 
-        assertThat(user.getEmail()).isEqualTo(email);
+        assertThat(user.getUserId()).isEqualTo(userId);
     }
 
     @Test
     public void authenticatedWithNotExistedEmail(){
-        String email = "X@example.com";
+        String userId = "example1";
         String password = "1234";
 
 
-        given(userRepository.findByEmail(email))
+        given(userRepository.findByUserId(userId))
                 .willReturn(Optional.empty());
 
-        assertThrows(NotExistedEmailException.class, () -> userService.authenticate(email,password));
+        assertThrows(NotExistedUserIdException.class, () -> userService.authenticate(userId,password));
     }
 
     @Test
     public void authenticateWithWrongPassword(){
-        String email = "fbduddn97@example.com";
+        String userId = "fbduddn97";
         String password = "X";
 
 
-        given(userRepository.findByEmail(email))
-                .willReturn(Optional.of(User.builder().email("fbduddn97@example.com").password("1234").build()));
+        given(userRepository.findByUserId(userId))
+                .willReturn(Optional.of(User.builder().userId("fbduddn97").password("1234").build()));
 
         given(passwordEncoder.matches(any(),any())).willReturn(false);
 
-        assertThrows(PasswordWrongException.class, () -> userService.authenticate(email,password));
+        assertThrows(PasswordWrongException.class, () -> userService.authenticate(userId,password));
     }
 
     @Test
@@ -146,6 +144,7 @@ public class UserServiceTests {
     private static class IsUserWillBeInserted implements ArgumentMatcher<User>{
 
         UserDto userDto = UserDto.builder()
+                .userId("fbduddn97")
                 .email("fbduddn97@example.com")
 //                .password("1234")
                 .nickname("gogo")
@@ -157,6 +156,7 @@ public class UserServiceTests {
         @Override
         public boolean matches(User user) {
             return equals(user.getEmail(),"fbduddn97@example.com")
+                    && equals(user.getUserId(),"fbduddn97")
 //                    && equals(user.getPassword(),"1234")
                     && equals(user.getNickname(),"gogo")
                     && equals(user.getName(),"UUU")
@@ -186,6 +186,7 @@ public class UserServiceTests {
 
     private UserDto mockUserDto(){
         return  UserDto.builder()
+                .userId("fbduddn97")
                 .email("fbduddn97@example.com")
                 .password("1234")
                 .nickname("gogo")

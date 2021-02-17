@@ -1,7 +1,7 @@
 package com.gogo.GoGo.controller;
 
-import com.gogo.GoGo.controller.dto.FindEmailRequestDto;
-import com.gogo.GoGo.controller.dto.FindEmailResponseDto;
+import com.gogo.GoGo.controller.dto.FindUserIDRequestDto;
+import com.gogo.GoGo.controller.dto.FindUserIdResponseDto;
 import com.gogo.GoGo.controller.dto.FindPasswordRequestDto;
 import com.gogo.GoGo.controller.dto.FindPasswordResponseDto;
 import com.gogo.GoGo.service.UserService;
@@ -23,13 +23,13 @@ public class FindController {
     @Autowired
     private UserService userService;
 
-    //email 찾기
-    @PostMapping("/email")
-    public ResponseEntity<FindEmailResponseDto> findEmail(@RequestBody FindEmailRequestDto dto) throws URISyntaxException {
-       String email =  userService.findEmail(dto.getName(), dto.getPhoneNumber());
+    //userId 찾기
+    @PostMapping("/userid")
+    public ResponseEntity<FindUserIdResponseDto> findUserId(@RequestBody FindUserIDRequestDto dto) throws URISyntaxException {
+        String userId =  userService.findUserId(dto.getName(), dto.getEmail());
 
-        FindEmailResponseDto responseDto = FindEmailResponseDto.builder()
-                .email(email)
+        FindUserIdResponseDto responseDto = FindUserIdResponseDto.builder()
+                .userId(userId)
                 .build();
 
         String url ="/api/find/email";
@@ -37,6 +37,7 @@ public class FindController {
                 .body(responseDto);
     }
 
+    //password 찾기
     @PostMapping("/password")
     public ResponseEntity<FindPasswordResponseDto> findPassword(@RequestBody FindPasswordRequestDto dto) throws URISyntaxException {
         String password = userService.findPassword(dto.getEmail(),dto.getName());

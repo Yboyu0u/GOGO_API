@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class FindEmailRequestDto {
+public class FindUserIDRequestDto {
 
     private String name;
-    private String phoneNumber;
+    private String email;
 }

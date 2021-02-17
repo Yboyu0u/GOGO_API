@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class SessionRequestDto {
 
-    private String email;
+    private String userId;
     private String password;
 }

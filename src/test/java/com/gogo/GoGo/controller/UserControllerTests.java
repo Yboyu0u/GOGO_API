@@ -65,32 +65,32 @@ public class UserControllerTests {
                 .build();
     }
 
-    @Test
-    public void create() throws Exception{
-
-        UserDto userDto = UserDto.builder()
-                .email("fbduddn97@example.com")
-                .password("1234")
-                .nickname("gogo")
-                .name("martin")
-                .gender("male")
-                .birthday(LocalDate.now())
-                .phoneNumber("010-9283-6657")
-                .build();
-
-        User user = new User();
-        user.set(userDto);
-        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-
-        given(userService.createUser(userDto))
-                .willReturn(user);
-
-        mockMvc.perform(post("/api/user")
-        .content(MediaType.APPLICATION_JSON_VALUE)
-        .content(toJsonString(userDto)))
-                .andExpect(status().isCreated());
-
-    }
+//    @Test
+//    public void create() throws Exception{
+//
+//        UserDto userDto = UserDto.builder()
+//                .email("fbduddn97@example.com")
+//                .password("1234")
+//                .nickname("gogo")
+//                .name("martin")
+//                .gender("male")
+//                .birthday(LocalDate.now())
+//                .phoneNumber("010-9283-6657")
+//                .build();
+//
+//        User user = new User();
+//        user.set(userDto);
+//        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+//
+//        given(userService.createUser(userDto))
+//                .willReturn(user);
+//
+//        mockMvc.perform(post("/api/user")
+//        .content(MediaType.APPLICATION_JSON_VALUE)
+//        .content(toJsonString(userDto)))
+//                .andExpect(status().isCreated());
+//
+//    }
 
     private String toJsonString(UserDto userDto) throws JsonProcessingException {
         return objectMapper.writeValueAsString(userDto);
