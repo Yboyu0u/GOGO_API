@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(AlreadyExistedEmailException.class)
+    @ExceptionHandler(AlreadyExistedUserIdException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse handleAlreadyExistedEmailException(AlreadyExistedEmailException ex){
+    public ErrorResponse handleAlreadyExistedEmailException(AlreadyExistedUserIdException ex){
         return ErrorResponse.of(HttpStatus.BAD_REQUEST,ex.getMessage());
     }
 
@@ -30,9 +30,9 @@ public class GlobalExceptionHandler {
         return ErrorResponse.of(HttpStatus.BAD_REQUEST,ex.getMessage());
     }
 
-    @ExceptionHandler(NotExistedEmailException.class)
+    @ExceptionHandler(NotExistedUserIdException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse handleNotExistedEmailException(NotExistedEmailException ex){
+    public ErrorResponse handleNotExistedEmailException(NotExistedUserIdException ex){
         return ErrorResponse.of(HttpStatus.BAD_REQUEST,ex.getMessage());
     }
 

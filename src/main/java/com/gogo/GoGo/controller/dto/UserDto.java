@@ -16,6 +16,7 @@ import java.time.LocalDate;
 @Builder
 
 public class UserDto {
+    private String userId;
 
     private String email;
 

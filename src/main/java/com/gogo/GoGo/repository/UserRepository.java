@@ -11,16 +11,25 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User,Long> {
-    List<User> findByName(String name);
 
     User save(User user);
 
+    Optional<User> findByUserId(String userId);
+
+    List<User> findByName(String name);
+
     Optional<User> findByEmail(String email);
     Optional<User> findByNickname(String nickname);
+
     @Query(value = "select user from User user where user.name = :name and user.phoneNumber = :phoneNumber")
     Optional<User> findByNameAndPhoneNumber(@Param("name") String name, @Param("phoneNumber") String phoneNumber);
 
-    @Query(value = "select user from User user where user.email = :email and user.name = :name")
-    Optional<User> findByEmailAndName(@Param("email") String email, @Param("name") String name);
+
+    @Query(value = "select user from User user where user.name = :name and user.userId = :userId")
+    Optional<User> findByNameAndUserId(@Param("name") String name, @Param("userId") String userId);
+
+    @Query(value = "select user from User user where user.name = :name and user.email = :email")
+    Optional<User> findByNameAndEmail(@Param("name") String name, @Param("email") String email);
+
 }
 

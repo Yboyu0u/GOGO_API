@@ -25,6 +25,8 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String userId;
+
     //@NotEmpty
     private String email;
 
@@ -53,9 +55,11 @@ public class User {
     private boolean deleted;
 
     //TODO: 여행 취향
-    //TODO: 프로필 이미지
-
     public void set(UserDto userDto){
+        if(userDto.getUserId() != null){
+            this.setUserId(userDto.getUserId());
+        }
+
         if(userDto.getEmail() != null){
             this.setEmail(userDto.getEmail());
         }

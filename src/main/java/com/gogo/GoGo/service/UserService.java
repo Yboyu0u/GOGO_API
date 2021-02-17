@@ -37,10 +37,10 @@ public class UserService {
 
     //회원가입
     public User createUser(UserDto userDto){
-        Optional<User> existedUser = userRepository.findByEmail(userDto.getEmail());
+        Optional<User> existedUser = userRepository.findByUserId(userDto.getUserId());
         //이미 이메일이 있다면 error 처리
         if(existedUser.isPresent()){
-            throw new AlreadyExistedEmailException();
+            throw new AlreadyExistedUserIdException();
         }
 
         String encodedPassword = passwordEncoder.encode(userDto.getPassword());
@@ -51,12 +51,17 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    //아이디 중복 확인
+    public void checkUserId(String userId){
+        Optional<User> user = userRepository.findByUserId(userId);
+    }
+
     //이메일 중복 확인
     public void checkEmail(String email){
         Optional<User> user = userRepository.findByEmail(email);
 
         if(user.isPresent()){
-            throw new AlreadyExistedEmailException();
+            throw new AlreadyExistedUserIdException();
         }
 
     }
@@ -99,18 +104,18 @@ public class UserService {
 
     }
 
-    //email 찾기
-    public String findEmail(String name, String phoneNumber){
-        User user = userRepository.findByNameAndPhoneNumber(name,phoneNumber)
+    //userId 찾기
+    public String findUserId(String name, String email){
+        User user = userRepository.findByNameAndEmail(name,email)
                 .orElseThrow(InCorrectInformationException::new);
 
         return user.getEmail();
     }
 
     //password 찾기
-    public String findPassword(String email,String name) {
-        User user = userRepository.findByEmailAndName(email,name)
-                .orElseThrow(NotExistedEmailException::new);
+    public String findPassword(String userId,String name) {
+        User user = userRepository.findByNameAndEmail(userId,name)
+                .orElseThrow(NotExistedUserIdException::new);
 
         String tempPw = UUID.randomUUID().toString().replace("-","");
         tempPw = tempPw.substring(0,10);
@@ -121,9 +126,9 @@ public class UserService {
     }
 
     //로그인
-    public User authenticate(String email, String password) {
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(NotExistedEmailException::new);
+    public User authenticate(String userId, String password) {
+        User user = userRepository.findByUserId(userId)
+                .orElseThrow(NotExistedUserIdException::new);
 
         if(!passwordEncoder.matches(password,user.getPassword())){
             throw new PasswordWrongException();
