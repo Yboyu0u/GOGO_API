@@ -24,7 +24,7 @@ public class FindController {
     private UserService userService;
 
     //userId 찾기
-    @PostMapping("/userid")
+    @PostMapping("/userId")
     public ResponseEntity<FindUserIdResponseDto> findUserId(@RequestBody FindUserIDRequestDto dto) throws URISyntaxException {
         String userId =  userService.findUserId(dto.getName(), dto.getEmail());
 
