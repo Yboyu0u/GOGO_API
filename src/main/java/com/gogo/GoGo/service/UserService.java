@@ -54,17 +54,12 @@ public class UserService {
     //아이디 중복 확인
     public void checkUserId(String userId){
         Optional<User> user = userRepository.findByUserId(userId);
-    }
-
-    //이메일 중복 확인
-    public void checkEmail(String email){
-        Optional<User> user = userRepository.findByEmail(email);
 
         if(user.isPresent()){
             throw new AlreadyExistedUserIdException();
         }
-
     }
+
 
     // 닉네임 중복 확인
     public void checkNickname(String nickname) {
@@ -105,16 +100,16 @@ public class UserService {
     }
 
     //userId 찾기
-    public String findUserId(String name, String email){
-        User user = userRepository.findByNameAndEmail(name,email)
+    public String findUserId(String name, String phoneNumber){
+        User user = userRepository.findByNameAndPhoneNumber(name,phoneNumber)
                 .orElseThrow(InCorrectInformationException::new);
 
         return user.getEmail();
     }
 
     //password 찾기
-    public String findPassword(String userId,String name) {
-        User user = userRepository.findByNameAndEmail(userId,name)
+    public String findPassword(String name,String userId) {
+        User user = userRepository.findByNameAndUserId(name,userId)
                 .orElseThrow(NotExistedUserIdException::new);
 
         String tempPw = UUID.randomUUID().toString().replace("-","");

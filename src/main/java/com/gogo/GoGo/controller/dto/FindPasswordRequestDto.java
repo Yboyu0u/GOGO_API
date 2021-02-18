@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class FindPasswordRequestDto {
 
-    private String email;
     private String name;
+    private String userId;
 }

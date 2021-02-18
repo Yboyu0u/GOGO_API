@@ -26,7 +26,7 @@ public class FindController {
     //userId 찾기
     @PostMapping("/userId")
     public ResponseEntity<FindUserIdResponseDto> findUserId(@RequestBody FindUserIDRequestDto dto) throws URISyntaxException {
-        String userId =  userService.findUserId(dto.getName(), dto.getEmail());
+        String userId =  userService.findUserId(dto.getName(), dto.getPhoneNumber());
 
         FindUserIdResponseDto responseDto = FindUserIdResponseDto.builder()
                 .userId(userId)
@@ -40,7 +40,7 @@ public class FindController {
     //password 찾기
     @PostMapping("/password")
     public ResponseEntity<FindPasswordResponseDto> findPassword(@RequestBody FindPasswordRequestDto dto) throws URISyntaxException {
-        String password = userService.findPassword(dto.getEmail(),dto.getName());
+        String password = userService.findPassword(dto.getName(),dto.getUserId());
 
         FindPasswordResponseDto responseDto = FindPasswordResponseDto.builder()
                 .password(password)

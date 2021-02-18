@@ -12,6 +12,7 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Data
@@ -25,21 +26,19 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotEmpty
     private String userId;
 
-    //@NotEmpty
-    private String email;
-
-    //@NotEmpty
+    @NotEmpty
     private String password;
 
-    //@NotEmpty
+    @NotEmpty
     private String nickname;
 
-   // @NotEmpty
+    @NotEmpty
     private String name;
 
-  //  @NotEmpty
+    @NotEmpty
     private String gender;
 
     @Embedded
@@ -55,14 +54,12 @@ public class User {
     private boolean deleted;
 
     //TODO: 여행 취향
+
     public void set(UserDto userDto){
         if(userDto.getUserId() != null){
             this.setUserId(userDto.getUserId());
         }
 
-        if(userDto.getEmail() != null){
-            this.setEmail(userDto.getEmail());
-        }
         if(userDto.getNickname() != null){
             this.setNickname(userDto.getNickname());
         }
@@ -87,6 +84,7 @@ public class User {
         if(userDto.getIntroduce() != null){
             this.setIntroduce(userDto.getIntroduce());
         }
+        //TODO: 여행 취향
 
     }
     public void imgSet(ImgDto imgDto){
