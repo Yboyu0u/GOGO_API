@@ -32,7 +32,7 @@ public class FindController {
                 .userId(userId)
                 .build();
 
-        String url ="/api/find/email";
+        String url ="/api/find/userId";
         return ResponseEntity.created(new URI(url))
                 .body(responseDto);
     }

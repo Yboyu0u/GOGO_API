@@ -22,6 +22,7 @@ public class UserDto {
     @NotBlank(message = "비밀번호는 필수값 입니다")
     private String password;
 
+    @NotBlank(message = "닉네임은 필수값 입니다")
     private String nickname;
 
     @NotBlank(message = "이름은 필수값 입니다")

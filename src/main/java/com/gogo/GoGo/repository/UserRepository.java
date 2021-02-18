@@ -20,6 +20,9 @@ public interface UserRepository extends JpaRepository<User,Long> {
 
     Optional<User> findByNickname(String nickname);
 
+    @Query(value = "select user from User user where user.userId = :userId and user.nickname = :nickname")
+    Optional<User> findByUserIdAndNickname(@Param("userId") String userId, @Param("nickname") String nickname);
+
     @Query(value = "select user from User user where user.name = :name and user.userId = :userId")
     Optional<User> findByNameAndUserId(@Param("name") String name, @Param("userId") String userId);
 

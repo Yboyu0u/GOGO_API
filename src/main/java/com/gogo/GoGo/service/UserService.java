@@ -38,9 +38,13 @@ public class UserService {
     //회원가입
     public User createUser(UserDto userDto){
         Optional<User> existedUser = userRepository.findByUserId(userDto.getUserId());
-        //이미 이메일이 있다면 error 처리
+        //이미 아이디가 있다면 error 처리
         if(existedUser.isPresent()){
             throw new AlreadyExistedUserIdException();
+        }
+        Optional<User> existedUsernick = userRepository.findByNickname(userDto.getNickname());
+        if(existedUsernick.isPresent()){
+            throw new AlreadyExistedNicknameException();
         }
 
         String encodedPassword = passwordEncoder.encode(userDto.getPassword());

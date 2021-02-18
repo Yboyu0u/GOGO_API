@@ -19,7 +19,7 @@ public class CheckController {
     private UserService userService;
 
     //이메일 중복 확인
-    @PostMapping("/email")
+    @PostMapping("/userId")
     public void checkUserId(@RequestBody CheckUserIdDto dto) {
         userService.checkUserId(dto.getUserId());
     }
