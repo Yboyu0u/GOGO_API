@@ -104,7 +104,7 @@ public class UserService {
         User user = userRepository.findByNameAndPhoneNumber(name,phoneNumber)
                 .orElseThrow(InCorrectInformationException::new);
 
-        return user.getEmail();
+        return user.getUserId();
     }
 
     //password 찾기

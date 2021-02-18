@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 
 @RequestMapping(value = "/api/user")
 @RestController
@@ -28,7 +30,7 @@ public class UserController{
     //회원가입
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void createUser(@RequestBody UserDto userDto){
+    public void createUser(@RequestBody @Valid UserDto userDto){
         userService.createUser(userDto);
     }
 

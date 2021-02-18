@@ -1,6 +1,6 @@
 package com.gogo.GoGo.controller;
 
-import com.gogo.GoGo.controller.dto.CheckEmailDto;
+import com.gogo.GoGo.controller.dto.CheckUserIdDto;
 import com.gogo.GoGo.controller.dto.CheckNicknameDto;
 import com.gogo.GoGo.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -20,8 +20,8 @@ public class CheckController {
 
     //이메일 중복 확인
     @PostMapping("/email")
-    public void checkEmail(@RequestBody CheckEmailDto dto) {
-        userService.checkEmail(dto.getEmail());
+    public void checkUserId(@RequestBody CheckUserIdDto dto) {
+        userService.checkUserId(dto.getUserId());
     }
 
     //닉네임 중복 확인

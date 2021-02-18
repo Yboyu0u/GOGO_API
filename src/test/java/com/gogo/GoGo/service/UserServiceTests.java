@@ -43,7 +43,6 @@ public class UserServiceTests {
     void createUser(){
         UserDto userDto = UserDto.builder()
                 .userId("fbduddn97")
-                .email("fbduddn97@example.com")
                 .password("1234")
                 .nickname("gogo")
                 .name("UUU")
@@ -145,7 +144,6 @@ public class UserServiceTests {
 
         UserDto userDto = UserDto.builder()
                 .userId("fbduddn97")
-                .email("fbduddn97@example.com")
 //                .password("1234")
                 .nickname("gogo")
                 .name("UUU")
@@ -155,8 +153,7 @@ public class UserServiceTests {
                 .build();
         @Override
         public boolean matches(User user) {
-            return equals(user.getEmail(),"fbduddn97@example.com")
-                    && equals(user.getUserId(),"fbduddn97")
+            return equals(user.getUserId(),"fbduddn97")
 //                    && equals(user.getPassword(),"1234")
                     && equals(user.getNickname(),"gogo")
                     && equals(user.getName(),"UUU")
@@ -187,7 +184,6 @@ public class UserServiceTests {
     private UserDto mockUserDto(){
         return  UserDto.builder()
                 .userId("fbduddn97")
-                .email("fbduddn97@example.com")
                 .password("1234")
                 .nickname("gogo")
                 .name("UUU")

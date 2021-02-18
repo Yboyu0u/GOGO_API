@@ -12,7 +12,9 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Data
@@ -26,24 +28,32 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     @NotEmpty
     private String userId;
 
+    @NotNull
     @NotEmpty
     private String password;
 
+    @NotNull
     @NotEmpty
     private String nickname;
 
+    @NotNull
     @NotEmpty
     private String name;
 
+    @NotNull
     @NotEmpty
     private String gender;
 
+    @Valid
     @Embedded
     private Birthday birthday;
 
+    @NotNull
+    @NotEmpty
     private String phoneNumber;
 
     private String introduce;
