@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @Transactional
@@ -34,5 +35,20 @@ public class CommunityService {
         community.setCreatedTime(LocalDate.now());
         return communityRepository.save(community);
     }
+
+    //분류1. 지역
+    public List<Community> searchByPlace(Long id) {
+        return communityRepository.findAllByPlaceId(id);
+    }
+    //분류2. 컨셉트
+    //TODO:
+
+    //태그검색
+    public List<Community> searchByTag(String tag){
+        System.out.println(tag);
+        return communityRepository.findAllByTag(tag);
+        //TODO: 없으면 error 처리
+    }
+
 
 }

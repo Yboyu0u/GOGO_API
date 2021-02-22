@@ -12,6 +12,8 @@ import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.time.LocalDate;
 
 @Entity
@@ -29,6 +31,12 @@ public class Community {
 
     private Long commentId;
 
+    @Min(1)
+    @Max(6)
+    private Long placeId;
+
+    private String gender;
+
     private String title;
 
     private String content;
@@ -39,10 +47,20 @@ public class Community {
 
     private LocalDate endDate;
 
+    private String tag;
+
     private Integer heart;
 
 
+
     public void set(CommunityDto dto) {
+
+        if(dto.getGender() != null){
+            this.setGender(dto.getGender());
+        }
+        if(dto.getPlaceId() != null){
+            this.setPlaceId(dto.getPlaceId());
+        }
         if(dto.getTitle() != null){
             this.setTitle(dto.getTitle());
         }
@@ -54,6 +72,9 @@ public class Community {
         }
         if(dto.getEndDate() != null){
             this.setEndDate(dto.getEndDate());
+        }
+        if(dto.getTag() != null){
+            this.setTag(dto.getTag());
         }
 
         //TODO: createdDate 처리

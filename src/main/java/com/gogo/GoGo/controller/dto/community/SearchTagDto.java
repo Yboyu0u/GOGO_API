@@ -4,26 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDate;
+import org.springframework.boot.autoconfigure.batch.BatchDataSource;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CommunityDto {
-
-    private Long placeId;
-
-    private String gender;
-
-    private String title;
-
-    private String content;
-
-    private LocalDate startDate;
-
-    private LocalDate endDate;
-
+public class SearchTagDto {
     private String tag;
 }
