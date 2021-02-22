@@ -2,7 +2,7 @@ package com.gogo.GoGo.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gogo.GoGo.controller.dto.SessionRequestDto;
+import com.gogo.GoGo.controller.dto.user.SessionRequestDto;
 import com.gogo.GoGo.domain.User;
 import com.gogo.GoGo.domain.utils.JwtUtil;
 import com.gogo.GoGo.exception.NotExistedUserIdException;

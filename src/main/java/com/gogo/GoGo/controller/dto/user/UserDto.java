@@ -1,4 +1,4 @@
-package com.gogo.GoGo.controller.dto;
+package com.gogo.GoGo.controller.dto.user;
 
 import com.gogo.GoGo.domain.dto.Birthday;
 import lombok.AllArgsConstructor;

@@ -1,8 +1,8 @@
 package com.gogo.GoGo.domain;
 
-import com.gogo.GoGo.controller.dto.ImgDto;
-import com.gogo.GoGo.controller.dto.ModUserDto;
-import com.gogo.GoGo.controller.dto.UserDto;
+import com.gogo.GoGo.controller.dto.user.ImgDto;
+import com.gogo.GoGo.controller.dto.user.ModUserDto;
+import com.gogo.GoGo.controller.dto.user.UserDto;
 import com.gogo.GoGo.domain.dto.Birthday;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -69,7 +69,6 @@ public class User {
         if(userDto.getUserId() != null){
             this.setUserId(userDto.getUserId());
         }
-
         if(userDto.getNickname() != null){
             this.setNickname(userDto.getNickname());
         }

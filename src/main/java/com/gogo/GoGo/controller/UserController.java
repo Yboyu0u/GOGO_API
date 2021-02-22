@@ -1,8 +1,8 @@
 package com.gogo.GoGo.controller;
 
-import com.gogo.GoGo.controller.dto.ImgDto;
-import com.gogo.GoGo.controller.dto.ModUserDto;
-import com.gogo.GoGo.controller.dto.UserDto;
+import com.gogo.GoGo.controller.dto.user.ImgDto;
+import com.gogo.GoGo.controller.dto.user.ModUserDto;
+import com.gogo.GoGo.controller.dto.user.UserDto;
 import com.gogo.GoGo.domain.User;
 import com.gogo.GoGo.service.UserService;
 import lombok.extern.slf4j.Slf4j;

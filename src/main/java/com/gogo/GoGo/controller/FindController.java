@@ -1,9 +1,9 @@
 package com.gogo.GoGo.controller;
 
-import com.gogo.GoGo.controller.dto.FindUserIDRequestDto;
-import com.gogo.GoGo.controller.dto.FindUserIdResponseDto;
-import com.gogo.GoGo.controller.dto.FindPasswordRequestDto;
-import com.gogo.GoGo.controller.dto.FindPasswordResponseDto;
+import com.gogo.GoGo.controller.dto.user.FindUserIDRequestDto;
+import com.gogo.GoGo.controller.dto.user.FindUserIdResponseDto;
+import com.gogo.GoGo.controller.dto.user.FindPasswordRequestDto;
+import com.gogo.GoGo.controller.dto.user.FindPasswordResponseDto;
 import com.gogo.GoGo.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

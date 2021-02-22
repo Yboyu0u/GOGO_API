@@ -1,7 +1,7 @@
 package com.gogo.GoGo.controller;
 
-import com.gogo.GoGo.controller.dto.SessionRequestDto;
-import com.gogo.GoGo.controller.dto.SessionResponseDto;
+import com.gogo.GoGo.controller.dto.user.SessionRequestDto;
+import com.gogo.GoGo.controller.dto.user.SessionResponseDto;
 import com.gogo.GoGo.domain.User;
 import com.gogo.GoGo.domain.utils.JwtUtil;
 import com.gogo.GoGo.service.UserService;
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 
 
 //로그인

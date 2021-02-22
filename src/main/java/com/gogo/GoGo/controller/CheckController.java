@@ -1,7 +1,7 @@
 package com.gogo.GoGo.controller;
 
-import com.gogo.GoGo.controller.dto.CheckUserIdDto;
-import com.gogo.GoGo.controller.dto.CheckNicknameDto;
+import com.gogo.GoGo.controller.dto.user.CheckUserIdDto;
+import com.gogo.GoGo.controller.dto.user.CheckNicknameDto;
 import com.gogo.GoGo.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

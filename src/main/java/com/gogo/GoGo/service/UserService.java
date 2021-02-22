@@ -1,7 +1,7 @@
 package com.gogo.GoGo.service;
 
-import com.gogo.GoGo.controller.dto.ModUserDto;
-import com.gogo.GoGo.controller.dto.UserDto;
+import com.gogo.GoGo.controller.dto.user.ModUserDto;
+import com.gogo.GoGo.controller.dto.user.UserDto;
 import com.gogo.GoGo.domain.User;
 import com.gogo.GoGo.exception.*;
 import com.gogo.GoGo.repository.UserRepository;
