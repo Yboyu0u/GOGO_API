@@ -36,7 +36,7 @@ public class SessionController {
 
         User user = userService.authenticate(userId,password);
 
-        String jwt = jwtUtil.createToken(user.getId(),user.getName());
+        String jwt = jwtUtil.createToken(user.getId(),user.getName(),user.getNickname());
 
         SessionResponseDto sessionResponseDto =
                 SessionResponseDto.builder().jwt(jwt).build();

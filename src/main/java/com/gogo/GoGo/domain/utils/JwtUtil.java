@@ -17,10 +17,11 @@ public class JwtUtil{
         this.key = Keys.hmacShaKeyFor(secret.getBytes());
     }
 
-    public String createToken(Long userId, String name) {
+    public String createToken(Long userId, String name,String nickname) {
         String token = Jwts.builder()
                 .claim("userId",userId)
                 .claim("name",name)
+                .claim("nickname",nickname)
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
 

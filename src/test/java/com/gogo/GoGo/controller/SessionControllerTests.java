@@ -77,13 +77,14 @@ public class SessionControllerTests {
                 .id(100L)
                 .userId(dto.getUserId())
                 .name("martin")
+                .nickname("yboy")
                 .password(dto.getPassword())
                 .build();
 
         given(userService.authenticate(dto.getUserId(),dto.getPassword()))
                 .willReturn(mockUser);
 
-        given(jwtUtil.createToken(100L,"martin"))
+        given(jwtUtil.createToken(100L,"martin","yboy"))
                 .willReturn("header.payload.signature");
 
 

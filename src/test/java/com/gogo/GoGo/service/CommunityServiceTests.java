@@ -37,7 +37,7 @@ public class CommunityServiceTests {
                 .endDate(LocalDate.now())
                 .build();
 
-        communityService.create(dto);
+        communityService.create(dto,1L,"Yboy");
 
         verify(communityRepository).save(argThat(new IsCommunityWillBeInserted()));
 
@@ -57,7 +57,9 @@ public class CommunityServiceTests {
             return equals(community.getTitle(),"훗카이도로 가자")
                     && equals(community.getContent(),"훗카이도 2박3일 한분 구합니다")
                     && equals(community.getStartDate(),LocalDate.now())
-                    && equals(community.getEndDate(),LocalDate.now());
+                    && equals(community.getEndDate(),LocalDate.now())
+                    && equals(community.getUserId(),1L)
+                    && equals(community.getCreatedBy(),"Yboy");
         }
         private boolean equals(Object actual, Object expected){
             return expected.equals(actual);

@@ -27,6 +27,7 @@ import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -61,23 +62,36 @@ public class CommunityControllerTests {
                 .build();
     }
 
-    @Test
-    public void create() throws Exception {
-
-        CommunityDto dto = CommunityDto.builder()
-                .title("훗카이도로 가자")
-                .content("훗카이도 2박3일 한분 구합니다")
-                .startDate(LocalDate.now())
-                .endDate(LocalDate.now())
-                .build();
-
-
-        mockMvc.perform(post("/api/community")
-                .content(MediaType.APPLICATION_JSON_VALUE)
-                .content(toJsonString(dto)))
-                .andExpect(status().isCreated());
-
-    }
+//    @Test
+//    public void createWithValidAttributes() throws Exception {
+//        String token = "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjIsIm5hbWUiOiJzb3BoaWEiLCJuaWNrbmFtZSI6Inlib3kyIn0.Rt3wa5EK7Do3rIScFNx934B3bNuIbb0eU-pDxT82qFs";
+//
+//
+//        CommunityDto dto = CommunityDto.builder()
+//                .title("훗카이도로 가자")
+//                .content("훗카이도 2박3일 한분 구합니다")
+//                .startDate(LocalDate.now())
+//                .endDate(LocalDate.now())
+//                .build();
+////
+////        given(communityService.create(dto))
+////                .willReturn(Community.builder()
+////                        .title(dto.getTitle())
+////                        .content(dto.getContent())
+////                        .startDate(LocalDate.now())
+////                        .endDate(LocalDate.now())
+////                        .createdTime(LocalDate.now())
+////                        .build());
+//
+//        mockMvc.perform(post("/api/community/1")
+//                .header("Authorization","Bearer"+token)
+//                .content(MediaType.APPLICATION_JSON_VALUE)
+//                .content(toJsonString(dto)))
+//                .andExpect(status().isCreated());
+//
+////        verify(communityService).create(dto);
+//
+//    }
 
     private String toJsonString(CommunityDto dto) throws JsonProcessingException {
         return objectMapper.writeValueAsString(dto);

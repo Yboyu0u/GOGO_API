@@ -4,9 +4,11 @@ import com.gogo.GoGo.controller.dto.community.CommunityDto;
 import com.gogo.GoGo.controller.dto.community.SearchTagDto;
 import com.gogo.GoGo.domain.Community;
 import com.gogo.GoGo.service.CommunityService;
+import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,6 +26,19 @@ public class CommunityController {
     public Community get(@PathVariable Long id){
         return communityService.get(id);
     }
+
+    //글생성
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public void create(Authentication authentication, @RequestBody CommunityDto dto){
+
+        Claims claims = (Claims) authentication.getPrincipal();
+        Long id = claims.get("userId",Long.class);
+        //String name = claims.get("name",String.class);
+        String nickname = claims.get("nickname",String.class);
+        communityService.create(dto,id,nickname);
+    }
+
 
     //분류1. 지역
     @GetMapping("/search/place/{placeId}")
@@ -48,11 +63,6 @@ public class CommunityController {
     }
 
 
-    //글생성
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public void create(@RequestBody CommunityDto dto){
-        communityService.create(dto);
-    }
+
 
 }

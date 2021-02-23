@@ -29,10 +29,12 @@ public class CommunityService {
 
     //글생성
     @Transactional
-    public Community create(CommunityDto dto){
+    public Community create(CommunityDto dto, Long id,String nickname){
         Community community = new Community();
         community.set(dto);
         community.setCreatedTime(LocalDate.now());
+        community.setUserId(id);
+        community.setCreatedBy(nickname);
         return communityRepository.save(community);
     }
 

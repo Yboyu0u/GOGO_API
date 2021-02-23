@@ -51,6 +51,8 @@ public class Community {
 
     private Integer heart;
 
+    private String createdBy;
+
 
 
     public void set(CommunityDto dto) {
