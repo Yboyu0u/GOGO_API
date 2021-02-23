@@ -14,6 +14,8 @@ public interface CommunityRepository extends JpaRepository<Community,Long> {
 
     List<Community> findAllByPlaceId(Long placeId);
 
-    @Query(value = "select community from Community community where community.tag = :tag")
-    List<Community> findAllByTag(@Param("tag") String tag);
+//    @Query(value = "select community from Community community where community.tag = :tag")
+//    List<Community> findAllByTag(@Param("tag") String tag);
+
+    List<Community> findAllByUserId(Long id);
 }

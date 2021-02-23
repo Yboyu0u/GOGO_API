@@ -11,6 +11,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+
 public class CommunityDto {
 
     private Long placeId;
@@ -25,5 +26,5 @@ public class CommunityDto {
 
     private LocalDate endDate;
 
-    private String tag;
+    private String tags;
 }

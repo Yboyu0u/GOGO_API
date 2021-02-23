@@ -15,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.time.LocalDate;
+import java.util.StringTokenizer;
 
 @Entity
 @Data
@@ -47,8 +48,10 @@ public class Community {
 
     private LocalDate endDate;
 
-    private String tag;
+    //TODO: 해시태그 처리
+    private String tags;
 
+    @ColumnDefault("0")
     private Integer heart;
 
     private String createdBy;
@@ -75,10 +78,5 @@ public class Community {
         if(dto.getEndDate() != null){
             this.setEndDate(dto.getEndDate());
         }
-        if(dto.getTag() != null){
-            this.setTag(dto.getTag());
-        }
-
-        //TODO: createdDate 처리
     }
 }

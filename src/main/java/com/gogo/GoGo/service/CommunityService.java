@@ -2,7 +2,9 @@ package com.gogo.GoGo.service;
 
 import com.gogo.GoGo.controller.dto.community.CommunityDto;
 import com.gogo.GoGo.domain.Community;
+import com.gogo.GoGo.domain.Heart;
 import com.gogo.GoGo.repository.CommunityRepository;
+import com.gogo.GoGo.repository.HeartRepository;
 import com.gogo.GoGo.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.StringTokenizer;
 
 @Service
 @Transactional
@@ -19,6 +22,9 @@ public class CommunityService {
 
     @Autowired
     private CommunityRepository communityRepository;
+
+    @Autowired
+    private HeartRepository heartRepository;
 
     //조회
     public Community get(Long id) {
@@ -35,6 +41,7 @@ public class CommunityService {
         community.setCreatedTime(LocalDate.now());
         community.setUserId(id);
         community.setCreatedBy(nickname);
+
         return communityRepository.save(community);
     }
 
@@ -45,12 +52,25 @@ public class CommunityService {
     //분류2. 컨셉트
     //TODO:
 
-    //태그검색
-    public List<Community> searchByTag(String tag){
-        System.out.println(tag);
-        return communityRepository.findAllByTag(tag);
-        //TODO: 없으면 error 처리
+//    //해시태그 검색
+//    public List<Community> searchByTag(String tag){
+//
+//        return communityRepository.findAllByTag(tag);
+//    }
+
+
+    public List<Community> searchByMy(Long id) {
+        return communityRepository.findAllByUserId(id);
     }
 
+    public void pushHeart(Long userId, Long communityId) {
+        Community community = communityRepository.findById(communityId).orElse(null);
+        community.setHeart(community.getHeart()+1);
+        Heart heart = Heart.builder()
+                .userId(userId)
+                .communityId(communityId)
+                .build();
+        heartRepository.save(heart);
 
+    }
 }
