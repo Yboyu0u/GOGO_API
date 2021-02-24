@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 
@@ -22,6 +23,7 @@ import java.util.StringTokenizer;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Where(clause = "deleted = false")
 public class Community {
 
     @Id
@@ -52,9 +54,13 @@ public class Community {
     private String tags;
 
     @ColumnDefault("0")
+    @Min(0)
     private Integer heart;
 
     private String createdBy;
+
+    @ColumnDefault("0") // 이 값이 true가 되면 삭제가 되었다 간주하고 repository에서 삭제됨
+    private boolean deleted;
 
 
 

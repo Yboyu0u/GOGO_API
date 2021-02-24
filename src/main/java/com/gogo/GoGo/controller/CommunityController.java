@@ -38,6 +38,18 @@ public class CommunityController {
         communityService.create(dto,id,nickname);
     }
 
+    //글수정
+    @PatchMapping("/{communityId}")
+    public void modify(@PathVariable Long communityId,@RequestBody CommunityDto dto){
+        communityService.modify(communityId,dto);
+    }
+
+    //글삭제
+    @DeleteMapping("/{communityId}")
+    public void delete(@PathVariable Long communityId){
+        communityService.delete(communityId);
+    }
+
     //내가 쓴글 조회
     @GetMapping("/search/my")
     public List<Community> getByMy(Authentication authentication){
@@ -68,13 +80,28 @@ public class CommunityController {
 //        return communityService.searchByTag(dto.getTag());
 //    }
 
+    //좋아요 누르기
     @PostMapping("/heart/{communityId}")
     public void pushHeart(Authentication authentication,@PathVariable Long communityId){
         Claims claims = (Claims) authentication.getPrincipal();
         Long userId = claims.get("userId",Long.class);
         communityService.pushHeart(userId,communityId);
     }
+    //좋아요 취소
+    @DeleteMapping("/heart/{communityId}")
+    public void deleteHeart(Authentication authentication,@PathVariable Long communityId){
+        Claims claims = (Claims) authentication.getPrincipal();
+        Long userId = claims.get("userId",Long.class);
+        communityService.deleteHeart(userId,communityId);
+    }
 
+    //자기가 좋아한 구인글 조회
+    @GetMapping("/heart")
+    public List<Community> getByHeart(Authentication authentication){
+        Claims claims = (Claims) authentication.getPrincipal();
+        Long userId = claims.get("userId",Long.class);
+        return communityService.getByHeart(userId);
+    }
 
 
 
