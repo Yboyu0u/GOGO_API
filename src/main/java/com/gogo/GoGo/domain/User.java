@@ -15,6 +15,7 @@ import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Entity
 @Data
@@ -64,6 +65,13 @@ public class User {
     private boolean deleted;
 
     //TODO: 여행 취향
+
+    // 1 : N
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+//    private List<Heart> heartList;
+
+
+
 
     public void set(UserDto userDto){
         if(userDto.getUserId() != null){

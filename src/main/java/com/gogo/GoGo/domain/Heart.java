@@ -1,28 +1,25 @@
 package com.gogo.GoGo.domain;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+//@ToString(exclude = {"user"}) //연관관계 관련된 변수는 처리
 public class Heart {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long userId;
+    // N : 1 (자기 자신 기준)
+//    @ManyToOne
+    private Long userId; //userId
 
     private Long communityId;
 

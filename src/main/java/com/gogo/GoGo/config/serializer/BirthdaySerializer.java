@@ -16,7 +16,7 @@ public class BirthdaySerializer extends JsonSerializer<Birthday> {
     @Override
     public void serialize(Birthday value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
         if(value != null) {
-            gen.writeObject(LocalDate.of(value.getYearOfBirthday(), value.getDayOfBirthday(), value.getDayOfBirthday()));
+            gen.writeObject(LocalDate.of(value.getYearOfBirthday(), value.getMonthOfBirthday(), value.getDayOfBirthday()));
         }
     }
 }

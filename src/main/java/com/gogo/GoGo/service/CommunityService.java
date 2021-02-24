@@ -1,8 +1,10 @@
 package com.gogo.GoGo.service;
 
 import com.gogo.GoGo.controller.dto.community.CommunityDto;
+import com.gogo.GoGo.domain.Comment;
 import com.gogo.GoGo.domain.Community;
 import com.gogo.GoGo.domain.Heart;
+import com.gogo.GoGo.repository.CommentRepository;
 import com.gogo.GoGo.repository.CommunityRepository;
 import com.gogo.GoGo.repository.HeartRepository;
 import com.gogo.GoGo.repository.UserRepository;
@@ -12,9 +14,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
 
 @Service
 @Transactional
@@ -26,6 +28,12 @@ public class CommunityService {
 
     @Autowired
     private HeartRepository heartRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private CommentRepository commentRepository;
 
     //조회
     public Community get(Long id) {
@@ -82,6 +90,9 @@ public class CommunityService {
         Community community = communityRepository.findById(communityId)
                 .orElseThrow(RuntimeException::new);
         community.setHeart(community.getHeart()+1);
+
+//        User user = userRepository.findById(userId).orElseThrow(RuntimeException::new);
+
         Heart heart = Heart.builder()
                 .userId(userId)
                 .communityId(communityId)
@@ -97,7 +108,7 @@ public class CommunityService {
         heartRepository.deleteByUserIdAndCommunityId(userId,communityId);
     }
 
-    //자기가 좋아한 구인글 조회
+    //내가 좋아한 구인글 조회
     public List<Community> getByHeart(Long userId) {
         List<Community> communities = new ArrayList<>();
         List<Heart> hearts = heartRepository.findAllByUserId(userId);
@@ -109,5 +120,45 @@ public class CommunityService {
         return communities;
     }
 
+    //댓글 달기
+    public void createComment(Long userId, String userName, Long communityId, String content) {
+        Community community = communityRepository.findById(communityId)
+                .orElseThrow(RuntimeException::new);
 
+        Comment comment = Comment.builder()
+                .community(community)
+                .userId(userId)
+                .userName(userName)
+                .content(content)
+                .createdTime(LocalDateTime.now())
+                .build();
+
+        commentRepository.save(comment);
+
+    }
+
+    //댓글 보기
+    public List<Comment> getComments(Long communityId) {
+        Community community = communityRepository.findById(communityId)
+                .orElseThrow(RuntimeException::new);
+        return community.getCommentList();
+    }
+
+    //댓글 수정
+    public void modifyComment(Long commentId, String content) {
+
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(RuntimeException::new);
+
+        comment.setContent(content);
+
+    }
+
+    //댓글 삭제
+    public void deleteComment(Long commentId) {
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(RuntimeException::new);
+
+        commentRepository.delete(comment);
+    }
 }

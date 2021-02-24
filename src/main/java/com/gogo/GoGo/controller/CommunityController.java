@@ -1,6 +1,9 @@
 package com.gogo.GoGo.controller;
 
+import com.gogo.GoGo.controller.dto.community.CommentDto;
+import com.gogo.GoGo.controller.dto.community.CommentModDto;
 import com.gogo.GoGo.controller.dto.community.CommunityDto;
+import com.gogo.GoGo.domain.Comment;
 import com.gogo.GoGo.domain.Community;
 import com.gogo.GoGo.service.CommunityService;
 import io.jsonwebtoken.Claims;
@@ -101,6 +104,41 @@ public class CommunityController {
         Claims claims = (Claims) authentication.getPrincipal();
         Long userId = claims.get("userId",Long.class);
         return communityService.getByHeart(userId);
+    }
+
+    //댓글 달기
+    @PostMapping("/comment")
+    public void createComment(Authentication authentication, @RequestBody CommentDto dto){
+        Claims claims = (Claims) authentication.getPrincipal();
+        Long userId = claims.get("userId",Long.class);
+        String userName = claims.get("nickname",String.class);
+
+        Long communityId = dto.getCommunityId();
+        String content = dto.getContent();
+
+        communityService.createComment(userId,userName,communityId,content);
+    }
+
+    //댓글 보기
+    @GetMapping("/comment/{communityId}")
+    public List<Comment> getComments(@PathVariable Long communityId){
+        return communityService.getComments(communityId);
+    }
+
+    //댓글 수정
+    @PatchMapping("/comment")
+    public void modifyComment(@RequestBody CommentModDto dto){
+
+        Long commentId = dto.getCommentId();
+        String content = dto.getContent();
+
+        communityService.modifyComment(commentId,content);
+    }
+
+    //댓글 삭제
+    @DeleteMapping("/comment/{commentId}")
+    public void deleteComment(@PathVariable Long commentId){
+        communityService.deleteComment(commentId);
     }
 
 
