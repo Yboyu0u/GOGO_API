@@ -14,7 +14,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -30,29 +33,45 @@ public class Community {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
+    @NotEmpty
     private Long userId;
 
+    @NotNull
+    @NotEmpty
     @Min(1)
     @Max(6)
     private Long placeId;
 
+    @NotNull
+    @NotEmpty
     private String gender;
 
+    @NotNull
+    @NotEmpty
     private String title;
 
+    @NotNull
+    @NotEmpty
     private String content;
 
-    private LocalDate createdTime;
+    @NotNull
+    @NotEmpty
+    private LocalDateTime createdTime;
 
+    @NotNull
+    @NotEmpty
     private LocalDate startDate;
 
+    @NotNull
+    @NotEmpty
     private LocalDate endDate;
 
     //TODO: 해시태그 처리
     private String tags;
 
-    @ColumnDefault("0")
     @Min(0)
+    @ColumnDefault("0")
     private Integer heart;
 
     private String createdBy;

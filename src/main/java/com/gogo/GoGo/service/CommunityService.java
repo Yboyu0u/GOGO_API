@@ -9,6 +9,7 @@ import com.gogo.GoGo.repository.CommunityRepository;
 import com.gogo.GoGo.repository.HeartRepository;
 import com.gogo.GoGo.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
+import net.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,15 +43,20 @@ public class CommunityService {
         return community;
     }
 
-    //글생성
+    //글쓰기
     public Community create(CommunityDto dto, Long id,String nickname){
         Community community = new Community();
         community.set(dto);
-        community.setCreatedTime(LocalDate.now());
+        community.setCreatedTime(LocalDateTime.now());
         community.setUserId(id);
         community.setCreatedBy(nickname);
 
         return communityRepository.save(community);
+    }
+
+    //내가 쓴글 조회
+    public List<Community> searchByMy(Long id) {
+        return communityRepository.findAllByUserId(id);
     }
 
     //글수정
@@ -66,10 +72,7 @@ public class CommunityService {
         community.setDeleted(true);
         communityRepository.save(community);
     }
-    //내가 쓴글 조회
-    public List<Community> searchByMy(Long id) {
-        return communityRepository.findAllByUserId(id);
-    }
+
 
     //분류1. 지역
     public List<Community> searchByPlace(Long id) {
@@ -104,7 +107,12 @@ public class CommunityService {
     public void deleteHeart(Long userId, Long communityId) {
         Community community = communityRepository.findById(communityId)
                 .orElseThrow(RuntimeException::new);
-        community.setHeart(community.getHeart()-1);
+        if(community.getHeart()>0){
+            community.setHeart(community.getHeart()-1);
+        }else{
+            throw new RuntimeException();
+        }
+
         heartRepository.deleteByUserIdAndCommunityId(userId,communityId);
     }
 

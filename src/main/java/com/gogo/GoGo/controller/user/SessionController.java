@@ -1,4 +1,4 @@
-package com.gogo.GoGo.controller;
+package com.gogo.GoGo.controller.user;
 
 import com.gogo.GoGo.controller.dto.user.SessionRequestDto;
 import com.gogo.GoGo.controller.dto.user.SessionResponseDto;

@@ -1,4 +1,4 @@
-package com.gogo.GoGo.controller;
+package com.gogo.GoGo.controller.community;
 
 import com.gogo.GoGo.controller.dto.community.CommentDto;
 import com.gogo.GoGo.controller.dto.community.CommentModDto;
@@ -30,7 +30,7 @@ public class CommunityController {
     }
 
 
-    //글생성
+    //글쓰기
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void create(Authentication authentication, @RequestBody CommunityDto dto){
@@ -39,6 +39,14 @@ public class CommunityController {
         //String name = claims.get("name",String.class);
         String nickname = claims.get("nickname",String.class);
         communityService.create(dto,id,nickname);
+    }
+
+    //내가 쓴글 조회
+    @GetMapping
+    public List<Community> getByMy(Authentication authentication){
+        Claims claims = (Claims) authentication.getPrincipal();
+        Long userId = claims.get("userId",Long.class);
+        return communityService.searchByMy(userId);
     }
 
     //글수정
@@ -53,35 +61,6 @@ public class CommunityController {
         communityService.delete(communityId);
     }
 
-    //내가 쓴글 조회
-    @GetMapping("/search/my")
-    public List<Community> getByMy(Authentication authentication){
-        Claims claims = (Claims) authentication.getPrincipal();
-        Long userId = claims.get("userId",Long.class);
-        return communityService.searchByMy(userId);
-    }
-
-    //분류1. 지역
-    @GetMapping("/search/place/{placeId}")
-    public List<Community> getByPlace(@PathVariable Long placeId){
-        return communityService.searchByPlace(placeId);
-
-    }
-
-//   //분류2. 여행 컨셉
-//    @GetMapping("/search/concept/{conceptId}")
-//    public List<Community> getbyTravelConcept(){
-//        return communityService.searchbyContcept();
-//    }
-
-    //분류3. 성별 분류
-    //TODO:
-
-//    //해시태그 검색
-//    @PostMapping("/search/tag")
-//    public List<Community> getByTag(@RequestBody SearchTagDto dto){
-//        return communityService.searchByTag(dto.getTag());
-//    }
 
     //좋아요 누르기
     @PostMapping("/heart/{communityId}")
@@ -90,6 +69,7 @@ public class CommunityController {
         Long userId = claims.get("userId",Long.class);
         communityService.pushHeart(userId,communityId);
     }
+
     //좋아요 취소
     @DeleteMapping("/heart/{communityId}")
     public void deleteHeart(Authentication authentication,@PathVariable Long communityId){
@@ -140,6 +120,32 @@ public class CommunityController {
     public void deleteComment(@PathVariable Long commentId){
         communityService.deleteComment(commentId);
     }
+
+
+
+    //분류1. 지역
+    @GetMapping("/search/place/{placeId}")
+    public List<Community> getByPlace(@PathVariable Long placeId){
+        return communityService.searchByPlace(placeId);
+
+    }
+
+//   //분류2. 여행 컨셉
+//    @GetMapping("/search/concept/{conceptId}")
+//    public List<Community> getbyTravelConcept(){
+//        return communityService.searchbyContcept();
+//    }
+
+    //분류3. 성별 분류
+    //TODO:
+
+//    //해시태그 검색
+//    @PostMapping("/search/tag")
+//    public List<Community> getByTag(@RequestBody SearchTagDto dto){
+//        return communityService.searchByTag(dto.getTag());
+//    }
+
+
 
 
 
