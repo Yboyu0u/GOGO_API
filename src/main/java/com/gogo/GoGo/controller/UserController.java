@@ -5,9 +5,12 @@ import com.gogo.GoGo.controller.dto.user.ModUserDto;
 import com.gogo.GoGo.controller.dto.user.UserDto;
 import com.gogo.GoGo.domain.User;
 import com.gogo.GoGo.service.UserService;
+import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -30,14 +33,21 @@ public class UserController{
     //회원가입
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void createUser(@RequestBody @Valid UserDto userDto){
+    public ResponseEntity<String> createUser(@RequestBody @Valid UserDto userDto){
         userService.createUser(userDto);
+
+        return ResponseEntity.ok("ok");
     }
 
     //프로필 수정
-    @PatchMapping("/{id}")
-    public void modifyUser(@PathVariable Long id, @RequestBody ModUserDto userDto){
-        userService.modifyPerson(id,userDto);
+    @PatchMapping("/patch")
+    public ResponseEntity<String> modifyUser(Authentication authentication, @RequestBody ModUserDto userDto){
+        Claims claims = (Claims) authentication.getPrincipal();
+        Long userId = claims.get("userId",Long.class);
+
+        userService.modifyPerson(userId,userDto);
+
+        return ResponseEntity.ok("ok");
     }
 
     //프로필 사진 업로드
@@ -47,8 +57,13 @@ public class UserController{
     }
 
     //회원탈퇴
-    @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable Long id){
-        userService.deleteUser(id);
+    @DeleteMapping("/delete")
+    public ResponseEntity<String> deleteUser(Authentication authentication){
+        Claims claims = (Claims) authentication.getPrincipal();
+        Long userId = claims.get("userId",Long.class);
+
+        userService.deleteUser(userId);
+
+        return ResponseEntity.ok("ok");
     }
 }
