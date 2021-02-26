@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 
 public class CommunityDto {
 
-    private Long placeId;
+    private String places;
 
     private String gender; //동성만, 상관 없음
 

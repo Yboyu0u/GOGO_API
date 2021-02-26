@@ -124,11 +124,11 @@ public class CommunityController {
 
 
     //분류1. 지역
-    @GetMapping("/search/place/{placeId}")
-    public List<Community> getByPlace(@PathVariable Long placeId){
-        return communityService.searchByPlace(placeId);
-
-    }
+//    @GetMapping("/search/place/{placeId}")
+//    public List<Community> getByPlace(@PathVariable Long placeId){
+//        return communityService.searchByPlace(placeId);
+//
+//    }
 
 //   //분류2. 여행 컨셉
 //    @GetMapping("/search/concept/{conceptId}")

@@ -1,14 +1,8 @@
 package com.gogo.GoGo.service;
 
 import com.gogo.GoGo.controller.dto.community.CommunityDto;
-import com.gogo.GoGo.domain.Comment;
-import com.gogo.GoGo.domain.Community;
-import com.gogo.GoGo.domain.Heart;
-import com.gogo.GoGo.domain.User;
-import com.gogo.GoGo.repository.CommentRepository;
-import com.gogo.GoGo.repository.CommunityRepository;
-import com.gogo.GoGo.repository.HeartRepository;
-import com.gogo.GoGo.repository.UserRepository;
+import com.gogo.GoGo.domain.*;
+import com.gogo.GoGo.repository.*;
 import lombok.extern.slf4j.Slf4j;
 import net.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +13,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 @Service
 @Transactional
@@ -37,6 +32,9 @@ public class CommunityService {
     @Autowired
     private CommentRepository commentRepository;
 
+    @Autowired
+    private PlaceRepository placeRepository;
+
     //조회
     public Community get(Long id) {
         Community community = communityRepository.findById(id)
@@ -45,17 +43,24 @@ public class CommunityService {
     }
 
     //글쓰기
-    public Community create(CommunityDto dto, Long id,String nickname){
+    public void create(CommunityDto dto, Long id,String nickname){
         //TODO: 존재하지 않는 계정
         User user = userRepository.findById(id).orElseThrow(RuntimeException::new);
+
+        StringTokenizer places = new StringTokenizer(dto.getPlaces(),",");
+
+        System.out.println(dto.getPlaces());
 
         Community community = new Community();
         community.set(dto);
         community.setCreatedTime(LocalDateTime.now());
         community.setUser(user);
         community.setCreatedBy(nickname);
+        community = communityRepository.save(community);
 
-        return communityRepository.save(community);
+        while(places.hasMoreTokens()){
+            placeRepository.save(Place.builder().name(places.nextToken()).community(community).build());
+        }
     }
 
     //내가 쓴글 조회
@@ -68,21 +73,35 @@ public class CommunityService {
     public void modify(Long communityId, CommunityDto dto) {
         Community community = communityRepository.findById(communityId)
                 .orElseThrow(RuntimeException::new);
+
+        placeRepository.deleteByCommunityId(communityId);
+
+        if(dto.getPlaces()!=null){
+            StringTokenizer places = new StringTokenizer(dto.getPlaces(),",");
+            while(places.hasMoreTokens()){
+                placeRepository.save(Place.builder().name(places.nextToken()).community(community).build());
+            }
+        }
+
         community.set(dto);
     }
 
     //글삭제
     public void delete(Long communityId) {
         Community community = communityRepository.findById(communityId).orElseThrow(RuntimeException::new);
-        community.setDeleted(true);
-        communityRepository.save(community);
+//        community.setDeleted(true);
+//        communityRepository.save(community);
+        placeRepository.deleteByCommunityId(communityId);
+        communityRepository.delete(community);
+
+
     }
 
 
     //분류1. 지역
-    public List<Community> searchByPlace(Long id) {
-        return communityRepository.findAllByPlaceId(id);
-    }
+//    public List<Community> searchByPlace(Long id) {
+//        return communityRepository.findAllByPlaceId(id);
+//    }
     //분류2. 컨셉트
     //TODO:
 
