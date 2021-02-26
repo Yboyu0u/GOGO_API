@@ -31,6 +31,7 @@ public class SessionController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     //로그인을 하면 인증 확인 용으로 accesstoken을 부여 받는다.
+
     public ResponseEntity<SessionResponseDto>login(@RequestBody SessionRequestDto dto) throws URISyntaxException {
         String userId = dto.getUserId();
         String password = dto.getPassword();

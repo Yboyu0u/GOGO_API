@@ -24,15 +24,11 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String userId;
-
     //@NotEmpty
     private String email;
-
     //@NotEmpty
-    private String password;
-
+    private String password;m
     //@NotEmpty
     private String nickname;
 

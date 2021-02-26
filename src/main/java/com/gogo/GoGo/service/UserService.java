@@ -36,17 +36,17 @@ public class UserService {
     }
 
     //회원가입
-    public User createUser(UserDto userDto){
-        Optional<User> existedUser = userRepository.findByUserId(userDto.getUserId());
+    public User createUser(UserDto userdto){
+        Optional<User> existedUser = userRepository.findByUserId(userdto.getUserId());
         //이미 이메일이 있다면 error 처리
         if(existedUser.isPresent()){
             throw new AlreadyExistedUserIdException();
         }
 
-        String encodedPassword = passwordEncoder.encode(userDto.getPassword());
+        String encodedPassword = passwordEncoder.encode(userdto.getPassword());
 
         User user = new User();
-        user.set(userDto);
+        user.set(userdto);
         user.setPassword(encodedPassword);
         return userRepository.save(user);
     }
