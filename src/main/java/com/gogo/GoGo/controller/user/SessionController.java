@@ -1,7 +1,7 @@
-package com.gogo.GoGo.controller;
+package com.gogo.GoGo.controller.user;
 
-import com.gogo.GoGo.controller.dto.SessionRequestDto;
-import com.gogo.GoGo.controller.dto.SessionResponseDto;
+import com.gogo.GoGo.controller.dto.user.SessionRequestDto;
+import com.gogo.GoGo.controller.dto.user.SessionResponseDto;
 import com.gogo.GoGo.domain.User;
 import com.gogo.GoGo.domain.utils.JwtUtil;
 import com.gogo.GoGo.service.UserService;
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 
 
 //로그인
@@ -38,7 +37,7 @@ public class SessionController {
 
         User user = userService.authenticate(userId,password);
 
-        String jwt = jwtUtil.createToken(user.getId(),user.getName());
+        String jwt = jwtUtil.createToken(user.getId(),user.getName(),user.getNickname());
 
         SessionResponseDto sessionResponseDto =
                 SessionResponseDto.builder().jwt(jwt).build();

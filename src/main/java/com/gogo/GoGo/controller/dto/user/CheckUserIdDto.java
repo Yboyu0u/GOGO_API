@@ -1,4 +1,4 @@
-package com.gogo.GoGo.controller.dto;
+package com.gogo.GoGo.controller.dto.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,8 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class SessionRequestDto {
+public class CheckUserIdDto {
 
     private String userId;
-    private String password;
 }

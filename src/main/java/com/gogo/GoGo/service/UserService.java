@@ -1,7 +1,7 @@
 package com.gogo.GoGo.service;
 
-import com.gogo.GoGo.controller.dto.ModUserDto;
-import com.gogo.GoGo.controller.dto.UserDto;
+import com.gogo.GoGo.controller.dto.user.ModUserDto;
+import com.gogo.GoGo.controller.dto.user.UserDto;
 import com.gogo.GoGo.domain.User;
 import com.gogo.GoGo.exception.*;
 import com.gogo.GoGo.repository.UserRepository;
@@ -36,11 +36,21 @@ public class UserService {
     }
 
     //회원가입
+<<<<<<< HEAD
     public User createUser(UserDto userdto){
         Optional<User> existedUser = userRepository.findByUserId(userdto.getUserId());
         //이미 이메일이 있다면 error 처리
+=======
+    public User createUser(UserDto userDto){
+        Optional<User> existedUser = userRepository.findByUserId(userDto.getUserId());
+        //이미 아이디가 있다면 error 처리
+>>>>>>> bf0db8f281e88a33ee7d0d68fb8658664b7813c2
         if(existedUser.isPresent()){
             throw new AlreadyExistedUserIdException();
+        }
+        Optional<User> existedUsernick = userRepository.findByNickname(userDto.getNickname());
+        if(existedUsernick.isPresent()){
+            throw new AlreadyExistedNicknameException();
         }
 
         String encodedPassword = passwordEncoder.encode(userdto.getPassword());
@@ -54,17 +64,12 @@ public class UserService {
     //아이디 중복 확인
     public void checkUserId(String userId){
         Optional<User> user = userRepository.findByUserId(userId);
-    }
-
-    //이메일 중복 확인
-    public void checkEmail(String email){
-        Optional<User> user = userRepository.findByEmail(email);
 
         if(user.isPresent()){
             throw new AlreadyExistedUserIdException();
         }
-
     }
+
 
     // 닉네임 중복 확인
     public void checkNickname(String nickname) {
@@ -105,16 +110,16 @@ public class UserService {
     }
 
     //userId 찾기
-    public String findUserId(String name, String email){
-        User user = userRepository.findByNameAndEmail(name,email)
+    public String findUserId(String name, String phoneNumber){
+        User user = userRepository.findByNameAndPhoneNumber(name,phoneNumber)
                 .orElseThrow(InCorrectInformationException::new);
 
-        return user.getEmail();
+        return user.getUserId();
     }
 
     //password 찾기
-    public String findPassword(String userId,String name) {
-        User user = userRepository.findByNameAndEmail(userId,name)
+    public String findPassword(String name,String userId) {
+        User user = userRepository.findByNameAndUserId(name,userId)
                 .orElseThrow(NotExistedUserIdException::new);
 
         String tempPw = UUID.randomUUID().toString().replace("-","");

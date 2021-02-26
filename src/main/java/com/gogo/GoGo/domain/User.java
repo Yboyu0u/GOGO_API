@@ -1,8 +1,9 @@
 package com.gogo.GoGo.domain;
 
-import com.gogo.GoGo.controller.dto.ImgDto;
-import com.gogo.GoGo.controller.dto.ModUserDto;
-import com.gogo.GoGo.controller.dto.UserDto;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.gogo.GoGo.controller.dto.user.ImgDto;
+import com.gogo.GoGo.controller.dto.user.ModUserDto;
+import com.gogo.GoGo.controller.dto.user.UserDto;
 import com.gogo.GoGo.domain.dto.Birthday;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,6 +13,10 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Entity
 @Data
@@ -24,23 +29,42 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+<<<<<<< HEAD
     private String userId;
     //@NotEmpty
     private String email;
     //@NotEmpty
     private String password;m
     //@NotEmpty
+=======
+
+    @NotNull
+    @NotEmpty
+    private String userId;
+
+    @NotNull
+    @NotEmpty
+    private String password;
+
+    @NotNull
+    @NotEmpty
+>>>>>>> bf0db8f281e88a33ee7d0d68fb8658664b7813c2
     private String nickname;
 
-   // @NotEmpty
+    @NotNull
+    @NotEmpty
     private String name;
 
-  //  @NotEmpty
+    @NotNull
+    @NotEmpty
     private String gender;
 
+    @Valid
     @Embedded
     private Birthday birthday;
 
+    @NotNull
+    @NotEmpty
     private String phoneNumber;
 
     private String introduce;
@@ -51,13 +75,28 @@ public class User {
     private boolean deleted;
 
     //TODO: 여행 취향
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    @JsonManagedReference
+    private List<Heart> heartList;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    @JsonManagedReference
+    private List<Community> communityList;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    @JsonManagedReference
+    private List<Comment> commentList;
+
+
+
+
+
+
+
     public void set(UserDto userDto){
         if(userDto.getUserId() != null){
             this.setUserId(userDto.getUserId());
-        }
-
-        if(userDto.getEmail() != null){
-            this.setEmail(userDto.getEmail());
         }
         if(userDto.getNickname() != null){
             this.setNickname(userDto.getNickname());
@@ -83,6 +122,7 @@ public class User {
         if(userDto.getIntroduce() != null){
             this.setIntroduce(userDto.getIntroduce());
         }
+        //TODO: 여행 취향
 
     }
     public void imgSet(ImgDto imgDto){

@@ -1,4 +1,4 @@
-package com.gogo.GoGo.controller.dto;
+package com.gogo.GoGo.controller.dto.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class FindPasswordRequestDto {
 
-    private String email;
     private String name;
+    private String userId;
 }

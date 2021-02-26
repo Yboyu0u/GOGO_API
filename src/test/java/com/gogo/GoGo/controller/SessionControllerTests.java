@@ -2,7 +2,8 @@ package com.gogo.GoGo.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gogo.GoGo.controller.dto.SessionRequestDto;
+import com.gogo.GoGo.controller.dto.user.SessionRequestDto;
+import com.gogo.GoGo.controller.user.UserController;
 import com.gogo.GoGo.domain.User;
 import com.gogo.GoGo.domain.utils.JwtUtil;
 import com.gogo.GoGo.exception.NotExistedUserIdException;
@@ -77,13 +78,14 @@ public class SessionControllerTests {
                 .id(100L)
                 .userId(dto.getUserId())
                 .name("martin")
+                .nickname("yboy")
                 .password(dto.getPassword())
                 .build();
 
         given(userService.authenticate(dto.getUserId(),dto.getPassword()))
                 .willReturn(mockUser);
 
-        given(jwtUtil.createToken(100L,"martin"))
+        given(jwtUtil.createToken(100L,"martin","yboy"))
                 .willReturn("header.payload.signature");
 
 
