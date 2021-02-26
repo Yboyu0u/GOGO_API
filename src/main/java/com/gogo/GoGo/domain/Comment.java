@@ -13,19 +13,20 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ToString(exclude = {"community"})
+@ToString(exclude = {"community","user"})
 public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //N : 1
+    @ManyToOne
+    @JsonBackReference
+    private User user;
+
     @ManyToOne
     @JsonBackReference
     private Community community;
-
-    private Long userId;
 
     private String userName;
 

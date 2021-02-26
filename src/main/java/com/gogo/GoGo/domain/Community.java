@@ -1,5 +1,6 @@
 package com.gogo.GoGo.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.gogo.GoGo.controller.dto.community.CommunityDto;
 import lombok.*;
@@ -27,44 +28,39 @@ import java.util.StringTokenizer;
 @NoArgsConstructor
 @Builder
 @Where(clause = "deleted = false")
+@ToString(exclude = {"user"})
 public class Community {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    @NotEmpty
-    private Long userId;
 
-    @NotNull
-    @NotEmpty
+    @ManyToOne
+    @JsonBackReference
+    private User user;
+
+
     @Min(1)
     @Max(6)
     private Long placeId;
 
-    @NotNull
-    @NotEmpty
+
     private String gender;
 
-    @NotNull
-    @NotEmpty
+
     private String title;
 
-    @NotNull
-    @NotEmpty
+
     private String content;
 
-    @NotNull
-    @NotEmpty
+
     private LocalDateTime createdTime;
 
-    @NotNull
-    @NotEmpty
+
     private LocalDate startDate;
 
-    @NotNull
-    @NotEmpty
+
     private LocalDate endDate;
 
     //TODO: 해시태그 처리
@@ -82,6 +78,13 @@ public class Community {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "community")
     @JsonManagedReference
     private List<Comment> commentList;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "community")
+    @JsonManagedReference
+    private List<Heart> heartList;
+
+
+
 
 
     public void set(CommunityDto dto) {

@@ -4,6 +4,7 @@ import com.gogo.GoGo.controller.dto.community.CommunityDto;
 import com.gogo.GoGo.domain.Comment;
 import com.gogo.GoGo.domain.Community;
 import com.gogo.GoGo.domain.Heart;
+import com.gogo.GoGo.domain.User;
 import com.gogo.GoGo.repository.CommentRepository;
 import com.gogo.GoGo.repository.CommunityRepository;
 import com.gogo.GoGo.repository.HeartRepository;
@@ -45,10 +46,13 @@ public class CommunityService {
 
     //글쓰기
     public Community create(CommunityDto dto, Long id,String nickname){
+        //TODO: 존재하지 않는 계정
+        User user = userRepository.findById(id).orElseThrow(RuntimeException::new);
+
         Community community = new Community();
         community.set(dto);
         community.setCreatedTime(LocalDateTime.now());
-        community.setUserId(id);
+        community.setUser(user);
         community.setCreatedBy(nickname);
 
         return communityRepository.save(community);
@@ -56,7 +60,8 @@ public class CommunityService {
 
     //내가 쓴글 조회
     public List<Community> searchByMy(Long id) {
-        return communityRepository.findAllByUserId(id);
+        User user = userRepository.findById(id).orElseThrow(RuntimeException::new);
+        return user.getCommunityList();
     }
 
     //글수정
@@ -90,15 +95,18 @@ public class CommunityService {
 
     //좋아요 누르기
     public void pushHeart(Long userId, Long communityId) {
+
+        User user = userRepository.findById(userId).orElseThrow(RuntimeException::new);
+
+        //TODO: 존재하지 않는 구인글
         Community community = communityRepository.findById(communityId)
                 .orElseThrow(RuntimeException::new);
+
         community.setHeart(community.getHeart()+1);
 
-//        User user = userRepository.findById(userId).orElseThrow(RuntimeException::new);
-
         Heart heart = Heart.builder()
-                .userId(userId)
-                .communityId(communityId)
+                .user(user)
+                .community(community)
                 .build();
         heartRepository.save(heart);
     }
@@ -107,25 +115,33 @@ public class CommunityService {
     public void deleteHeart(Long userId, Long communityId) {
         Community community = communityRepository.findById(communityId)
                 .orElseThrow(RuntimeException::new);
+
         if(community.getHeart()>0){
             community.setHeart(community.getHeart()-1);
         }else{
             throw new RuntimeException();
         }
 
-        heartRepository.deleteByUserIdAndCommunityId(userId,communityId);
+       heartRepository.deleteByUserIdAndCommunityId(userId,communityId);
+
     }
 
     //내가 좋아한 구인글 조회
     public List<Community> getByHeart(Long userId) {
+
         List<Community> communities = new ArrayList<>();
-        List<Heart> hearts = heartRepository.findAllByUserId(userId);
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(RuntimeException::new);
+
+        List<Heart> hearts = user.getHeartList();
+
         for(int i=0; i<hearts.size();i++){
-            Long id = hearts.get(i).getCommunityId();
-            Community community = communityRepository.findById(id).orElse(null);
+            Community community = hearts.get(i).getCommunity();
             communities.add(community);
         }
         return communities;
+
     }
 
     //댓글 달기
@@ -133,9 +149,12 @@ public class CommunityService {
         Community community = communityRepository.findById(communityId)
                 .orElseThrow(RuntimeException::new);
 
+        User user = userRepository.findById(userId)
+                .orElseThrow(RuntimeException::new);
+
         Comment comment = Comment.builder()
                 .community(community)
-                .userId(userId)
+                .user(user)
                 .userName(userName)
                 .content(content)
                 .createdTime(LocalDateTime.now())

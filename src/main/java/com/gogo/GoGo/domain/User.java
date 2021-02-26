@@ -1,5 +1,6 @@
 package com.gogo.GoGo.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.gogo.GoGo.controller.dto.user.ImgDto;
 import com.gogo.GoGo.controller.dto.user.ModUserDto;
 import com.gogo.GoGo.controller.dto.user.UserDto;
@@ -66,9 +67,20 @@ public class User {
 
     //TODO: 여행 취향
 
-    // 1 : N
-//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-//    private List<Heart> heartList;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    @JsonManagedReference
+    private List<Heart> heartList;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    @JsonManagedReference
+    private List<Community> communityList;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    @JsonManagedReference
+    private List<Comment> commentList;
+
+
+
 
 
 
