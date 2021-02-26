@@ -5,6 +5,8 @@ import com.gogo.GoGo.controller.dto.user.SessionResponseDto;
 import com.gogo.GoGo.domain.User;
 import com.gogo.GoGo.domain.utils.JwtUtil;
 import com.gogo.GoGo.service.UserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +18,7 @@ import java.net.URISyntaxException;
 
 
 //로그인
+@Api(tags = {"3. 로그인 "})
 @RequestMapping(value = "api/session")
 @RestController
 @Slf4j
@@ -29,6 +32,7 @@ public class SessionController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @ApiOperation(value = "로그인 인증 확인", notes = "accesstoken을 부여 받는다.")
     //로그인을 하면 인증 확인 용으로 accesstoken을 부여 받는다.
     public ResponseEntity<SessionResponseDto>login(@RequestBody SessionRequestDto dto) throws URISyntaxException {
         String userId = dto.getUserId();

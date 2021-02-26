@@ -3,6 +3,7 @@ package com.gogo.GoGo.controller.user;
 import com.gogo.GoGo.controller.dto.user.CheckUserIdDto;
 import com.gogo.GoGo.controller.dto.user.CheckNicknameDto;
 import com.gogo.GoGo.service.UserService;
+import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+
+
+@Api(tags = {"4. 이메일, 닉네임 중복확인"})
 @RequestMapping(value = "/api/check")
 @RestController
 @Slf4j
