@@ -29,6 +29,14 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+<<<<<<< HEAD
+    private String userId;
+    //@NotEmpty
+    private String email;
+    //@NotEmpty
+    private String password;m
+    //@NotEmpty
+=======
 
     @NotNull
     @NotEmpty
@@ -40,6 +48,7 @@ public class User {
 
     @NotNull
     @NotEmpty
+>>>>>>> bf0db8f281e88a33ee7d0d68fb8658664b7813c2
     private String nickname;
 
     @NotNull

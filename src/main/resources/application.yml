@@ -1,28 +1,21 @@
-#spring:
-#  mail:
-#    host: smtp.gmail.com
-#    port: 587
-#    username: fbduddn97@gmail.com
-#    password: "*#ryu444081"
-#    properties:
-#    mail.smtp,auth: true
-#    mail.smtp.starttls.enable: true
-
-# db source
-#spring:
-#  datasource:
-#      url: jdbc:mysql://gogodb.cplrxb3kh41a.ap-northeast-2.rds.amazonaws.com:3306/gogodb
-#      username: gogoboy
-#      password: gogo1234
-#  jpa:
-#    hibernate:
-#      ddl-auto: update
-
 spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/gogo_db?serverTimezone=UTC&characterEncoding=UTF-8
+    username: HW
+    password: 1228
+
   jpa:
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MySQLDialect
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    open-in-view: false
+    show-sql: true
+    hibernate:
+      format_sql: true
+      ddl-auto: create
+
+loggin.level:
+  org.hibernate.SQL: debug
+  org.hibernate.type: trace
 
 jwt:
   secret: 12345678901234567890123456789012

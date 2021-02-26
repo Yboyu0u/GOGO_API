@@ -25,7 +25,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
-
+/*
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTests {
 
@@ -194,3 +194,5 @@ public class UserServiceTests {
     }
 
 }
+
+ */

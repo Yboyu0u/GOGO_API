@@ -18,8 +18,13 @@ import java.time.LocalDate;
 public class UserDto {
     @NotBlank(message = "Id는 필수값 입니다")
     private String userId;
+<<<<<<< HEAD:src/main/java/com/gogo/GoGo/controller/dto/UserDto.java
+    private String email;
+
+=======
 
     @NotBlank(message = "비밀번호는 필수값 입니다")
+>>>>>>> bf0db8f281e88a33ee7d0d68fb8658664b7813c2:src/main/java/com/gogo/GoGo/controller/dto/user/UserDto.java
     private String password;
 
     @NotBlank(message = "닉네임은 필수값 입니다")
