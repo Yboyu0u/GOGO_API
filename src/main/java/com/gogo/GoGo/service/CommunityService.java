@@ -91,8 +91,6 @@ public class CommunityService {
 
         placeRepository.deleteByCommunityId(communityId);
         communityRepository.delete(community);
-
-
     }
 
     //좋아요 누르기
@@ -100,9 +98,13 @@ public class CommunityService {
 
         User user = userRepository.findById(userId).orElseThrow(RuntimeException::new);
 
-        //TODO: 존재하지 않는 구인글
         Community community = communityRepository.findById(communityId)
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(NotExistedCommunityException::new);
+
+        //한 구인글에서 유저는 좋아요 한번만 누를 수 있다.
+        if(heartRepository.findByUserIdAndCommunityId(userId,communityId) != null){
+            throw new RuntimeException();
+        }
 
         community.setHeart(community.getHeart()+1);
 
@@ -116,7 +118,7 @@ public class CommunityService {
     //좋아요 취소
     public void deleteHeart(Long userId, Long communityId) {
         Community community = communityRepository.findById(communityId)
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(NotExistedCommunityException::new);
 
         if(community.getHeart()>0){
             community.setHeart(community.getHeart()-1);

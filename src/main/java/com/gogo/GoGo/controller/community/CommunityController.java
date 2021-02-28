@@ -66,25 +66,29 @@ public class CommunityController {
     public ResponseEntity<ResponseMessage> delete(@PathVariable Long communityId){
         communityService.delete(communityId);
 
-        return  ResponseEntity.ok(new ResponseMessage(HttpStatus.OK,"ok"));
+        return ResponseEntity.ok(new ResponseMessage(HttpStatus.OK,"ok"));
 
     }
 
 
     //좋아요 누르기
     @PostMapping("/heart/{communityId}")
-    public void pushHeart(Authentication authentication,@PathVariable Long communityId){
+    public ResponseEntity<ResponseMessage> pushHeart(Authentication authentication,@PathVariable Long communityId){
         Claims claims = (Claims) authentication.getPrincipal();
         Long userId = claims.get("userId",Long.class);
         communityService.pushHeart(userId,communityId);
+
+        return ResponseEntity.ok(new ResponseMessage(HttpStatus.OK,"ok"));
     }
 
     //좋아요 취소
     @DeleteMapping("/heart/{communityId}")
-    public void deleteHeart(Authentication authentication,@PathVariable Long communityId){
+    public ResponseEntity<ResponseMessage> deleteHeart(Authentication authentication,@PathVariable Long communityId){
         Claims claims = (Claims) authentication.getPrincipal();
         Long userId = claims.get("userId",Long.class);
         communityService.deleteHeart(userId,communityId);
+
+        return ResponseEntity.ok(new ResponseMessage(HttpStatus.OK,"ok"));
     }
 
     //자기가 좋아한 구인글 조회
@@ -97,7 +101,7 @@ public class CommunityController {
 
     //댓글 달기
     @PostMapping("/comment")
-    public void createComment(Authentication authentication, @Valid @RequestBody CommentDto dto){
+    public ResponseEntity<ResponseMessage> createComment(Authentication authentication, @Valid @RequestBody CommentDto dto){
         Claims claims = (Claims) authentication.getPrincipal();
         Long userId = claims.get("userId",Long.class);
         String userName = claims.get("nickname",String.class);
@@ -106,6 +110,8 @@ public class CommunityController {
         String content = dto.getContent();
 
         communityService.createComment(userId,userName,communityId,content);
+
+        return ResponseEntity.ok(new ResponseMessage(HttpStatus.OK,"ok"));
     }
 
     //댓글 보기
@@ -116,18 +122,22 @@ public class CommunityController {
 
     //댓글 수정
     @PatchMapping("/comment")
-    public void modifyComment(@Valid @RequestBody CommentModDto dto){
+    public ResponseEntity<ResponseMessage> modifyComment(@Valid @RequestBody CommentModDto dto){
 
         Long commentId = dto.getCommentId();
         String content = dto.getContent();
 
         communityService.modifyComment(commentId,content);
+
+        return ResponseEntity.ok(new ResponseMessage(HttpStatus.OK,"ok"));
     }
 
     //댓글 삭제
     @DeleteMapping("/comment/{commentId}")
-    public void deleteComment(@PathVariable Long commentId){
+    public ResponseEntity<ResponseMessage> deleteComment(@PathVariable Long commentId){
         communityService.deleteComment(commentId);
+
+        return ResponseEntity.ok(new ResponseMessage(HttpStatus.OK,"ok"));
     }
 
 }
