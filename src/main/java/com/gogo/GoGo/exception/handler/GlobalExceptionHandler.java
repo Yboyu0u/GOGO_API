@@ -42,6 +42,19 @@ public class GlobalExceptionHandler {
         return ErrorResponse.of(HttpStatus.BAD_REQUEST,ex.getMessage());
     }
 
+    @ExceptionHandler(NotExistedCommunityException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleNotExistedCommunityException(NotExistedCommunityException ex){
+        return ErrorResponse.of(HttpStatus.BAD_REQUEST,ex.getMessage());
+    }
+
+    @ExceptionHandler(NotExistedCommentException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleNotExistedCommentException(NotExistedCommentException ex){
+        return ErrorResponse.of(HttpStatus.BAD_REQUEST,ex.getMessage());
+    }
+
+
     //위의 exception handler중에서 가장 적합한 것을 handling하게 되고 만약 세개가 다 아니라면 이쪽으로 handling이 진행 된다.
     @ExceptionHandler(RuntimeException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)

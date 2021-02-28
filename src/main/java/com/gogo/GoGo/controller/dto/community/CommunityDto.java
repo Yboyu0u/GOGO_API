@@ -1,13 +1,13 @@
 package com.gogo.GoGo.controller.dto.community;
 
+import com.gogo.GoGo.enumclass.PartnerStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -16,16 +16,22 @@ import java.time.LocalDateTime;
 
 public class CommunityDto {
 
-    private Long placeId;
+    @NotNull
+    private String places;
 
-    private String gender; //동성만, 상관 없음
+    @NotNull
+    private PartnerStatus partner; //동성만, 상관 없음
 
+    @NotNull
     private String title;
 
+    @NotNull
     private String content;
 
+    @NotNull
     private LocalDate startDate;
 
+    @NotNull
     private LocalDate endDate;
 
     private String tags;

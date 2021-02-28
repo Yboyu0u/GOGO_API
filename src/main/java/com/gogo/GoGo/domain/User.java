@@ -5,6 +5,7 @@ import com.gogo.GoGo.controller.dto.user.ImgDto;
 import com.gogo.GoGo.controller.dto.user.ModUserDto;
 import com.gogo.GoGo.controller.dto.user.UserDto;
 import com.gogo.GoGo.domain.dto.Birthday;
+import com.gogo.GoGo.enumclass.GenderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -47,8 +48,8 @@ public class User {
     private String name;
 
     @NotNull
-    @NotEmpty
-    private String gender;
+    @Enumerated(EnumType.STRING)
+    private GenderStatus gender;
 
     @Valid
     @Embedded

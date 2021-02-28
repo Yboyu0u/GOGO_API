@@ -12,7 +12,7 @@ import java.util.List;
 public interface CommunityRepository extends JpaRepository<Community,Long> {
     Community save(Community community);
 
-    List<Community> findAllByPlaceId(Long placeId);
+//    List<Community> findAllByPlaceId(Long placeId);
 
 //    @Query(value = "select community from Community community where community.tag = :tag")
 //    List<Community> findAllByTag(@Param("tag") String tag);

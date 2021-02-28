@@ -7,5 +7,6 @@ import lombok.Data;
 @Builder
 public class FindPasswordResponseDto {
 
+
     private String password;
 }
