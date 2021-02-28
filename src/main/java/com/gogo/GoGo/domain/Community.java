@@ -3,6 +3,7 @@ package com.gogo.GoGo.domain;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.gogo.GoGo.controller.dto.community.CommunityDto;
+import com.gogo.GoGo.enumclass.PartnerStatus;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Where;
@@ -13,6 +14,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -35,32 +37,37 @@ public class Community {
     @JsonBackReference
     private User user;
 
-    private String gender;
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private PartnerStatus partner;
 
-
+    @NotNull
     private String title;
 
-
+    @NotNull
     private String content;
 
-
+    @NotNull
     private LocalDateTime createdTime;
 
-
+    @NotNull
     private LocalDate startDate;
 
-
+    @NotNull
     private LocalDate endDate;
 
     //TODO: 해시태그 처리
     private String tags;
 
+
     @Min(0)
     @ColumnDefault("0")
     private Integer heart;
 
+    @NotNull
     private String createdBy;
 
+    @NotNull
     @ColumnDefault("0") // 이 값이 true가 되면 삭제가 되었다 간주하고 repository에서 삭제됨
     private boolean deleted;
 
@@ -71,7 +78,6 @@ public class Community {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "community")
     @JsonManagedReference
     private List<Heart> heartList;
-
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "community")
     @JsonManagedReference
@@ -84,8 +90,8 @@ public class Community {
 
     public void set(CommunityDto dto) {
 
-        if(dto.getGender() != null){
-            this.setGender(dto.getGender());
+        if(dto.getPartner() != null){
+            this.setPartner(dto.getPartner());
         }
         if(dto.getTitle() != null){
             this.setTitle(dto.getTitle());

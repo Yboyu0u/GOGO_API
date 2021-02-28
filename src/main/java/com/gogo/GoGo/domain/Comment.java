@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -20,17 +21,22 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     @ManyToOne
     @JsonBackReference
     private User user;
 
+    @NotNull
     @ManyToOne
     @JsonBackReference
     private Community community;
 
+    @NotNull
     private String userName;
 
+    @NotNull
     private String content;
 
+    @NotNull
     private LocalDateTime createdTime;
 }

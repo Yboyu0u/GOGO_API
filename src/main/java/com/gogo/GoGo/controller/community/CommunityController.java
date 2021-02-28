@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RequestMapping(value = "/api/community")
@@ -35,7 +36,7 @@ public class CommunityController {
     //글쓰기
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<ResponseMessage> create(Authentication authentication, @RequestBody CommunityDto dto){
+    public ResponseEntity<ResponseMessage> create(Authentication authentication,@Valid @RequestBody CommunityDto dto){
         Claims claims = (Claims) authentication.getPrincipal();
         Long id = claims.get("userId",Long.class);
         //String name = claims.get("name",String.class);
@@ -54,7 +55,7 @@ public class CommunityController {
 
     //글수정
     @PatchMapping("/{communityId}")
-    public ResponseEntity<ResponseMessage> modify(@PathVariable Long communityId,@RequestBody CommunityDto dto){
+    public ResponseEntity<ResponseMessage> modify(@PathVariable Long communityId,@Valid @RequestBody CommunityDto dto){
         communityService.modify(communityId,dto);
 
         return  ResponseEntity.ok(new ResponseMessage(HttpStatus.OK,"ok"));
@@ -96,7 +97,7 @@ public class CommunityController {
 
     //댓글 달기
     @PostMapping("/comment")
-    public void createComment(Authentication authentication, @RequestBody CommentDto dto){
+    public void createComment(Authentication authentication, @Valid @RequestBody CommentDto dto){
         Claims claims = (Claims) authentication.getPrincipal();
         Long userId = claims.get("userId",Long.class);
         String userName = claims.get("nickname",String.class);
@@ -115,7 +116,7 @@ public class CommunityController {
 
     //댓글 수정
     @PatchMapping("/comment")
-    public void modifyComment(@RequestBody CommentModDto dto){
+    public void modifyComment(@Valid @RequestBody CommentModDto dto){
 
         Long commentId = dto.getCommentId();
         String content = dto.getContent();

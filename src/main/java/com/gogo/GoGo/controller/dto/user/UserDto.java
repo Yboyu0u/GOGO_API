@@ -1,14 +1,13 @@
 package com.gogo.GoGo.controller.dto.user;
 
-import com.gogo.GoGo.domain.dto.Birthday;
+import com.gogo.GoGo.enumclass.GenderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Embedded;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Data
@@ -28,8 +27,8 @@ public class UserDto {
     @NotBlank(message = "이름은 필수값 입니다")
     private String name;
 
-    @NotBlank(message = "성별을 선택해 주세요")
-    private String gender;
+    @NotNull(message = "성별을 선택해 주세요")
+    private GenderStatus gender;
 
     //@NotBlank(message = "생년월일은 필수값 입니다")
     private LocalDate birthday;

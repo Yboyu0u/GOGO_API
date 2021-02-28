@@ -2,16 +2,15 @@ package com.gogo.GoGo.service;
 
 import com.gogo.GoGo.controller.dto.community.CommunityDto;
 import com.gogo.GoGo.domain.*;
+import com.gogo.GoGo.enumclass.PlaceStatus;
 import com.gogo.GoGo.exception.NotExistedCommentException;
 import com.gogo.GoGo.exception.NotExistedCommunityException;
 import com.gogo.GoGo.repository.*;
 import lombok.extern.slf4j.Slf4j;
-import net.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +58,7 @@ public class CommunityService {
         community = communityRepository.save(community);
 
         while(places.hasMoreTokens()){
-            placeRepository.save(Place.builder().name(places.nextToken()).community(community).build());
+            placeRepository.save(Place.builder().name(PlaceStatus.valueOf(places.nextToken())).community(community).build());
         }
     }
 
@@ -79,7 +78,7 @@ public class CommunityService {
         if(dto.getPlaces()!=null){
             StringTokenizer places = new StringTokenizer(dto.getPlaces(),",");
             while(places.hasMoreTokens()){
-                placeRepository.save(Place.builder().name(places.nextToken()).community(community).build());
+                placeRepository.save(Place.builder().name(PlaceStatus.valueOf(places.nextToken())).community(community).build());
             }
         }
 
