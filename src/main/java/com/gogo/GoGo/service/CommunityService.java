@@ -2,6 +2,8 @@ package com.gogo.GoGo.service;
 
 import com.gogo.GoGo.controller.dto.community.CommunityDto;
 import com.gogo.GoGo.domain.*;
+import com.gogo.GoGo.exception.NotExistedCommentException;
+import com.gogo.GoGo.exception.NotExistedCommunityException;
 import com.gogo.GoGo.repository.*;
 import lombok.extern.slf4j.Slf4j;
 import net.bytebuddy.implementation.bytecode.Throw;
@@ -44,18 +46,16 @@ public class CommunityService {
 
     //글쓰기
     public void create(CommunityDto dto, Long id,String nickname){
-        //TODO: 존재하지 않는 계정
         User user = userRepository.findById(id).orElseThrow(RuntimeException::new);
 
         StringTokenizer places = new StringTokenizer(dto.getPlaces(),",");
 
-        System.out.println(dto.getPlaces());
-
         Community community = new Community();
         community.set(dto);
-        community.setCreatedTime(LocalDateTime.now());
         community.setUser(user);
+        community.setCreatedTime(LocalDateTime.now());
         community.setCreatedBy(nickname);
+        community.setHeart(0);
         community = communityRepository.save(community);
 
         while(places.hasMoreTokens()){
@@ -72,7 +72,7 @@ public class CommunityService {
     //글수정
     public void modify(Long communityId, CommunityDto dto) {
         Community community = communityRepository.findById(communityId)
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(NotExistedCommunityException::new);
 
         placeRepository.deleteByCommunityId(communityId);
 
@@ -88,29 +88,13 @@ public class CommunityService {
 
     //글삭제
     public void delete(Long communityId) {
-        Community community = communityRepository.findById(communityId).orElseThrow(RuntimeException::new);
-//        community.setDeleted(true);
-//        communityRepository.save(community);
+        Community community = communityRepository.findById(communityId).orElseThrow(NotExistedCommunityException::new);
+
         placeRepository.deleteByCommunityId(communityId);
         communityRepository.delete(community);
 
 
     }
-
-
-    //분류1. 지역
-//    public List<Community> searchByPlace(Long id) {
-//        return communityRepository.findAllByPlaceId(id);
-//    }
-    //분류2. 컨셉트
-    //TODO:
-
-//    //해시태그 검색
-//    public List<Community> searchByTag(String tag){
-//
-//        return communityRepository.findAllByTag(tag);
-//    }
-
 
     //좋아요 누르기
     public void pushHeart(Long userId, Long communityId) {
@@ -166,7 +150,7 @@ public class CommunityService {
     //댓글 달기
     public void createComment(Long userId, String userName, Long communityId, String content) {
         Community community = communityRepository.findById(communityId)
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(NotExistedCommunityException::new);
 
         User user = userRepository.findById(userId)
                 .orElseThrow(RuntimeException::new);
@@ -186,7 +170,7 @@ public class CommunityService {
     //댓글 보기
     public List<Comment> getComments(Long communityId) {
         Community community = communityRepository.findById(communityId)
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(NotExistedCommentException::new);
         return community.getCommentList();
     }
 
@@ -194,7 +178,7 @@ public class CommunityService {
     public void modifyComment(Long commentId, String content) {
 
         Comment comment = commentRepository.findById(commentId)
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(NotExistedCommentException::new);
 
         comment.setContent(content);
 
@@ -203,7 +187,7 @@ public class CommunityService {
     //댓글 삭제
     public void deleteComment(Long commentId) {
         Comment comment = commentRepository.findById(commentId)
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(NotExistedCommentException::new);
 
         commentRepository.delete(comment);
     }

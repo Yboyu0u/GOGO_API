@@ -5,11 +5,13 @@ import com.gogo.GoGo.controller.dto.community.CommentModDto;
 import com.gogo.GoGo.controller.dto.community.CommunityDto;
 import com.gogo.GoGo.domain.Comment;
 import com.gogo.GoGo.domain.Community;
+import com.gogo.GoGo.message.ResponseMessage;
 import com.gogo.GoGo.service.CommunityService;
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,12 +35,13 @@ public class CommunityController {
     //글쓰기
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void create(Authentication authentication, @RequestBody CommunityDto dto){
+    public ResponseEntity<ResponseMessage> create(Authentication authentication, @RequestBody CommunityDto dto){
         Claims claims = (Claims) authentication.getPrincipal();
         Long id = claims.get("userId",Long.class);
         //String name = claims.get("name",String.class);
         String nickname = claims.get("nickname",String.class);
         communityService.create(dto,id,nickname);
+        return ResponseEntity.ok(new ResponseMessage(HttpStatus.CREATED,"ok"));
     }
 
     //내가 쓴글 조회
@@ -51,14 +54,19 @@ public class CommunityController {
 
     //글수정
     @PatchMapping("/{communityId}")
-    public void modify(@PathVariable Long communityId,@RequestBody CommunityDto dto){
+    public ResponseEntity<ResponseMessage> modify(@PathVariable Long communityId,@RequestBody CommunityDto dto){
         communityService.modify(communityId,dto);
+
+        return  ResponseEntity.ok(new ResponseMessage(HttpStatus.OK,"ok"));
     }
 
     //글삭제
     @DeleteMapping("/{communityId}")
-    public void delete(@PathVariable Long communityId){
+    public ResponseEntity<ResponseMessage> delete(@PathVariable Long communityId){
         communityService.delete(communityId);
+
+        return  ResponseEntity.ok(new ResponseMessage(HttpStatus.OK,"ok"));
+
     }
 
 
@@ -120,29 +128,5 @@ public class CommunityController {
     public void deleteComment(@PathVariable Long commentId){
         communityService.deleteComment(commentId);
     }
-
-
-
-    //분류1. 지역
-//    @GetMapping("/search/place/{placeId}")
-//    public List<Community> getByPlace(@PathVariable Long placeId){
-//        return communityService.searchByPlace(placeId);
-//
-//    }
-
-//   //분류2. 여행 컨셉
-//    @GetMapping("/search/concept/{conceptId}")
-//    public List<Community> getbyTravelConcept(){
-//        return communityService.searchbyContcept();
-//    }
-
-    //분류3. 성별 분류
-    //TODO:
-
-//    //해시태그 검색
-//    @PostMapping("/search/tag")
-//    public List<Community> getByTag(@RequestBody SearchTagDto dto){
-//        return communityService.searchByTag(dto.getTag());
-//    }
 
 }

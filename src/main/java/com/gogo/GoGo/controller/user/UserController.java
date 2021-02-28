@@ -4,6 +4,7 @@ import com.gogo.GoGo.controller.dto.user.ImgDto;
 import com.gogo.GoGo.controller.dto.user.ModUserDto;
 import com.gogo.GoGo.controller.dto.user.UserDto;
 import com.gogo.GoGo.domain.User;
+import com.gogo.GoGo.message.ResponseMessage;
 import com.gogo.GoGo.service.UserService;
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
@@ -33,21 +34,21 @@ public class UserController{
     //회원가입
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<String> createUser(@RequestBody @Valid UserDto userDto){
+    public ResponseEntity<ResponseMessage> createUser(@RequestBody @Valid UserDto userDto){
         userService.createUser(userDto);
 
-        return ResponseEntity.ok("ok");
+        return ResponseEntity.ok(new ResponseMessage(HttpStatus.OK,"ok"));
     }
 
     //프로필 수정
     @PatchMapping("/patch")
-    public ResponseEntity<String> modifyUser(Authentication authentication, @RequestBody ModUserDto userDto){
+    public ResponseEntity<ResponseMessage> modifyUser(Authentication authentication, @RequestBody ModUserDto userDto){
         Claims claims = (Claims) authentication.getPrincipal();
         Long userId = claims.get("userId",Long.class);
 
         userService.modifyPerson(userId,userDto);
 
-        return ResponseEntity.ok("ok");
+        return ResponseEntity.ok(new ResponseMessage(HttpStatus.OK,"ok"));
     }
 
     //프로필 사진 업로드
@@ -58,12 +59,12 @@ public class UserController{
 
     //회원탈퇴
     @DeleteMapping("/delete")
-    public ResponseEntity<String> deleteUser(Authentication authentication){
+    public ResponseEntity<ResponseMessage> deleteUser(Authentication authentication){
         Claims claims = (Claims) authentication.getPrincipal();
         Long userId = claims.get("userId",Long.class);
 
         userService.deleteUser(userId);
 
-        return ResponseEntity.ok("ok");
+        return ResponseEntity.ok(new ResponseMessage(HttpStatus.OK,"ok"));
     }
 }
