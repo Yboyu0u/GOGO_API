@@ -10,5 +10,5 @@ GOGO
  ## API WIKI 
 - [API 문서]()
 
-## ERD 
+## ERD (temporaily)
 ![임시 ERD](./temporailyERD.png)
