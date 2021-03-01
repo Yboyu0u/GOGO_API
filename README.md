@@ -1,10 +1,7 @@
 GOGO 
-
-
-
-
-![logo](./gogo.profile.png){: width="100" height="100"}
-
+<div align="center">
+<img src="./gogo.profile.png" alt="logo" width="200">
+</div>
 
 
  ## Service Description 
