@@ -182,7 +182,6 @@ public class CommunityService {
                 .orElseThrow(NotExistedCommentException::new);
 
         comment.setContent(content);
-
     }
 
     //댓글 삭제
