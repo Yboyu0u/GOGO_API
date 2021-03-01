@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RequestMapping(value = "/api/check")
+@RequestMapping(value = "/user/check")
 @RestController
 @Slf4j
 public class CheckController {

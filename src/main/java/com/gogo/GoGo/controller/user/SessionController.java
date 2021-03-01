@@ -16,7 +16,7 @@ import java.net.URISyntaxException;
 
 
 //로그인
-@RequestMapping(value = "api/session")
+@RequestMapping(value = "/user/session")
 @RestController
 @Slf4j
 public class SessionController {
@@ -41,7 +41,7 @@ public class SessionController {
         SessionResponseDto sessionResponseDto =
                 SessionResponseDto.builder().jwt(jwt).build();
 
-        String url ="/api/session";
+        String url ="/user/session";
         return ResponseEntity.created(new URI(url))
                 .body(sessionResponseDto);
     }

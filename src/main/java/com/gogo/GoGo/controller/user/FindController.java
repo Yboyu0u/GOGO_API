@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-@RequestMapping(value = "/api/find")
+@RequestMapping(value = "/user/find")
 @RestController
 @Slf4j
 public class FindController {
@@ -32,7 +32,7 @@ public class FindController {
                 .userId(userId)
                 .build();
 
-        String url ="/api/find/userId";
+        String url ="/user/find/userId";
         return ResponseEntity.created(new URI(url))
                 .body(responseDto);
     }
@@ -46,7 +46,7 @@ public class FindController {
                 .password(password)
                 .build();
 
-        String url = "/api/find/password";
+        String url = "/user/find/password";
         return ResponseEntity.created(new URI(url))
                 .body(responseDto);
 
