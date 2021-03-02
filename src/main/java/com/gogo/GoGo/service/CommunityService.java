@@ -2,6 +2,7 @@ package com.gogo.GoGo.service;
 
 import com.gogo.GoGo.controller.dto.community.CommunityDto;
 import com.gogo.GoGo.domain.*;
+import com.gogo.GoGo.enumclass.PartnerStatus;
 import com.gogo.GoGo.enumclass.PlaceStatus;
 import com.gogo.GoGo.exception.NotExistedCommentException;
 import com.gogo.GoGo.exception.NotExistedCommunityException;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -191,4 +193,32 @@ public class CommunityService {
 
         commentRepository.delete(comment);
     }
+
+    //지역별 조회
+    public List<Community> getByPlace(PlaceStatus place) {
+        List<Community> communities = new ArrayList<>();
+        List<Place> places = placeRepository.findByName(place);
+        for(int i =0; i<places.size();i++){
+            communities.add(places.get(i).getCommunity());
+        }
+
+        return communities;
+    }
+
+    //성별 조회
+    public List<Community> getByPartner(PartnerStatus partner) {
+        return communityRepository.findAllByPartner(partner);
+    }
+
+    //날짜 조회
+    public List<Community> getByDate(LocalDate startDate, LocalDate endDate) {
+        return communityRepository.findAllByStartDateAndEndDate(startDate,endDate);
+    }
+
+
+
+
+
+
+
 }
