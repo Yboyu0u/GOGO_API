@@ -58,7 +58,10 @@ public class CommunityService {
         community = communityRepository.save(community);
 
         while(places.hasMoreTokens()){
-            placeRepository.save(Place.builder().name(PlaceStatus.valueOf(places.nextToken())).community(community).build());
+            placeRepository.save(Place.builder().
+                    name(PlaceStatus.valueOf(places.nextToken()))
+                    .community(community)
+                    .build());
         }
     }
 

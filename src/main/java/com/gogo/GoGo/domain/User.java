@@ -63,6 +63,9 @@ public class User {
 
     private String profileImg;
 
+    @OneToOne(mappedBy = "user")
+    private Personal personal;
+
     @ColumnDefault("0") // 이 값이 true가 되면 삭제가 되었다 간주하고 repository에서 삭제됨
     private boolean deleted;
 

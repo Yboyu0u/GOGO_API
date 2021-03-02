@@ -18,7 +18,7 @@ import java.time.LocalDate;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.verify;
-
+/*
 @ExtendWith(MockitoExtension.class)
 public class CommunityServiceTests {
 
@@ -67,3 +67,5 @@ public class CommunityServiceTests {
     }
 
 }
+
+ */
