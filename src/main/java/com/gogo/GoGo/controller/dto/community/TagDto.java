@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.batch.BatchDataSource;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class SearchTagDto {
+public class TagDto {
+
     private String tag;
 }
