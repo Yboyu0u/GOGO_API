@@ -4,6 +4,7 @@ package com.gogo.GoGo.controller.community;
 import com.gogo.GoGo.controller.dto.community.DateDto;
 import com.gogo.GoGo.controller.dto.community.PartnerDto;
 import com.gogo.GoGo.controller.dto.community.PlaceDto;
+import com.gogo.GoGo.controller.dto.community.TagDto;
 import com.gogo.GoGo.domain.Community;
 import com.gogo.GoGo.service.CommunityService;
 import lombok.extern.slf4j.Slf4j;
@@ -39,10 +40,12 @@ public class SearchController {
         return communityService.getByDate(dto.getStartDate(),dto.getEndDate());
     }
 
-    //제목 검색
-
-
     //해시태그 검색
+    @PostMapping("/tag")
+    public List<Community> getByTag(@RequestBody TagDto dto){
+        return communityService.getByTag(dto.getTag());
+    }
+
 
 
 

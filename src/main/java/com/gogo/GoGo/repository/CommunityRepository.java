@@ -22,4 +22,6 @@ public interface CommunityRepository extends JpaRepository<Community,Long> {
     List<Community> findAllByPartner(PartnerStatus partner);
 
     List<Community> findAllByStartDateAndEndDate(LocalDate startDate, LocalDate endDate);
+
+    List<Community> findAllByTitle(String title);
 }

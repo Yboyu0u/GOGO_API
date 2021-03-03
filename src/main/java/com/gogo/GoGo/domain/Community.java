@@ -56,10 +56,6 @@ public class Community {
     @NotNull
     private LocalDate endDate;
 
-    //TODO: 해시태그 처리
-    private String tags;
-
-
     @Min(0)
     @ColumnDefault("0")
     private Integer heart;
@@ -82,6 +78,10 @@ public class Community {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "community")
     @JsonManagedReference
     private List<Place> placeList;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "community")
+    @JsonManagedReference
+    private List<Tag> tagList;
 
 
 

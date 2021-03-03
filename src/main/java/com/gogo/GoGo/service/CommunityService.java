@@ -1,6 +1,7 @@
 package com.gogo.GoGo.service;
 
 import com.gogo.GoGo.controller.dto.community.CommunityDto;
+import com.gogo.GoGo.controller.dto.community.TagDto;
 import com.gogo.GoGo.domain.*;
 import com.gogo.GoGo.enumclass.PartnerStatus;
 import com.gogo.GoGo.enumclass.PlaceStatus;
@@ -11,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -38,6 +40,9 @@ public class CommunityService {
     @Autowired
     private PlaceRepository placeRepository;
 
+    @Autowired
+    private TagRepository tagRepository;
+
     //조회
     public Community get(Long id) {
         Community community = communityRepository.findById(id)
@@ -46,10 +51,9 @@ public class CommunityService {
     }
 
     //글쓰기
-    public void create(CommunityDto dto, Long id,String nickname){
-        User user = userRepository.findById(id).orElseThrow(RuntimeException::new);
+    public void create(CommunityDto dto, Long id, String nickname){
 
-        StringTokenizer places = new StringTokenizer(dto.getPlaces(),",");
+        User user = userRepository.findById(id).orElseThrow(RuntimeException::new);
 
         Community community = new Community();
         community.set(dto);
@@ -59,8 +63,17 @@ public class CommunityService {
         community.setHeart(0);
         community = communityRepository.save(community);
 
+        StringTokenizer places = new StringTokenizer(dto.getPlaces(),",");
         while(places.hasMoreTokens()){
             placeRepository.save(Place.builder().name(PlaceStatus.valueOf(places.nextToken())).community(community).build());
+        }
+
+        if(dto.getTags()!=null) {
+            StringTokenizer tags = new StringTokenizer(dto.getTags(), "#");
+
+            while (tags.hasMoreTokens()) {
+                tagRepository.save(Tag.builder().name("#"+tags.nextToken()).community(community).build());
+            }
         }
     }
 
@@ -76,11 +89,17 @@ public class CommunityService {
                 .orElseThrow(NotExistedCommunityException::new);
 
         placeRepository.deleteByCommunityId(communityId);
+        tagRepository.deleteByCommunityId(communityId);
 
-        if(dto.getPlaces()!=null){
-            StringTokenizer places = new StringTokenizer(dto.getPlaces(),",");
-            while(places.hasMoreTokens()){
-                placeRepository.save(Place.builder().name(PlaceStatus.valueOf(places.nextToken())).community(community).build());
+        StringTokenizer places = new StringTokenizer(dto.getPlaces(),",");
+        while(places.hasMoreTokens()) {
+            placeRepository.save(Place.builder().name(PlaceStatus.valueOf(places.nextToken())).community(community).build());
+        }
+
+        StringTokenizer tags = new StringTokenizer(dto.getTags(),"#");
+        if(dto.getTags()!=null){
+            while(tags.hasMoreTokens()){
+                tagRepository.save(Tag.builder().name("#"+tags.nextToken()).community(community).build());
             }
         }
 
@@ -210,15 +229,27 @@ public class CommunityService {
         return communityRepository.findAllByPartner(partner);
     }
 
-    //날짜 조회
+    //날짜별 조회
     public List<Community> getByDate(LocalDate startDate, LocalDate endDate) {
         return communityRepository.findAllByStartDateAndEndDate(startDate,endDate);
     }
 
+    //해시태그 검색
+    public List<Community> getByTag(String tag) {
+        List<Community> communities = new ArrayList<>();
+        List<Tag> tags = new ArrayList<>();
 
+        if(tag.charAt(0)=='#'){
+            tags = tagRepository.findAllByName(tag);
+        }else{
+            tags = tagRepository.findAllByName("#"+tag);
+        }
 
-
-
-
+        for(int i=0; i<tags.size();i++){
+            Community community = tags.get(i).getCommunity();
+            communities.add(community);
+        }
+        return communities;
+    }
 
 }
