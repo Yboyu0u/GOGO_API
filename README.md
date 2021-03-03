@@ -1,6 +1,6 @@
 GOGO 
 <div align="center">
-<img src="./gogo.profile.png" alt="logo" width="200">
+<img src="./img/gogo.profile.png" alt="logo" width="200">
 </div>
 
 
