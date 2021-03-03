@@ -11,6 +11,5 @@ public interface PlaceRepository extends JpaRepository<Place,Long> {
 
     void deleteByCommunityId(Long communityId);
 
-//    @Query(value = "select place.communityId from Place place where place.name = :name")
     List<Place> findByName(PlaceStatus name);
 }

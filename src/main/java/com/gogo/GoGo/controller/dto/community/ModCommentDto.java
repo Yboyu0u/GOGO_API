@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Bean;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CommentModDto {
+public class ModCommentDto {
 
     private Long commentId;
 
