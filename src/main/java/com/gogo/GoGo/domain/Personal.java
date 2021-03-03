@@ -1,5 +1,6 @@
 package com.gogo.GoGo.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.gogo.GoGo.controller.dto.user.UserPersonalDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,6 +15,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Table(name = "P2")
 public class Personal {
 
     @Id
@@ -21,22 +23,20 @@ public class Personal {
     @Column(name = "PERSONAL_ID")
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "USER_ID")
+    @ManyToOne
+    @JsonBackReference
     private User user;
 
-    private int Q1;
+    private int score_Q1;
+    private int score_Q2;
+    private int score_Q3;
+    private int score_Q4;
 
-    private int Q2;
 
-    private int Q3;
-
-    private int Q4;
-
-    public void set(UserPersonalDTO userPersonalDTO) {
-        this.Q1 = userPersonalDTO.getQ1();
-        this.Q2 = userPersonalDTO.getQ2();
-        this.Q3 = userPersonalDTO.getQ3();
-        this.Q4 = userPersonalDTO.getQ4();
+    public void set(UserPersonalDTO dto) {
+        this.score_Q1 = dto.getScore_Q1();
+        this.score_Q2 = dto.getScore_Q2();
+        this.score_Q3 = dto.getScore_Q3();
+        this.score_Q4 = dto.getScore_Q4();
     }
 }

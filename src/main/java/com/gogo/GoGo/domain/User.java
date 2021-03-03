@@ -30,31 +30,24 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @NotNull
     @NotEmpty
     private String userId;
-
     @NotNull
     @NotEmpty
     private String password;
-
     @NotNull
     @NotEmpty
     private String nickname;
-
     @NotNull
     @NotEmpty
     private String name;
-
     @NotNull
     @Enumerated(EnumType.STRING)
     private GenderStatus gender;
-
     @Valid
     @Embedded
     private Birthday birthday;
-
     @NotNull
     @NotEmpty
     private String phoneNumber;
@@ -63,8 +56,10 @@ public class User {
 
     private String profileImg;
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @JoinColumn(name = "PERSONAL_ID")
     private Personal personal;
+
 
     @ColumnDefault("0") // 이 값이 true가 되면 삭제가 되었다 간주하고 repository에서 삭제됨
     private boolean deleted;
@@ -82,6 +77,11 @@ public class User {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     @JsonManagedReference
     private List<Comment> commentList;
+
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    @JsonManagedReference
+    private List<Personal> personalList;
 
 
 
