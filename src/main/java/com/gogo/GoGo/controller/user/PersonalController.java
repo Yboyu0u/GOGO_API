@@ -46,7 +46,7 @@ public class PersonalController {
         return user;
     }
 
-
+    @ApiOperation(value = "매칭 임" , notes = "동작 확인 x")
     @GetMapping("/p2")
     public Personal find(Long id) {
         Personal personal = personalService.Find(id);
