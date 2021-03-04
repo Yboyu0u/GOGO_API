@@ -42,10 +42,6 @@ public class PersonalService {
 
     public Personal getPersonalByUID(Long id) {
 
-        Personal personal = personalRepository.findByUSERID(id)
-                .orElseThrow(() -> new RuntimeException("PERSONAL ID 존재 안"));
-
-        return personal;
     }
 
 
