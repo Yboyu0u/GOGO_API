@@ -19,7 +19,7 @@ GOGO
 ## ERD (temporaily)
 ![임시 ERD](./img/temporailyERD.png)
 
-## dependencies 
+## Dependency
 ```
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'

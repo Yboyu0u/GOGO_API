@@ -67,4 +67,14 @@ public class UserController{
 
         return ResponseEntity.ok(new ResponseMessage(HttpStatus.OK,"ok"));
     }
+    //비밀번호 변경
+    @PostMapping("/changePw")
+    public ResponseEntity<ResponseMessage> chagePw(Authentication authentication, @RequestBody String password){
+        Claims claims = (Claims) authentication.getPrincipal();
+        Long userId = claims.get("userId",Long.class);
+
+        userService.changePw(userId,password);
+
+        return ResponseEntity.ok(new ResponseMessage(HttpStatus.OK,"ok"));
+    }
 }

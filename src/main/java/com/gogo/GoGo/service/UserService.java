@@ -145,4 +145,12 @@ public class UserService {
 
         userRepository.save(user);
     }
+
+    //password 찾기
+    public void changePw(Long id, String password) {
+        User user = userRepository.findById(id)
+                .orElseThrow(RuntimeException::new);
+
+        user.setPassword(password);
+    }
 }
