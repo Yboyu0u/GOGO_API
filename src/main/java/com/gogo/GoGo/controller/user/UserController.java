@@ -2,6 +2,7 @@ package com.gogo.GoGo.controller.user;
 
 import com.gogo.GoGo.controller.dto.user.ImgDto;
 import com.gogo.GoGo.controller.dto.user.ModUserDto;
+import com.gogo.GoGo.controller.dto.user.PasswordDto;
 import com.gogo.GoGo.controller.dto.user.UserDto;
 import com.gogo.GoGo.domain.User;
 import com.gogo.GoGo.message.ResponseMessage;
@@ -67,14 +68,16 @@ public class UserController{
 
         return ResponseEntity.ok(new ResponseMessage(HttpStatus.OK,"ok"));
     }
+
     //비밀번호 변경
-    @PostMapping("/changePw")
-    public ResponseEntity<ResponseMessage> chagePw(Authentication authentication, @RequestBody String password){
+    @PostMapping("/change/password")
+    public ResponseEntity<ResponseMessage> chagePw(Authentication authentication, @RequestBody PasswordDto dto){
         Claims claims = (Claims) authentication.getPrincipal();
         Long userId = claims.get("userId",Long.class);
 
-        userService.changePw(userId,password);
+        userService.changePw(userId,dto.getPassword());
 
         return ResponseEntity.ok(new ResponseMessage(HttpStatus.OK,"ok"));
     }
 }
+

@@ -151,6 +151,7 @@ public class UserService {
         User user = userRepository.findById(id)
                 .orElseThrow(RuntimeException::new);
 
-        user.setPassword(password);
+        String encodedPassword = passwordEncoder.encode(password);
+        user.setPassword(encodedPassword);
     }
 }
