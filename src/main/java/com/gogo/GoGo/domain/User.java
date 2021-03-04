@@ -25,6 +25,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @Where(clause = "deleted = false")
+@Table(name = "USER_V2")
 public class User {
 
     @Id
@@ -56,7 +57,7 @@ public class User {
 
     private String profileImg;
 
-    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(name = "PERSONAL_ID")
     private Personal personal;
 
@@ -70,6 +71,8 @@ public class User {
     @JsonManagedReference
     private List<Heart> heartList;
 
+
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     @JsonManagedReference
     private List<Community> communityList;
@@ -77,14 +80,6 @@ public class User {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     @JsonManagedReference
     private List<Comment> commentList;
-
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-    @JsonManagedReference
-    private List<Personal> personalList;
-
-
-
 
 
 

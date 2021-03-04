@@ -32,48 +32,37 @@ public class PersonalService {
     }
 
     public Personal getPersonal(Long id) {
-
         Personal personal = personalRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("PERSONAL ID 존재 안"));
+        return personal;
+    }
 
+    public Personal UserSetPersonal(UserPersonalDTO userPersonalDTO) {
+        Personal personal = new Personal();
+        personal.settingPersonal(userPersonalDTO);
+        personalRepository.save(personal);
         return personal;
     }
 
 
-    public Personal getPersonalByUID(Long id) {
 
-    }
 
 
     public void create(UserPersonalDTO dto, Long id) {
         User user = userRepository.findById(id).orElseThrow(RuntimeException::new);
         Personal personal = new Personal();
-        personal.setUser(user);
-        personal.set(dto);
+       // personal.setUser(user);
+      //  personal.set(dto);
         personalRepository.save(personal);
     }
 
 
 
 
-    public User FindMatch(Long id) {
-        User now =new User();
-        now = userService.getUser(id);
-        int Q1 = now.getPersonal().getScore_Q1();
-        int Q2 = now.getPersonal().getScore_Q2();
-        int Q3 = now.getPersonal().getScore_Q3();
-        int Q4 = now.getPersonal().getScore_Q4();
-        List<User> users= userRepository.findAll();
-        for (User user : users) {
-            if(user == now) users.remove(user);
-            if(!(user.getPersonal().getScore_Q1() >= (Q1-1) && user.getPersonal().getScore_Q1()<= (Q1+1))) {
-                users.remove(user);
-            }
-        }
-        User like = new User();
-        Random random = new Random();
-        like = users.get(random.nextInt(users.size()));
-        return like;
+    public List<Personal> FindMatch() {
+
+        List<Personal> personalList = personalRepository.findAll();
+        return personalList;
 
     }
 

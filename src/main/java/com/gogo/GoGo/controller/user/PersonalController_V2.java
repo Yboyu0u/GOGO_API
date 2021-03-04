@@ -44,8 +44,8 @@ public class PersonalController_V2 {
        User user = userService.getUser(id);
         LogSupport.log(user.getName());
         Personal personal = new Personal();
-        personal.setUser(user);
-        personal.set(score);
+      //  personal.setUser(user);
+     //   personal.set(score);
         personalService.save(personal);
     }
 

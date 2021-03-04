@@ -9,6 +9,7 @@ import com.gogo.GoGo.repository.PersonalRepository;
 import com.gogo.GoGo.repository.UserRepository;
 import com.gogo.GoGo.service.PersonalService;
 import com.gogo.GoGo.service.UserService;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,7 +17,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @RestController
 @Slf4j
@@ -32,30 +35,90 @@ public class PersonalController {
     @Autowired
     UserRepository userRepository;
 
-    @PostMapping("/personal/{id}")
-    @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<ResponseMessage> create(@PathVariable Long id, @Valid @RequestBody UserPersonalDTO dto){
-        personalService.create(dto,id);
-        return ResponseEntity.ok(new ResponseMessage(HttpStatus.CREATED,"ok"));
+
+    @ApiOperation(value = "성향 입력" , notes = "동작 확인 완료")
+    @PostMapping("/personal/test/{id}")
+    public User SetPersonal(@PathVariable Long id , @RequestBody UserPersonalDTO dto) {
+        User user = userService.getUser(id);
+        Personal personal = personalService.UserSetPersonal(dto);
+        user.setPersonal(personal);
+        userRepository.save(user);
+        return user;
     }
 
 
-    //유저 출력 확인완료.
-    @GetMapping("/p/{id}")
-    public User find(@PathVariable Long id) {
-        List<User> userList = userRepository.findAll();
-        User now = userService.getUser(id);
-        return now;
+    @GetMapping("/p2")
+    public Personal find(Long id) {
+        User now_user = userService.getUser(id);
+
+
+        int Filter_1 = now_user.getPersonal().getScore_Q1();
+        int Filter_2 = now_user.getPersonal().getScore_Q2();
+        int Filter_3 = now_user.getPersonal().getScore_Q3();
+        int Filter_4 = now_user.getPersonal().getScore_Q4();
+
+
+        List<Personal> userList = personalService.FindMatch();
+        // 모든 성향 목록가져온다.
+
+        List<Personal> Q1 = new ArrayList<>();
+        List<Personal> Q2 = new ArrayList<>();
+        List<Personal> Q3 = new ArrayList<>();
+        List<Personal> Q4 = new ArrayList<>();
+
+
+        for (Personal personal : userList) {
+            //첫버째 필터 적용.
+            if(personal.getScore_Q1()<=(Filter_1+1) && personal.getScore_Q1()>=(Filter_1-1)) {
+                Q1.add(personal);
+                if(personal.getId() == now_user.getPersonal().getId()) Q1.remove(personal);
+            }
+
+            //첫버째 필터 적용.
+            if(personal.getScore_Q2()<=(Filter_2+1) && personal.getScore_Q2()>=(Filter_2-1)) {
+                Q2.add(personal);
+                if(personal.getId() == now_user.getPersonal().getId()) Q2.remove(personal);
+            }
+
+            if(personal.getScore_Q3()<=(Filter_3+1) && personal.getScore_Q3()>=(Filter_3-1)) {
+                Q3.add(personal);
+                if(personal.getId() == now_user.getPersonal().getId()) Q3.remove(personal);
+            }
+
+            //첫버째 필터 적용.
+            if(personal.getScore_Q4()<=(Filter_4+1) && personal.getScore_Q4()>=(Filter_4-1)) {
+                Q4.add(personal);
+                if(personal.getId() == now_user.getPersonal().getId()) Q4.remove(personal);
+            }
+        }
+
+        Random random = new Random();
+
+
+        int listSize1 = Q1.size();
+        int listSize2 = Q2.size();
+        int listSize3 = Q3.size();
+        int listSize4 = Q4.size();
+
+        int randomIndex1 = random.nextInt(listSize1);
+        int randomIndex2 = random.nextInt(listSize2);
+        int randomIndex3 = random.nextInt(listSize3);
+        int randomIndex4 = random.nextInt(listSize4);
+
+        Personal personal_1 = Q1.get(randomIndex1);
+        Personal personal_2 = Q2.get(randomIndex2);
+        Personal personal_3 = Q3.get(randomIndex3);
+        Personal personal_4 = Q4.get(randomIndex4);
+
+
+        System.out.printf(String.valueOf(listSize1));
+        return personal_1;
     }
 
-    @GetMapping("/p2/{id}")
-    public Personal find2(@PathVariable Long id) {
 
-        Personal personal = personalService.getPersonal(id);
 
-        return personal;
 
-    }
+
 
 
 

@@ -1,15 +1,15 @@
 package com.gogo.GoGo.controller.dto.user;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import io.swagger.v3.oas.annotations.servers.Server;
+import lombok.*;
 
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Getter
+@Setter
 public class UserPersonalDTO {
 
     private int score_Q1;
