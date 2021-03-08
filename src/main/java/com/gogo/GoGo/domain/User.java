@@ -1,7 +1,6 @@
 package com.gogo.GoGo.domain;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.gogo.GoGo.controller.dto.user.ImgDto;
 import com.gogo.GoGo.controller.dto.user.ModUserDto;
 import com.gogo.GoGo.controller.dto.user.UserDto;
 import com.gogo.GoGo.domain.dto.Birthday;
@@ -61,6 +60,7 @@ public class User {
 
     private String introduce;
 
+    @Column(columnDefinition =  "TEXT")
     private String profileImg;
 
     @ColumnDefault("0") // 이 값이 true가 되면 삭제가 되었다 간주하고 repository에서 삭제됨
@@ -116,11 +116,6 @@ public class User {
         }
         //TODO: 여행 취향
 
-    }
-    public void imgSet(ImgDto imgDto){
-        if(imgDto.getImg() != null){
-            this.setProfileImg(imgDto.getImg().getOriginalFilename());
-        }
     }
 
 }

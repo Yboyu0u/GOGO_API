@@ -3,6 +3,8 @@ package com.gogo.GoGo.service;
 import com.gogo.GoGo.controller.dto.user.ModUserDto;
 import com.gogo.GoGo.controller.dto.user.UserDto;
 import com.gogo.GoGo.domain.User;
+import com.gogo.GoGo.domain.utils.S3Uploader;
+import com.gogo.GoGo.domain.utils.Uploader;
 import com.gogo.GoGo.exception.*;
 import com.gogo.GoGo.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +29,12 @@ public class UserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private Uploader uploader;
+
+    public UserService() {
+    }
 
     //회원 조회
     public User getUser(Long id) {
@@ -86,20 +94,11 @@ public class UserService {
     }
 
     // 프로필 사진 업로드
-    public void uploadImg(Long id, MultipartFile img) {
-        String upload_path = "/Users/youngwooyoo/desktop/GoGo /src/main/resources/static/images/profile/";
-        User user = userRepository.findById(id).orElseThrow(RuntimeException::new);
-        try {
-            if(user.getProfileImg() != null){
-                File oImg = new File(upload_path + user.getProfileImg());
-                oImg.delete();
-            }
-            img.transferTo(new File(upload_path+img.getOriginalFilename()));
+    public void uploadImg(Long id, MultipartFile file) throws IOException {
+        User user = userRepository.findById(id)
+                .orElseThrow(NotExistedUserIdException::new);
 
-        } catch (IllegalStateException | IOException e) {
-            e.printStackTrace();
-        }
-        user.setProfileImg(img.getOriginalFilename());
+        user.setProfileImg(uploader.upload(file,"static"));
 
     }
 

@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RequestMapping(value = "/community/search")
@@ -45,8 +46,6 @@ public class SearchController {
     public List<Community> getByTag(@RequestBody TagDto dto){
         return communityService.getByTag(dto.getTag());
     }
-
-
 
 
 

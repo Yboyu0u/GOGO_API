@@ -1,6 +1,5 @@
 package com.gogo.GoGo.controller.user;
 
-import com.gogo.GoGo.controller.dto.user.ImgDto;
 import com.gogo.GoGo.controller.dto.user.ModUserDto;
 import com.gogo.GoGo.controller.dto.user.PasswordDto;
 import com.gogo.GoGo.controller.dto.user.UserDto;
@@ -14,8 +13,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
 
 
 @RequestMapping(value = "/user")
@@ -53,10 +54,14 @@ public class UserController{
     }
 
     //프로필 사진 업로드
-    @PutMapping("/{id}")
-    public void uploadImg(@PathVariable Long id, @RequestBody ImgDto dto){
-        userService.uploadImg(id,dto.getImg());
+    @PostMapping("/uploadImg")
+    public ResponseEntity<ResponseMessage> uploadImg(Authentication authentication, @RequestParam("data") MultipartFile file) throws IOException{
+        Claims claims = (Claims) authentication.getPrincipal();
+        Long userId = claims.get("userId",Long.class);
+        userService.uploadImg(userId,file);
+        return ResponseEntity.ok(new ResponseMessage(HttpStatus.OK,"ok"));
     }
+
 
     //회원탈퇴
     @DeleteMapping("/delete")
