@@ -10,7 +10,7 @@ GOGO
  ## Using Tech
  - Spring Boot(Spring Security, JWT, JPA)
  - MySQLDB
- - AWS(EC2,RDS) 
+ - AWS(EC2,RDS,S3) 
 
 
  ## API WIKI 
@@ -44,5 +44,6 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.5.0'
     testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.5.0'
     testImplementation 'org.mockito:mockito-junit-jupiter'
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-aws', version: '2.2.1.RELEASE'
 }
 ```

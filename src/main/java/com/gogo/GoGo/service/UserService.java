@@ -60,6 +60,7 @@ public class UserService {
         User user = new User();
         user.set(userDto);
         user.setPassword(encodedPassword);
+        user.setProfileImg("https://gogoeverybodyy.s3.ap-northeast-2.amazonaws.com/static/gogo.profile.png");
         return userRepository.save(user);
     }
 

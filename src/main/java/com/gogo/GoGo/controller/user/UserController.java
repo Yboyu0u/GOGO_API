@@ -4,11 +4,14 @@ import com.gogo.GoGo.controller.dto.user.ModUserDto;
 import com.gogo.GoGo.controller.dto.user.PasswordDto;
 import com.gogo.GoGo.controller.dto.user.UserDto;
 import com.gogo.GoGo.domain.User;
+import com.gogo.GoGo.exception.NotExistedUserIdException;
 import com.gogo.GoGo.message.ResponseMessage;
+import com.gogo.GoGo.repository.UserRepository;
 import com.gogo.GoGo.service.UserService;
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -25,6 +28,9 @@ import java.io.IOException;
 public class UserController{
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserRepository userRepository;
 
 
     //회원 정보 조회
@@ -53,7 +59,7 @@ public class UserController{
         return ResponseEntity.ok(new ResponseMessage(HttpStatus.OK,"ok"));
     }
 
-    //프로필 사진 업로드
+    //프로필 이미지 업로드
     @PostMapping("/uploadImg")
     public ResponseEntity<ResponseMessage> uploadImg(Authentication authentication, @RequestParam("data") MultipartFile file) throws IOException{
         Claims claims = (Claims) authentication.getPrincipal();
@@ -61,6 +67,21 @@ public class UserController{
         userService.uploadImg(userId,file);
         return ResponseEntity.ok(new ResponseMessage(HttpStatus.OK,"ok"));
     }
+
+    //프로필 기본 이미지로 업로드
+    @PostMapping("/baseImg")
+    public ResponseEntity<ResponseMessage> uploadBaseImg(Authentication authentication){
+        Claims claims = (Claims) authentication.getPrincipal();
+        Long userId = claims.get("userId",Long.class);
+        User user = userRepository.findById(userId)
+                .orElseThrow(NotExistedUserIdException::new);
+
+        user.setProfileImg("https://gogoeverybodyy.s3.ap-northeast-2.amazonaws.com/static/gogo.profile.png");
+
+        return ResponseEntity.ok(new ResponseMessage(HttpStatus.OK,"ok"));
+    }
+
+
 
 
     //회원탈퇴
