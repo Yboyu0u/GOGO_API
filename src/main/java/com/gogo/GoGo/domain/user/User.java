@@ -1,9 +1,12 @@
-package com.gogo.GoGo.domain;
+package com.gogo.GoGo.domain.user;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.gogo.GoGo.controller.dto.user.ModUserDto;
 import com.gogo.GoGo.controller.dto.user.UserDto;
-import com.gogo.GoGo.domain.dto.Birthday;
+import com.gogo.GoGo.domain.community.Community;
+import com.gogo.GoGo.domain.community.CommunityComment;
+import com.gogo.GoGo.domain.community.CommunityHeart;
+import com.gogo.GoGo.domain.user.dto.Birthday;
 import com.gogo.GoGo.enumclass.GenderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -70,7 +73,7 @@ public class User {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     @JsonManagedReference
-    private List<Heart> heartList;
+    private List<CommunityHeart> communityHeartList;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     @JsonManagedReference
@@ -78,7 +81,7 @@ public class User {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     @JsonManagedReference
-    private List<Comment> commentList;
+    private List<CommunityComment> communityCommentList;
 
 
 

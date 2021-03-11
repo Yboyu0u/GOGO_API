@@ -2,8 +2,8 @@ package com.gogo.GoGo.service;
 
 import com.gogo.GoGo.controller.dto.user.ModUserDto;
 import com.gogo.GoGo.controller.dto.user.UserDto;
-import com.gogo.GoGo.domain.User;
-import com.gogo.GoGo.domain.dto.Birthday;
+import com.gogo.GoGo.domain.user.User;
+import com.gogo.GoGo.domain.user.dto.Birthday;
 import com.gogo.GoGo.exception.AlreadyExistedUserIdException;
 import com.gogo.GoGo.exception.NotExistedUserIdException;
 import com.gogo.GoGo.exception.PasswordWrongException;

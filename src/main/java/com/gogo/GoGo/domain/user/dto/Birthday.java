@@ -1,4 +1,4 @@
-package com.gogo.GoGo.domain.dto;
+package com.gogo.GoGo.domain.user.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

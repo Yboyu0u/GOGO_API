@@ -1,8 +1,11 @@
-package com.gogo.GoGo.domain;
+package com.gogo.GoGo.domain.community;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.gogo.GoGo.controller.dto.community.CommunityDto;
+import com.gogo.GoGo.domain.Place;
+import com.gogo.GoGo.domain.record.Tag;
+import com.gogo.GoGo.domain.user.User;
 import com.gogo.GoGo.enumclass.PartnerStatus;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -69,11 +72,11 @@ public class Community {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "community")
     @JsonManagedReference
-    private List<Comment> commentList;
+    private List<CommunityComment> communityCommentList;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "community")
     @JsonManagedReference
-    private List<Heart> heartList;
+    private List<CommunityHeart> communityHeartList;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "community")
     @JsonManagedReference

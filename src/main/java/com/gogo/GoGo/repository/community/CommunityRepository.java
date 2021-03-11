@@ -1,10 +1,8 @@
-package com.gogo.GoGo.repository;
+package com.gogo.GoGo.repository.community;
 
-import com.gogo.GoGo.domain.Community;
+import com.gogo.GoGo.domain.community.Community;
 import com.gogo.GoGo.enumclass.PartnerStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;

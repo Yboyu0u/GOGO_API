@@ -2,8 +2,7 @@ package com.gogo.GoGo.service;
 
 import com.gogo.GoGo.controller.dto.user.ModUserDto;
 import com.gogo.GoGo.controller.dto.user.UserDto;
-import com.gogo.GoGo.domain.User;
-import com.gogo.GoGo.domain.utils.S3Uploader;
+import com.gogo.GoGo.domain.user.User;
 import com.gogo.GoGo.domain.utils.Uploader;
 import com.gogo.GoGo.exception.*;
 import com.gogo.GoGo.repository.UserRepository;
@@ -15,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
 import java.util.UUID;

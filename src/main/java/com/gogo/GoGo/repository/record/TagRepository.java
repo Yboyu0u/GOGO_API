@@ -1,6 +1,6 @@
-package com.gogo.GoGo.repository;
+package com.gogo.GoGo.repository.record;
 
-import com.gogo.GoGo.domain.Tag;
+import com.gogo.GoGo.domain.record.Tag;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

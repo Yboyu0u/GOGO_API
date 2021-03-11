@@ -4,7 +4,7 @@ package com.gogo.GoGo.config.serializer;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
-import com.gogo.GoGo.domain.dto.Birthday;
+import com.gogo.GoGo.domain.user.dto.Birthday;
 
 import java.io.IOException;
 import java.time.LocalDate;

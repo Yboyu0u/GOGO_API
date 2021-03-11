@@ -3,7 +3,7 @@ package com.gogo.GoGo.controller.user;
 import com.gogo.GoGo.controller.dto.user.ModUserDto;
 import com.gogo.GoGo.controller.dto.user.PasswordDto;
 import com.gogo.GoGo.controller.dto.user.UserDto;
-import com.gogo.GoGo.domain.User;
+import com.gogo.GoGo.domain.user.User;
 import com.gogo.GoGo.exception.NotExistedUserIdException;
 import com.gogo.GoGo.message.ResponseMessage;
 import com.gogo.GoGo.repository.UserRepository;
@@ -11,7 +11,6 @@ import com.gogo.GoGo.service.UserService;
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -60,7 +59,7 @@ public class UserController{
     }
 
     //프로필 이미지 업로드
-    @PostMapping("/uploadImg")
+    @PostMapping("/upload/img")
     public ResponseEntity<ResponseMessage> uploadImg(Authentication authentication, @RequestParam("data") MultipartFile file) throws IOException{
         Claims claims = (Claims) authentication.getPrincipal();
         Long userId = claims.get("userId",Long.class);
@@ -69,7 +68,7 @@ public class UserController{
     }
 
     //프로필 기본 이미지로 업로드
-    @PostMapping("/baseImg")
+    @PostMapping("/upload/baseImg")
     public ResponseEntity<ResponseMessage> uploadBaseImg(Authentication authentication){
         Claims claims = (Claims) authentication.getPrincipal();
         Long userId = claims.get("userId",Long.class);

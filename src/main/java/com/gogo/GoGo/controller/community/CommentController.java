@@ -2,7 +2,7 @@ package com.gogo.GoGo.controller.community;
 
 import com.gogo.GoGo.controller.dto.community.CommentDto;
 import com.gogo.GoGo.controller.dto.community.ModCommentDto;
-import com.gogo.GoGo.domain.Comment;
+import com.gogo.GoGo.domain.community.CommunityComment;
 import com.gogo.GoGo.message.ResponseMessage;
 import com.gogo.GoGo.service.CommunityService;
 import io.jsonwebtoken.Claims;
@@ -41,7 +41,7 @@ public class CommentController {
 
     //댓글 보기
     @GetMapping("/{communityId}")
-    public List<Comment> getComments(@PathVariable Long communityId){
+    public List<CommunityComment> getComments(@PathVariable Long communityId){
         return communityService.getComments(communityId);
     }
 

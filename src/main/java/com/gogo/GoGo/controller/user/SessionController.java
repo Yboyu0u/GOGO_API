@@ -2,7 +2,7 @@ package com.gogo.GoGo.controller.user;
 
 import com.gogo.GoGo.controller.dto.user.SessionRequestDto;
 import com.gogo.GoGo.controller.dto.user.SessionResponseDto;
-import com.gogo.GoGo.domain.User;
+import com.gogo.GoGo.domain.user.User;
 import com.gogo.GoGo.domain.utils.JwtUtil;
 import com.gogo.GoGo.service.UserService;
 import lombok.extern.slf4j.Slf4j;

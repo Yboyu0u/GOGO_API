@@ -1,11 +1,8 @@
 package com.gogo.GoGo.service;
 
 import com.gogo.GoGo.controller.dto.community.CommunityDto;
-import com.gogo.GoGo.controller.dto.user.UserDto;
-import com.gogo.GoGo.domain.Community;
-import com.gogo.GoGo.domain.User;
-import com.gogo.GoGo.domain.dto.Birthday;
-import com.gogo.GoGo.repository.CommunityRepository;
+import com.gogo.GoGo.domain.community.Community;
+import com.gogo.GoGo.repository.community.CommunityRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatcher;
@@ -15,7 +12,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.verify;
 

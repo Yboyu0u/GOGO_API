@@ -1,12 +1,12 @@
-package com.gogo.GoGo.domain;
+package com.gogo.GoGo.domain.community;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.gogo.GoGo.domain.user.User;
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 @ToString(exclude = {"community","user"})
-public class Comment {
+public class CommunityComment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

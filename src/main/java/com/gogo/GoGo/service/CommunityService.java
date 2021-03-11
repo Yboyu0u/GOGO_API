@@ -1,18 +1,25 @@
 package com.gogo.GoGo.service;
 
 import com.gogo.GoGo.controller.dto.community.CommunityDto;
-import com.gogo.GoGo.controller.dto.community.TagDto;
 import com.gogo.GoGo.domain.*;
+import com.gogo.GoGo.domain.community.Community;
+import com.gogo.GoGo.domain.community.CommunityComment;
+import com.gogo.GoGo.domain.community.CommunityHeart;
+import com.gogo.GoGo.domain.record.Tag;
+import com.gogo.GoGo.domain.user.User;
 import com.gogo.GoGo.enumclass.PartnerStatus;
 import com.gogo.GoGo.enumclass.PlaceStatus;
 import com.gogo.GoGo.exception.NotExistedCommentException;
 import com.gogo.GoGo.exception.NotExistedCommunityException;
 import com.gogo.GoGo.repository.*;
+import com.gogo.GoGo.repository.community.CommunityCommentRepository;
+import com.gogo.GoGo.repository.community.CommunityHeartRepository;
+import com.gogo.GoGo.repository.community.CommunityRepository;
+import com.gogo.GoGo.repository.record.TagRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -29,13 +36,13 @@ public class CommunityService {
     private CommunityRepository communityRepository;
 
     @Autowired
-    private HeartRepository heartRepository;
+    private CommunityHeartRepository communityHeartRepository;
 
     @Autowired
     private UserRepository userRepository;
 
     @Autowired
-    private CommentRepository commentRepository;
+    private CommunityCommentRepository communityCommentRepository;
 
     @Autowired
     private PlaceRepository placeRepository;
@@ -123,17 +130,17 @@ public class CommunityService {
                 .orElseThrow(NotExistedCommunityException::new);
 
         //한 구인글에서 유저는 좋아요 한번만 누를 수 있다.
-        if(heartRepository.findByUserIdAndCommunityId(userId,communityId) != null){
+        if(communityHeartRepository.findByUserIdAndCommunityId(userId,communityId) != null){
             throw new RuntimeException();
         }
 
         community.setHeart(community.getHeart()+1);
 
-        Heart heart = Heart.builder()
+        CommunityHeart communityHeart = CommunityHeart.builder()
                 .user(user)
                 .community(community)
                 .build();
-        heartRepository.save(heart);
+        communityHeartRepository.save(communityHeart);
     }
 
     //좋아요 취소
@@ -147,7 +154,7 @@ public class CommunityService {
             throw new RuntimeException();
         }
 
-       heartRepository.deleteByUserIdAndCommunityId(userId,communityId);
+       communityHeartRepository.deleteByUserIdAndCommunityId(userId,communityId);
 
     }
 
@@ -159,10 +166,10 @@ public class CommunityService {
         User user = userRepository.findById(userId)
                 .orElseThrow(RuntimeException::new);
 
-        List<Heart> hearts = user.getHeartList();
+        List<CommunityHeart> communityHearts = user.getCommunityHeartList();
 
-        for(int i=0; i<hearts.size();i++){
-            Community community = hearts.get(i).getCommunity();
+        for(int i = 0; i< communityHearts.size(); i++){
+            Community community = communityHearts.get(i).getCommunity();
             communities.add(community);
         }
         return communities;
@@ -177,7 +184,7 @@ public class CommunityService {
         User user = userRepository.findById(userId)
                 .orElseThrow(RuntimeException::new);
 
-        Comment comment = Comment.builder()
+        CommunityComment communityComment = CommunityComment.builder()
                 .community(community)
                 .user(user)
                 .userName(userName)
@@ -185,32 +192,32 @@ public class CommunityService {
                 .createdTime(LocalDateTime.now())
                 .build();
 
-        commentRepository.save(comment);
+        communityCommentRepository.save(communityComment);
 
     }
 
     //댓글 보기
-    public List<Comment> getComments(Long communityId) {
+    public List<CommunityComment> getComments(Long communityId) {
         Community community = communityRepository.findById(communityId)
                 .orElseThrow(NotExistedCommentException::new);
-        return community.getCommentList();
+        return community.getCommunityCommentList();
     }
 
     //댓글 수정
     public void modifyComment(Long commentId, String content) {
 
-        Comment comment = commentRepository.findById(commentId)
+        CommunityComment communityComment = communityCommentRepository.findById(commentId)
                 .orElseThrow(NotExistedCommentException::new);
 
-        comment.setContent(content);
+        communityComment.setContent(content);
     }
 
     //댓글 삭제
     public void deleteComment(Long commentId) {
-        Comment comment = commentRepository.findById(commentId)
+        CommunityComment communityComment = communityCommentRepository.findById(commentId)
                 .orElseThrow(NotExistedCommentException::new);
 
-        commentRepository.delete(comment);
+        communityCommentRepository.delete(communityComment);
     }
 
     //지역별 조회

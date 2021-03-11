@@ -5,13 +5,12 @@ import com.gogo.GoGo.controller.dto.community.DateDto;
 import com.gogo.GoGo.controller.dto.community.PartnerDto;
 import com.gogo.GoGo.controller.dto.community.PlaceDto;
 import com.gogo.GoGo.controller.dto.community.TagDto;
-import com.gogo.GoGo.domain.Community;
+import com.gogo.GoGo.domain.community.Community;
 import com.gogo.GoGo.service.CommunityService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @RequestMapping(value = "/community/search")

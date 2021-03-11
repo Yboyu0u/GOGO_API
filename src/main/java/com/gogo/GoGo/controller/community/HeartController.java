@@ -1,6 +1,6 @@
 package com.gogo.GoGo.controller.community;
 
-import com.gogo.GoGo.domain.Community;
+import com.gogo.GoGo.domain.community.Community;
 import com.gogo.GoGo.message.ResponseMessage;
 import com.gogo.GoGo.service.CommunityService;
 import io.jsonwebtoken.Claims;
