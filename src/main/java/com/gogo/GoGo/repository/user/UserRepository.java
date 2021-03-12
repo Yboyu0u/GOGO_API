@@ -1,4 +1,4 @@
-package com.gogo.GoGo.repository;
+package com.gogo.GoGo.repository.user;
 
 import com.gogo.GoGo.domain.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;

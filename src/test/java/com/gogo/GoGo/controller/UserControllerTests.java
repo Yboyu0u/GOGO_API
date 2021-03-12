@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gogo.GoGo.controller.dto.user.UserDto;
 import com.gogo.GoGo.controller.user.UserController;
-import com.gogo.GoGo.repository.UserRepository;
+import com.gogo.GoGo.repository.user.UserRepository;
 import com.gogo.GoGo.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;

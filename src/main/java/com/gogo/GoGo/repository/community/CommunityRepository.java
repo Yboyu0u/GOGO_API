@@ -12,14 +12,7 @@ import java.util.List;
 public interface CommunityRepository extends JpaRepository<Community,Long> {
 
 
-//    @Query(value = "select community from Community community where community.tag = :tag")
-//    List<Community> findAllByTag(@Param("tag") String tag);
-
     List<Community> findAllByUserId(Long id);
-
-    List<Community> findAllByPartner(PartnerStatus partner);
-
-    List<Community> findAllByStartDateAndEndDate(LocalDate startDate, LocalDate endDate);
 
     List<Community> findAllByTitle(String title);
 }

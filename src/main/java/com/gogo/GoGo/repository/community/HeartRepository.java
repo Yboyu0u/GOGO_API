@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface CommunityHeartRepository extends JpaRepository<Heart,Long> {
+public interface HeartRepository extends JpaRepository<Heart,Long> {
 
     List<Heart> findAllByUserId(Long userId);
 

@@ -17,8 +17,5 @@ public class ModUserDto {
     @NotBlank
     private String nickname;
 
-    private String introduce;
 
-    //TODO: 여행 취향
-    //TODO: 프로필 이미지
 }

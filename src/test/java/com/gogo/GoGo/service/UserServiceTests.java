@@ -7,7 +7,7 @@ import com.gogo.GoGo.domain.user.dto.Birthday;
 import com.gogo.GoGo.exception.AlreadyExistedUserIdException;
 import com.gogo.GoGo.exception.NotExistedUserIdException;
 import com.gogo.GoGo.exception.PasswordWrongException;
-import com.gogo.GoGo.repository.UserRepository;
+import com.gogo.GoGo.repository.user.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatcher;

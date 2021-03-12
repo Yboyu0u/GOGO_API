@@ -15,7 +15,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Where(clause = "deleted = false")
 @ToString(exclude = {"community","user"})
 public class Comment {
 

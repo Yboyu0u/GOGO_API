@@ -6,7 +6,7 @@ import com.gogo.GoGo.controller.dto.user.UserDto;
 import com.gogo.GoGo.domain.user.User;
 import com.gogo.GoGo.exception.NotExistedUserIdException;
 import com.gogo.GoGo.message.ResponseMessage;
-import com.gogo.GoGo.repository.UserRepository;
+import com.gogo.GoGo.repository.user.UserRepository;
 import com.gogo.GoGo.service.UserService;
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
@@ -79,6 +79,27 @@ public class UserController{
 
         return ResponseEntity.ok(new ResponseMessage(HttpStatus.OK,"ok"));
     }
+
+    //구독하기
+    @PostMapping("/follow/{id}") //id: 내가 구독하고자 하는 사용자id
+    public ResponseEntity<ResponseMessage> addFollowing(@PathVariable Long id, Authentication authentication){
+        Claims claims = (Claims) authentication.getPrincipal();
+        Long userId = claims.get("userId",Long.class);
+
+        userService.addFollowing(id,userId);
+        return ResponseEntity.ok(new ResponseMessage(HttpStatus.OK,"ok"));
+    }
+
+    //구독 취소
+    @DeleteMapping("/follow/{id}")
+    public ResponseEntity<ResponseMessage> deleteFollowing(@PathVariable Long id, Authentication authentication){
+        Claims claims = (Claims) authentication.getPrincipal();
+        Long userId = claims.get("userId",Long.class);
+
+        userService.deleteFollowing(id,userId);
+        return ResponseEntity.ok(new ResponseMessage(HttpStatus.OK,"ok"));
+    }
+
 
 
 

@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface TagRepository extends JpaRepository<Tag,Long> {
 
-    void deleteByCommunityId(Long communityId);
+    void deleteByRecordId(Long communityId);
 
     List<Tag> findAllByName(String tag);
 }

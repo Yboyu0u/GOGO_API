@@ -98,13 +98,6 @@ public class User {
 
 
 
-
-
-
-
-
-
-
     public void set(UserDto userDto){
         if(userDto.getUserId() != null){
             this.setUserId(userDto.getUserId());

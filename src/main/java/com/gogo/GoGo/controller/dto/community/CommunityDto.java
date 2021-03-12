@@ -16,23 +16,12 @@ import java.time.LocalDate;
 
 public class CommunityDto {
 
-    @NotNull
-    private String places;
-
-    @NotNull
-    private PartnerStatus partner; //동성만, 상관 없음
 
     @NotNull
     private String title;
 
     @NotNull
     private String content;
-
-    @NotNull
-    private LocalDate startDate;
-
-    @NotNull
-    private LocalDate endDate;
 
     private String tags;
 }

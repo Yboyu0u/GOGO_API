@@ -8,7 +8,7 @@ import com.gogo.GoGo.domain.user.User;
 import com.gogo.GoGo.domain.utils.JwtUtil;
 import com.gogo.GoGo.exception.NotExistedUserIdException;
 import com.gogo.GoGo.exception.PasswordWrongException;
-import com.gogo.GoGo.repository.UserRepository;
+import com.gogo.GoGo.repository.user.UserRepository;
 import com.gogo.GoGo.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
