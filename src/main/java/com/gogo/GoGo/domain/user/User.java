@@ -4,8 +4,9 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.gogo.GoGo.controller.dto.user.ModUserDto;
 import com.gogo.GoGo.controller.dto.user.UserDto;
 import com.gogo.GoGo.domain.community.Community;
-import com.gogo.GoGo.domain.community.CommunityComment;
-import com.gogo.GoGo.domain.community.CommunityHeart;
+import com.gogo.GoGo.domain.community.Comment;
+import com.gogo.GoGo.domain.community.Heart;
+import com.gogo.GoGo.domain.record.Record;
 import com.gogo.GoGo.domain.user.dto.Birthday;
 import com.gogo.GoGo.enumclass.GenderStatus;
 import lombok.AllArgsConstructor;
@@ -61,7 +62,7 @@ public class User {
     @NotEmpty
     private String phoneNumber;
 
-    private String introduce;
+
 
     @Column(columnDefinition =  "TEXT")
     private String profileImg;
@@ -73,7 +74,7 @@ public class User {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     @JsonManagedReference
-    private List<CommunityHeart> communityHeartList;
+    private List<Heart> heartList;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     @JsonManagedReference
@@ -81,7 +82,22 @@ public class User {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     @JsonManagedReference
-    private List<CommunityComment> communityCommentList;
+    private List<Comment> commentList;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    @JsonManagedReference
+    private List<Buckets> bucketsList;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    @JsonManagedReference
+    private List<Following> followingList;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    @JsonManagedReference
+    private List<Record> recordList;
+
+
+
 
 
 
@@ -113,9 +129,6 @@ public class User {
     public void modSet(ModUserDto userDto){
         if(userDto.getNickname() != null){
             this.setNickname(userDto.getNickname());
-        }
-        if(userDto.getIntroduce() != null){
-            this.setIntroduce(userDto.getIntroduce());
         }
         //TODO: 여행 취향
 

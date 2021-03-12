@@ -3,7 +3,6 @@ package com.gogo.GoGo.domain.community;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.gogo.GoGo.controller.dto.community.CommunityDto;
-import com.gogo.GoGo.domain.Place;
 import com.gogo.GoGo.domain.record.Tag;
 import com.gogo.GoGo.domain.user.User;
 import com.gogo.GoGo.enumclass.PartnerStatus;
@@ -28,21 +27,12 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @Where(clause = "deleted = false")
-@ToString(exclude = {"user"})
+@ToString(exclude = {"user","board"})
 public class Community {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-
-    @ManyToOne
-    @JsonBackReference
-    private User user;
-
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    private PartnerStatus partner;
 
     @NotNull
     private String title;
@@ -51,20 +41,22 @@ public class Community {
     private String content;
 
     @NotNull
+    private String createdBy;
+
+    @NotNull
     private LocalDateTime createdTime;
-
-    @NotNull
-    private LocalDate startDate;
-
-    @NotNull
-    private LocalDate endDate;
 
     @Min(0)
     @ColumnDefault("0")
     private Integer heart;
 
-    @NotNull
-    private String createdBy;
+    @ManyToOne
+    @JsonBackReference
+    private User user;
+
+    @ManyToOne
+    @JsonBackReference
+    private Board board;
 
     @NotNull
     @ColumnDefault("0") // 이 값이 true가 되면 삭제가 되었다 간주하고 repository에서 삭제됨
@@ -72,41 +64,22 @@ public class Community {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "community")
     @JsonManagedReference
-    private List<CommunityComment> communityCommentList;
+    private List<Comment> commentList;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "community")
     @JsonManagedReference
-    private List<CommunityHeart> communityHeartList;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "community")
-    @JsonManagedReference
-    private List<Place> placeList;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "community")
-    @JsonManagedReference
-    private List<Tag> tagList;
-
-
-
+    private List<Heart> heartList;
 
 
 
     public void set(CommunityDto dto) {
 
-        if(dto.getPartner() != null){
-            this.setPartner(dto.getPartner());
-        }
         if(dto.getTitle() != null){
             this.setTitle(dto.getTitle());
         }
         if(dto.getContent() != null){
             this.setContent(dto.getContent());
         }
-        if(dto.getStartDate() != null){
-            this.setStartDate(dto.getStartDate());
-        }
-        if(dto.getEndDate() != null){
-            this.setEndDate(dto.getEndDate());
-        }
+
     }
 }

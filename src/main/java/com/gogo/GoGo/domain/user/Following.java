@@ -1,8 +1,6 @@
-package com.gogo.GoGo.domain;
+package com.gogo.GoGo.domain.user;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.gogo.GoGo.domain.community.Community;
-import com.gogo.GoGo.enumclass.PlaceStatus;
 import lombok.*;
 
 import javax.persistence.*;
@@ -12,16 +10,17 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ToString(exclude = {"community"})
-public class Place {
+@ToString(exclude = {"user"})
+public class Following {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Enumerated(EnumType.STRING)
-    private PlaceStatus name;
+    private String name;
 
     @ManyToOne
     @JsonBackReference
-    private Community community;
+    private User user;
+
 }

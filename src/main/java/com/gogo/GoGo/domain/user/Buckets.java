@@ -1,7 +1,7 @@
-package com.gogo.GoGo.domain.record;
+package com.gogo.GoGo.domain.user;
+
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.gogo.GoGo.domain.community.Community;
 import lombok.*;
 
 import javax.persistence.*;
@@ -11,8 +11,9 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ToString(exclude = {"record"})
-public class Tag {
+@ToString(exclude = {"user"})
+public class Buckets {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,5 +22,5 @@ public class Tag {
 
     @ManyToOne
     @JsonBackReference
-    private Record record;
+    private User user;
 }

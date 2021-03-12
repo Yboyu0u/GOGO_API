@@ -3,8 +3,8 @@ package com.gogo.GoGo.service;
 import com.gogo.GoGo.controller.dto.community.CommunityDto;
 import com.gogo.GoGo.domain.*;
 import com.gogo.GoGo.domain.community.Community;
-import com.gogo.GoGo.domain.community.CommunityComment;
-import com.gogo.GoGo.domain.community.CommunityHeart;
+import com.gogo.GoGo.domain.community.Comment;
+import com.gogo.GoGo.domain.community.Heart;
 import com.gogo.GoGo.domain.record.Tag;
 import com.gogo.GoGo.domain.user.User;
 import com.gogo.GoGo.enumclass.PartnerStatus;
@@ -136,11 +136,11 @@ public class CommunityService {
 
         community.setHeart(community.getHeart()+1);
 
-        CommunityHeart communityHeart = CommunityHeart.builder()
+        Heart heart = Heart.builder()
                 .user(user)
                 .community(community)
                 .build();
-        communityHeartRepository.save(communityHeart);
+        communityHeartRepository.save(heart);
     }
 
     //좋아요 취소
@@ -166,10 +166,10 @@ public class CommunityService {
         User user = userRepository.findById(userId)
                 .orElseThrow(RuntimeException::new);
 
-        List<CommunityHeart> communityHearts = user.getCommunityHeartList();
+        List<Heart> hearts = user.getHeartList();
 
-        for(int i = 0; i< communityHearts.size(); i++){
-            Community community = communityHearts.get(i).getCommunity();
+        for(int i = 0; i< hearts.size(); i++){
+            Community community = hearts.get(i).getCommunity();
             communities.add(community);
         }
         return communities;
@@ -184,7 +184,7 @@ public class CommunityService {
         User user = userRepository.findById(userId)
                 .orElseThrow(RuntimeException::new);
 
-        CommunityComment communityComment = CommunityComment.builder()
+        Comment comment = Comment.builder()
                 .community(community)
                 .user(user)
                 .userName(userName)
@@ -192,32 +192,32 @@ public class CommunityService {
                 .createdTime(LocalDateTime.now())
                 .build();
 
-        communityCommentRepository.save(communityComment);
+        communityCommentRepository.save(comment);
 
     }
 
     //댓글 보기
-    public List<CommunityComment> getComments(Long communityId) {
+    public List<Comment> getComments(Long communityId) {
         Community community = communityRepository.findById(communityId)
                 .orElseThrow(NotExistedCommentException::new);
-        return community.getCommunityCommentList();
+        return community.getCommentList();
     }
 
     //댓글 수정
     public void modifyComment(Long commentId, String content) {
 
-        CommunityComment communityComment = communityCommentRepository.findById(commentId)
+        Comment comment = communityCommentRepository.findById(commentId)
                 .orElseThrow(NotExistedCommentException::new);
 
-        communityComment.setContent(content);
+        comment.setContent(content);
     }
 
     //댓글 삭제
     public void deleteComment(Long commentId) {
-        CommunityComment communityComment = communityCommentRepository.findById(commentId)
+        Comment comment = communityCommentRepository.findById(commentId)
                 .orElseThrow(NotExistedCommentException::new);
 
-        communityCommentRepository.delete(communityComment);
+        communityCommentRepository.delete(comment);
     }
 
     //지역별 조회
