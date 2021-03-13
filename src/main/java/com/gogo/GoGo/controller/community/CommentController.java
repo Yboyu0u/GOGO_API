@@ -27,6 +27,7 @@ public class CommentController {
     //댓글 달기
     @PostMapping
     public ResponseEntity<ResponseMessage> createComment(Authentication authentication, @Valid @RequestBody CommentDto dto){
+
         Claims claims = (Claims) authentication.getPrincipal();
         Long userId = claims.get("userId",Long.class);
         String userName = claims.get("nickname",String.class);
@@ -44,20 +45,27 @@ public class CommentController {
 
     //댓글 수정
     @PatchMapping
-    public ResponseEntity<ResponseMessage> modifyComment(@Valid @RequestBody ModCommentDto dto){
+    public ResponseEntity<ResponseMessage> modifyComment(Authentication authentication, @Valid @RequestBody ModCommentDto dto){
+
+        Claims claims = (Claims) authentication.getPrincipal();
+        Long userId = claims.get("userId",Long.class);
 
         Long commentId = dto.getCommentId();
         String content = dto.getContent();
 
-        communityService.modifyComment(commentId,content);
+        communityService.modifyComment(userId,commentId,content);
 
         return ResponseEntity.ok(new ResponseMessage(HttpStatus.OK,"ok"));
     }
 
     //댓글 삭제
     @DeleteMapping("/{commentId}")
-    public ResponseEntity<ResponseMessage> deleteComment(@PathVariable Long commentId){
-        communityService.deleteComment(commentId);
+    public ResponseEntity<ResponseMessage> deleteComment(Authentication authentication, @PathVariable Long commentId){
+
+        Claims claims = (Claims) authentication.getPrincipal();
+        Long userId = claims.get("userId",Long.class);
+
+        communityService.deleteComment(userId, commentId);
 
         return ResponseEntity.ok(new ResponseMessage(HttpStatus.OK,"ok"));
     }

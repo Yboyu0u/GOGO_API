@@ -17,6 +17,6 @@ public class CommentDto {
     private String content;
 
 
-    private Long to;
+    private Long toId;
 
 }

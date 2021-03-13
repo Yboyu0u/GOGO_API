@@ -31,8 +31,8 @@ public class Comment {
     @NotNull
     private LocalDateTime createdTime;
 
-    @NotNull
-    private Long to; // 댓글 다는 사람 아이디
+
+    private Long toId; // 누구에게 댓글 다는 건지 알기 위한 상대 유저 고유 아이디
 
     @NotNull
     @ManyToOne

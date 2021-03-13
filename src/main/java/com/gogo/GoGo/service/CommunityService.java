@@ -6,14 +6,8 @@ import com.gogo.GoGo.domain.community.Board;
 import com.gogo.GoGo.domain.community.Community;
 import com.gogo.GoGo.domain.community.Comment;
 import com.gogo.GoGo.domain.community.Heart;
-import com.gogo.GoGo.domain.record.Tag;
 import com.gogo.GoGo.domain.user.User;
-import com.gogo.GoGo.enumclass.PartnerStatus;
-import com.gogo.GoGo.enumclass.PlaceStatus;
-import com.gogo.GoGo.exception.NotExistedBoardException;
-import com.gogo.GoGo.exception.NotExistedCommentException;
-import com.gogo.GoGo.exception.NotExistedCommunityException;
-import com.gogo.GoGo.exception.NotExistedUserIdException;
+import com.gogo.GoGo.exception.*;
 import com.gogo.GoGo.repository.BoardRepository;
 import com.gogo.GoGo.repository.community.CommentRepository;
 import com.gogo.GoGo.repository.community.HeartRepository;
@@ -25,11 +19,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
 
 @Service
 @Transactional
@@ -121,7 +113,7 @@ public class CommunityService {
 
         Long communityId = dto.getCommunityId();
         String content = dto.getContent();
-        Long to = dto.getTo();
+        Long toId = dto.getToId();
 
         Community community = communityRepository.findById(communityId)
                 .orElseThrow(NotExistedCommunityException::new);
@@ -129,8 +121,8 @@ public class CommunityService {
         User user = userRepository.findById(userId)
                 .orElseThrow(RuntimeException::new);
 
-        if(to == null){
-            to =0L;
+        if(toId == null){
+            toId =0L;
         }
 
         Comment comment = Comment.builder()
@@ -139,7 +131,7 @@ public class CommunityService {
                 .createdTime(LocalDateTime.now())
                 .community(community)
                 .user(user)
-                .to(to)
+                .toId(toId)
                 .build();
 
         commentRepository.save(comment);
@@ -154,18 +146,27 @@ public class CommunityService {
     }
 
     //댓글 수정
-    public void modifyComment(Long commentId, String content) {
+    public void modifyComment(Long userId, Long commentId, String content) {
 
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(NotExistedCommentException::new);
+
+        if(comment.getUser().getId() != userId){
+            throw new InCorrectUserException();
+        }
 
         comment.setContent(content);
     }
 
     //댓글 삭제
-    public void deleteComment(Long commentId) {
+    public void deleteComment(Long userId, Long commentId) {
+
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(NotExistedCommentException::new);
+
+        if(comment.getUser().getId() != userId){
+            throw new InCorrectUserException();
+        }
 
         commentRepository.delete(comment);
     }
