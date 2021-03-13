@@ -4,13 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.boot.autoconfigure.batch.BatchDataSource;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class TagDto {
+public class SearchDto {
 
-    private String tag;
+    //TODO: Title, content 기준
+    private String keyword;
 }

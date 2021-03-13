@@ -84,6 +84,13 @@ public class CommunityService {
 //        }
 
     //글 조회
+    public List<Community> getByBoard(Long boardId) {
+        Board board = boardRepository.findById(boardId)
+                .orElseThrow(NotExistedBoardException::new);
+
+        return board.getCommunityList();
+
+    }
 
     //글수정
     public void modify(Long communityId, CommunityDto dto) {
@@ -235,6 +242,12 @@ public class CommunityService {
         return user.getCommunityList();
     }
 
+    //게시글 검색(title,content)
+    public List<Community> getByTitleAndContent(Long boardId, String keyword) {
+
+       return communityRepository.findByBoardIdAndTitleContaining(boardId
+               ,keyword);
+    }
 }
 
     //TODO: record에서 써야 됨

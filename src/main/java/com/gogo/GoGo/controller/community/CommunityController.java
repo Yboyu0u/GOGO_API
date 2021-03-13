@@ -23,11 +23,11 @@ public class CommunityController {
     private CommunityService communityService;
 
 
-    //조회
-    @GetMapping("/{id}")
-    public Community get(@PathVariable Long id) {
-        return communityService.get(id);
-    }
+//    //조회
+//    @GetMapping("/{id}")
+//    public Community get(@PathVariable Long id) {
+//        return communityService.get(id);
+//    }
 
     //글쓰기
     @PostMapping
@@ -35,14 +35,16 @@ public class CommunityController {
     public ResponseEntity<ResponseMessage> create(Authentication authentication, @Valid @RequestBody CommunityDto dto) {
         Claims claims = (Claims) authentication.getPrincipal();
         Long id = claims.get("userId", Long.class);
-        //String name = claims.get("name",String.class);
         String nickname = claims.get("nickname", String.class);
         communityService.create(dto, id, nickname);
         return ResponseEntity.ok(new ResponseMessage(HttpStatus.CREATED, "ok"));
     }
 
     //글 조회(게시판 별)
-  
+    @GetMapping("{boardId}")
+    public List<Community> getByBoard(@PathVariable Long boardId){
+        return communityService.getByBoard(boardId);
+    }
 
     //글수정
     @PatchMapping("/{communityId}")

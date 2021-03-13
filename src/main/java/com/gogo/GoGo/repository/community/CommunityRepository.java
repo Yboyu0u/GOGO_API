@@ -15,4 +15,10 @@ public interface CommunityRepository extends JpaRepository<Community,Long> {
     List<Community> findAllByUserId(Long id);
 
     List<Community> findAllByTitle(String title);
+
+    List<Community> findByBoardId(Long boardId);
+
+    List<Community> findByTitleContaining(String keyword);
+
+    List<Community> findByBoardIdAndTitleContaining(Long boardId, String keyword);
 }
