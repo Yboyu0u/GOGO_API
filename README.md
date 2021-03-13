@@ -16,8 +16,8 @@ GOGO
  ## API WIKI 
 - [API 문서](https://github.com/Yboyu0u/GOGO_API/wiki)
 
-## ERD (temporaily)
-![임시 ERD](./img/ERD)
+## ERD
+![임시 ERD](./img/ERD.png)
 
 ## Dependency
 ```

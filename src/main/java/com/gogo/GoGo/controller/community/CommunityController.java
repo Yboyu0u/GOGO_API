@@ -29,7 +29,6 @@ public class CommunityController {
         return communityService.get(id);
     }
 
-
     //글쓰기
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -40,14 +39,6 @@ public class CommunityController {
         String nickname = claims.get("nickname", String.class);
         communityService.create(dto, id, nickname);
         return ResponseEntity.ok(new ResponseMessage(HttpStatus.CREATED, "ok"));
-    }
-
-    //내가 쓴글 조회
-    @GetMapping
-    public List<Community> getByMy(Authentication authentication) {
-        Claims claims = (Claims) authentication.getPrincipal();
-        Long userId = claims.get("userId", Long.class);
-        return communityService.searchByMy(userId);
     }
 
     //글수정
@@ -65,6 +56,14 @@ public class CommunityController {
 
         return ResponseEntity.ok(new ResponseMessage(HttpStatus.OK, "ok"));
 
+    }
+
+    //내가 쓴글 조회
+    @GetMapping
+    public List<Community> getByMy(Authentication authentication) {
+        Claims claims = (Claims) authentication.getPrincipal();
+        Long userId = claims.get("userId", Long.class);
+        return communityService.searchByMy(userId);
     }
 
 
