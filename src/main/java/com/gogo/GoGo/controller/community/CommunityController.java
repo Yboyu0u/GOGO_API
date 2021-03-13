@@ -41,6 +41,9 @@ public class CommunityController {
         return ResponseEntity.ok(new ResponseMessage(HttpStatus.CREATED, "ok"));
     }
 
+    //글 조회(게시판 별)
+  
+
     //글수정
     @PatchMapping("/{communityId}")
     public ResponseEntity<ResponseMessage> modify(@PathVariable Long communityId, @Valid @RequestBody CommunityDto dto) {
@@ -58,7 +61,7 @@ public class CommunityController {
 
     }
 
-    //내가 쓴글 조회
+    //내가 쓴 게시글 조회
     @GetMapping
     public List<Community> getByMy(Authentication authentication) {
         Claims claims = (Claims) authentication.getPrincipal();

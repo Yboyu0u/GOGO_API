@@ -83,6 +83,8 @@ public class CommunityService {
 //            }
 //        }
 
+    //글 조회
+
     //글수정
     public void modify(Long communityId, CommunityDto dto) {
         Community community = communityRepository.findById(communityId)
@@ -95,7 +97,6 @@ public class CommunityService {
         community.setBoard(board);
 
     }
-
 
     //TODO: record에서 써야 됨
 //   tagRepository.deleteByCommunityId(communityId);
@@ -183,7 +184,7 @@ public class CommunityService {
 
         //한 구인글에서 유저는 좋아요 한번만 누를 수 있다.
         if (heartRepository.findByUserIdAndCommunityId(userId, communityId) != null) {
-            throw new RuntimeException();
+            throw new OnlyOneTimeHeartException();
         }
 
         community.setHeart(community.getHeart() + 1);
