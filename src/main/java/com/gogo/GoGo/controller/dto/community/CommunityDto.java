@@ -18,10 +18,13 @@ public class CommunityDto {
 
 
     @NotNull
+    private Long boardId;
+
+    @NotNull
     private String title;
 
     @NotNull
     private String content;
 
-    private String tags;
+
 }

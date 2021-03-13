@@ -59,7 +59,7 @@ public class Community {
     private Board board;
 
     @NotNull
-    @ColumnDefault("0") // 이 값이 true가 되면 삭제가 되었다 간주하고 repository에서 삭제됨
+    @ColumnDefault("0")
     private boolean deleted;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "community")
