@@ -1,5 +1,6 @@
 package com.gogo.GoGo.service;
 
+import com.gogo.GoGo.controller.dto.community.CommentDto;
 import com.gogo.GoGo.controller.dto.community.CommunityDto;
 import com.gogo.GoGo.domain.community.Board;
 import com.gogo.GoGo.domain.community.Community;
@@ -66,13 +67,15 @@ public class CommunityService {
         User user = userRepository.findById(id).orElseThrow(NotExistedUserIdException::new);
         Board board = boardRepository.findById(dto.getBoardId()).orElseThrow(NotExistedBoardException::new);
 
-        Community community = new Community();
-        community.set(dto);
-        community.setCreatedTime(LocalDateTime.now());
-        community.setCreatedBy(nickname);
-        community.setHeart(0);
-        community.setUser(user);
-        community.setBoard(board);
+        Community community = Community.builder()
+                .title(dto.getTitle())
+                .content(dto.getContent())
+                .createdTime(LocalDateTime.now())
+                .createdBy(nickname)
+                .heart(0)
+                .user(user)
+                .board(board)
+                .build();
 
         communityRepository.save(community);
     }
@@ -88,25 +91,22 @@ public class CommunityService {
 //            }
 //        }
 
-
-    //내가 쓴글 조회
-    public List<Community> searchByMy(Long id) {
-        User user = userRepository.findById(id).orElseThrow(RuntimeException::new);
-        return user.getCommunityList();
-    }
-
     //글수정
     public void modify(Long communityId, CommunityDto dto) {
         Community community = communityRepository.findById(communityId)
                 .orElseThrow(NotExistedCommunityException::new);
 
+        Board board = boardRepository.findById(dto.getBoardId())
+                .orElseThrow(NotExistedBoardException::new);
+
         community.set(dto);
+        community.setBoard(board);
+
     }
 
 
     //TODO: record에서 써야 됨
 //   tagRepository.deleteByCommunityId(communityId);
-
 
     //글삭제
     public void delete(Long communityId) {
@@ -114,6 +114,63 @@ public class CommunityService {
 
         communityRepository.delete(community);
     }
+
+
+    //댓글 달기
+    public void createComment(Long userId, String userName, CommentDto dto) {
+
+        Long communityId = dto.getCommunityId();
+        String content = dto.getContent();
+        Long to = dto.getTo();
+
+        Community community = communityRepository.findById(communityId)
+                .orElseThrow(NotExistedCommunityException::new);
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(RuntimeException::new);
+
+        if(to == null){
+            to =0L;
+        }
+
+        Comment comment = Comment.builder()
+                .content(content)
+                .createdBy(userName)
+                .createdTime(LocalDateTime.now())
+                .community(community)
+                .user(user)
+                .to(to)
+                .build();
+
+        commentRepository.save(comment);
+
+    }
+
+    //댓글 보기
+    public List<Comment> getComments(Long communityId) {
+        Community community = communityRepository.findById(communityId)
+                .orElseThrow(NotExistedCommentException::new);
+        return community.getCommentList();
+    }
+
+    //댓글 수정
+    public void modifyComment(Long commentId, String content) {
+
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(NotExistedCommentException::new);
+
+        comment.setContent(content);
+    }
+
+    //댓글 삭제
+    public void deleteComment(Long commentId) {
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(NotExistedCommentException::new);
+
+        commentRepository.delete(comment);
+    }
+
+
 
     //좋아요 누르기
     public void pushHeart(Long userId, Long communityId) {
@@ -170,49 +227,12 @@ public class CommunityService {
 
     }
 
-//    //댓글 달기
-//    public void createComment(Long userId, String userName, Long communityId, String content) {
-//        Community community = communityRepository.findById(communityId)
-//                .orElseThrow(NotExistedCommunityException::new);
-//
-//        User user = userRepository.findById(userId)
-//                .orElseThrow(RuntimeException::new);
-//
-//        Comment comment = Comment.builder()
-//                .community(community)
-//                .user(user)
-//                .userName(userName)
-//                .content(content)
-//                .createdTime(LocalDateTime.now())
-//                .build();
-//
-//        commentRepository.save(comment);
-//
-//    }
-
-    //댓글 보기
-    public List<Comment> getComments(Long communityId) {
-        Community community = communityRepository.findById(communityId)
-                .orElseThrow(NotExistedCommentException::new);
-        return community.getCommentList();
+    //내가 쓴글 조회
+    public List<Community> searchByMy(Long id) {
+        User user = userRepository.findById(id).orElseThrow(RuntimeException::new);
+        return user.getCommunityList();
     }
 
-    //댓글 수정
-    public void modifyComment(Long commentId, String content) {
-
-        Comment comment = commentRepository.findById(commentId)
-                .orElseThrow(NotExistedCommentException::new);
-
-        comment.setContent(content);
-    }
-
-    //댓글 삭제
-    public void deleteComment(Long commentId) {
-        Comment comment = commentRepository.findById(commentId)
-                .orElseThrow(NotExistedCommentException::new);
-
-        commentRepository.delete(comment);
-    }
 }
 
     //TODO: record에서 써야 됨

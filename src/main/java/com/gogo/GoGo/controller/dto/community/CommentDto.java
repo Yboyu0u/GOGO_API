@@ -1,9 +1,8 @@
 package com.gogo.GoGo.controller.dto.community;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
+import javax.validation.constraints.NotNull;
 
 @Data
 @AllArgsConstructor
@@ -11,8 +10,13 @@ import lombok.NoArgsConstructor;
 @Builder
 public class CommentDto {
 
+    @NotNull
     private Long communityId;
 
+    @NotNull
     private String content;
+
+
+    private Long to;
 
 }

@@ -31,8 +31,8 @@ public class Comment {
     @NotNull
     private LocalDateTime createdTime;
 
-
-    private Long to;
+    @NotNull
+    private Long to; // 댓글 다는 사람 아이디
 
     @NotNull
     @ManyToOne
