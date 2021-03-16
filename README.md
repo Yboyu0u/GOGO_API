@@ -5,7 +5,7 @@ GOGO
 
 
  ## Service Description 
- **혼행족을 위한 여행 서비스입니다 ...ing**. 
+ **혼행족을 위한 여행 서비스입니다**. 
 
  ## Using Tech
  - Spring Boot(Spring Security, JWT, JPA)
